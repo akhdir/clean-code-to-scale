@@ -1,0 +1,705 @@
+<title>Clean Code to Scale</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+  :root{
+    --paper:#F4F6F5;
+    --surface:#FFFFFF;
+    --ink:#1A2226;
+    --ink-soft:#55636A;
+    --ink-faint:#8B979B;
+    --line:#D6DEDD;
+    --line-strong:#B9C4C3;
+    --accent:#1F5D6B;
+    --accent-ink:#0F3038;
+    --accent-soft:#DCEAEA;
+    --accent-2:#6B4A8F;
+    --accent-2-soft:#EAE2F1;
+    --shadow: 0 1px 2px rgba(15,48,56,0.06), 0 8px 24px -16px rgba(15,48,56,0.18);
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --paper:#14181A;
+      --surface:#1B2124;
+      --ink:#E7ECEC;
+      --ink-soft:#9AA7AC;
+      --ink-faint:#6C787C;
+      --line:#2B3336;
+      --line-strong:#3A4548;
+      --accent:#74C2CB;
+      --accent-ink:#D8F0F2;
+      --accent-soft:#1E3336;
+      --accent-2:#C3A9E3;
+      --accent-2-soft:#2C2438;
+      --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 8px 24px -16px rgba(0,0,0,0.5);
+    }
+  }
+  :root[data-theme="dark"]{
+    --paper:#14181A;
+    --surface:#1B2124;
+    --ink:#E7ECEC;
+    --ink-soft:#9AA7AC;
+    --ink-faint:#6C787C;
+    --line:#2B3336;
+    --line-strong:#3A4548;
+    --accent:#74C2CB;
+    --accent-ink:#D8F0F2;
+    --accent-soft:#1E3336;
+    --accent-2:#C3A9E3;
+    --accent-2-soft:#2C2438;
+    --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 8px 24px -16px rgba(0,0,0,0.5);
+  }
+
+  *{box-sizing:border-box;}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:"Source Serif 4", Georgia, "Times New Roman", serif;
+    padding:0 20px;
+  }
+  h1,h2,h3,.mono{ text-wrap:balance; }
+  .wrap{ max-width:920px; margin:0 auto; padding-block:56px 80px; }
+
+  /* ---------- header ---------- */
+  .eyebrow{
+    font-family:"IBM Plex Mono", ui-monospace, monospace;
+    font-size:0.72rem;
+    letter-spacing:0.12em;
+    text-transform:uppercase;
+    color:var(--accent);
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin-bottom:18px;
+  }
+  .eyebrow::before{
+    content:"";
+    width:22px; height:1px;
+    background:var(--accent);
+    display:inline-block;
+  }
+  h1{
+    font-family:"Archivo", ui-sans-serif, system-ui, sans-serif;
+    font-weight:800;
+    font-size:clamp(2rem, 4.2vw, 2.9rem);
+    line-height:1.08;
+    margin:0 0 14px;
+    letter-spacing:-0.01em;
+  }
+  .lede{
+    font-size:1.1rem;
+    line-height:1.6;
+    color:var(--ink-soft);
+    max-width:62ch;
+    margin:0 0 32px;
+  }
+
+  .stat-strip{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:1px;
+    background:var(--line);
+    border:1px solid var(--line);
+    border-radius:10px;
+    overflow:hidden;
+    margin-bottom:48px;
+  }
+  .stat{
+    background:var(--surface);
+    padding:16px 14px;
+    display:flex; flex-direction:column; gap:4px;
+  }
+  .stat b{
+    font-family:"IBM Plex Mono", monospace;
+    font-size:1.4rem;
+    font-weight:600;
+    font-variant-numeric:tabular-nums;
+    color:var(--ink);
+  }
+  .stat span{
+    font-family:"IBM Plex Mono", monospace;
+    font-size:0.66rem;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    color:var(--ink-faint);
+  }
+  @media (max-width:640px){
+    .stat-strip{ grid-template-columns:repeat(2,1fr); }
+  }
+
+  /* ---------- section headings ---------- */
+  section{ margin-bottom:56px; }
+  .section-head{
+    display:flex;
+    align-items:baseline;
+    gap:14px;
+    margin-bottom:20px;
+    border-bottom:1px solid var(--line);
+    padding-bottom:12px;
+  }
+  .section-head .num{
+    font-family:"IBM Plex Mono", monospace;
+    font-size:0.78rem;
+    color:var(--accent);
+    font-weight:600;
+  }
+  h2{
+    font-family:"Archivo", sans-serif;
+    font-weight:700;
+    font-size:1.5rem;
+    margin:0;
+    letter-spacing:-0.01em;
+  }
+
+  /* ---------- audience / outcomes ---------- */
+  .two-col{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:32px;
+  }
+  @media (max-width:680px){ .two-col{ grid-template-columns:1fr; } }
+  .two-col h3{
+    font-family:"Archivo", sans-serif;
+    font-size:0.95rem;
+    font-weight:600;
+    margin:0 0 10px;
+    color:var(--ink);
+  }
+  .two-col ul{ margin:0; padding-left:1.1em; color:var(--ink-soft); line-height:1.65; }
+  .two-col li{ margin-bottom:6px; }
+  .two-col li::marker{ color:var(--accent); }
+
+  /* ---------- format legend ---------- */
+  .legend{
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px;
+  }
+  .legend-item{
+    display:flex; align-items:center; gap:8px;
+    background:var(--surface);
+    border:1px solid var(--line);
+    border-radius:8px;
+    padding:8px 12px;
+    font-size:0.85rem;
+    color:var(--ink-soft);
+  }
+  .dot{ width:8px; height:8px; border-radius:50%; flex:none; }
+  .dot.concept{ background:var(--accent); }
+  .dot.demo{ background:var(--accent-2); }
+  .dot.hands{ background:#B08325; }
+  .dot.review{ background:var(--ink-faint); }
+
+  /* ---------- syllabus ---------- */
+  .syllabus{ position:relative; }
+  .day{
+    display:grid;
+    grid-template-columns:64px 1fr;
+    gap:0 20px;
+    position:relative;
+  }
+  .day-rail{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+  }
+  .day-num{
+    font-family:"IBM Plex Mono", monospace;
+    font-weight:600;
+    font-size:0.78rem;
+    color:var(--accent);
+    background:var(--accent-soft);
+    border:1px solid var(--line);
+    border-radius:7px;
+    width:44px; height:44px;
+    display:flex; align-items:center; justify-content:center;
+    flex:none;
+  }
+  .day-line{
+    width:1px;
+    flex:1;
+    background:var(--line-strong);
+    margin-top:6px;
+    min-height:24px;
+  }
+  .day:last-child .day-line{ display:none; }
+
+  .day-card{
+    background:var(--surface);
+    border:1px solid var(--line);
+    border-radius:12px;
+    padding:22px 24px;
+    margin-bottom:22px;
+    box-shadow:var(--shadow);
+  }
+  .day-card-head{
+    display:flex;
+    flex-wrap:wrap;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px 16px;
+    margin-bottom:10px;
+  }
+  .day-title{
+    font-family:"Archivo", sans-serif;
+    font-weight:700;
+    font-size:1.12rem;
+    color:var(--ink);
+    letter-spacing:-0.005em;
+  }
+  .badges{ display:flex; gap:8px; align-items:center; flex-wrap:wrap; }
+  .badge{
+    font-family:"IBM Plex Mono", monospace;
+    font-size:0.68rem;
+    letter-spacing:0.05em;
+    text-transform:uppercase;
+    padding:4px 9px;
+    border-radius:99px;
+    white-space:nowrap;
+  }
+  .badge.time{
+    background:var(--paper);
+    border:1px solid var(--line);
+    color:var(--ink-soft);
+  }
+  .badge.topic{
+    background:var(--accent-soft);
+    color:var(--accent-ink);
+    border:1px solid transparent;
+  }
+  .badge.topic.ai{
+    background:var(--accent-2-soft);
+    color:var(--accent-2);
+  }
+  .focus{
+    color:var(--ink-soft);
+    font-size:0.98rem;
+    line-height:1.6;
+    margin:0 0 14px;
+    max-width:65ch;
+  }
+  .objectives{
+    margin:0 0 16px;
+    padding-left:1.15em;
+    color:var(--ink);
+    font-size:0.96rem;
+    line-height:1.6;
+  }
+  .objectives li{ margin-bottom:4px; }
+  .objectives li::marker{ color:var(--accent); font-family:"IBM Plex Mono", monospace; }
+
+  .blocks{
+    display:flex;
+    gap:6px;
+    margin-bottom:12px;
+    border-radius:6px;
+    overflow:hidden;
+    height:8px;
+  }
+  .blocks span{ display:block; height:100%; }
+
+  .block-list{
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px 18px;
+    font-family:"IBM Plex Mono", monospace;
+    font-size:0.72rem;
+    color:var(--ink-soft);
+    margin-bottom:14px;
+  }
+  .block-list b{
+    color:var(--ink);
+    font-weight:600;
+  }
+  .block-list .k{ display:inline-flex; align-items:center; gap:6px; }
+
+  .deliverable{
+    border-top:1px dashed var(--line);
+    padding-top:12px;
+    font-size:0.92rem;
+    color:var(--ink-soft);
+  }
+  .deliverable b{
+    font-family:"IBM Plex Mono", monospace;
+    font-size:0.68rem;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    color:var(--accent);
+    display:block;
+    margin-bottom:4px;
+  }
+
+  /* ---------- closing sections ---------- */
+  .note-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:20px;
+  }
+  @media (max-width:680px){ .note-grid{ grid-template-columns:1fr; } }
+  .note{
+    background:var(--surface);
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:18px 20px;
+  }
+  .note h3{
+    font-family:"Archivo", sans-serif;
+    font-size:0.95rem;
+    font-weight:600;
+    margin:0 0 8px;
+  }
+  .note p, .note ul{
+    color:var(--ink-soft);
+    font-size:0.92rem;
+    line-height:1.6;
+    margin:0;
+    padding-left:1.1em;
+  }
+  .note p{ padding-left:0; }
+  .note li::marker{ color:var(--accent); }
+
+  footer{
+    margin-top:64px;
+    padding-top:20px;
+    border-top:1px solid var(--line);
+    font-family:"IBM Plex Mono", monospace;
+    font-size:0.72rem;
+    color:var(--ink-faint);
+    letter-spacing:0.02em;
+  }
+</style>
+
+<div class="wrap">
+
+  <div class="eyebrow">Internal training &middot; 10 sessions &middot; 2 hours each</div>
+  <h1>Clean Code to Scale</h1>
+  <p class="lede">A 20-hour curriculum that takes an engineering team from disciplined line-by-line habits through architectural boundaries, deliberate refactoring, distributed-systems tradeoffs, and working effectively alongside AI coding agents.</p>
+
+  <div class="stat-strip">
+    <div class="stat"><b>20h</b><span>Total runtime</span></div>
+    <div class="stat"><b>10</b><span>Sessions</span></div>
+    <div class="stat"><b>2h</b><span>Per session</span></div>
+    <div class="stat"><b>5</b><span>Modules</span></div>
+  </div>
+
+  <section>
+    <div class="section-head"><span class="num">00</span><h2>Overview</h2></div>
+    <div class="two-col">
+      <div>
+        <h3>Who it's for</h3>
+        <ul>
+          <li>Software engineers with 1&ndash;2+ years writing production code</li>
+          <li>Comfortable in at least one OO or multi-paradigm language</li>
+          <li>Has touched a codebase they didn't design and felt the pain of it</li>
+        </ul>
+      </div>
+      <div>
+        <h3>By the end, participants can</h3>
+        <ul>
+          <li>Name a code smell and apply the matching refactoring safely</li>
+          <li>Draw and defend a dependency-rule diagram for a real service</li>
+          <li>Reason about a system's scaling limits before it hits them</li>
+          <li>Brief, review, and correct an AI coding agent like a junior pair</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-head"><span class="num">01</span><h2>How every session runs</h2></div>
+    <p class="focus" style="margin-bottom:16px;">Each 2-hour block follows the same shape, so the group settles into a rhythm instead of relearning a format every day.</p>
+    <div class="legend">
+      <div class="legend-item"><span class="dot concept"></span>Concept &mdash; short, example-driven</div>
+      <div class="legend-item"><span class="dot demo"></span>Live demo / case study</div>
+      <div class="legend-item"><span class="dot hands"></span>Hands-on exercise, in pairs</div>
+      <div class="legend-item"><span class="dot review"></span>Group review &amp; debrief</div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-head"><span class="num">02</span><h2>Syllabus</h2></div>
+
+    <div class="syllabus">
+
+      <!-- Day 1 -->
+      <div class="day">
+        <div class="day-rail"><div class="day-num">01</div><div class="day-line"></div></div>
+        <div class="day-card">
+          <div class="day-card-head">
+            <div class="day-title">Naming, Functions &amp; Formatting</div>
+            <div class="badges"><span class="badge time">2:00</span><span class="badge topic">Clean Code</span></div>
+          </div>
+          <p class="focus">The habits that make code readable on the first pass &mdash; before any structural concern enters the picture.</p>
+          <ul class="objectives">
+            <li>Choose names that reveal intent without a comment</li>
+            <li>Extract functions that do exactly one thing, at one level of abstraction</li>
+            <li>Recognize formatting as a communication choice, not a style-guide chore</li>
+          </ul>
+          <div class="blocks"><span style="width:20%;background:var(--accent);"></span><span style="width:35%;background:var(--accent-2);"></span><span style="width:35%;background:#B08325;"></span><span style="width:10%;background:var(--ink-faint);"></span></div>
+          <div class="block-list">
+            <span class="k"><span class="dot concept"></span><b>0:00&ndash;0:25</b> naming heuristics &amp; anti-patterns</span>
+            <span class="k"><span class="dot demo"></span><b>0:25&ndash;1:05</b> live rewrite of a real module</span>
+            <span class="k"><span class="dot hands"></span><b>1:05&ndash;1:45</b> rename &amp; extract kata</span>
+            <span class="k"><span class="dot review"></span><b>1:45&ndash;2:00</b> pair debrief</span>
+          </div>
+          <div class="deliverable"><b>Bring</b>One file from your own codebase you'd be embarrassed to explain aloud.</div>
+        </div>
+      </div>
+
+      <!-- Day 2 -->
+      <div class="day">
+        <div class="day-rail"><div class="day-num">02</div><div class="day-line"></div></div>
+        <div class="day-card">
+          <div class="day-card-head">
+            <div class="day-title">Error Handling &amp; Code Smells</div>
+            <div class="badges"><span class="badge time">2:00</span><span class="badge topic">Clean Code</span></div>
+          </div>
+          <p class="focus">Where clean code stops being taste and starts being a defense against a decaying codebase.</p>
+          <ul class="objectives">
+            <li>Separate error handling from business logic without swallowing failure</li>
+            <li>Catalog the 8 most common smells this team actually produces</li>
+            <li>Apply DRY and YAGNI as tests, not slogans</li>
+          </ul>
+          <div class="blocks"><span style="width:25%;background:var(--accent);"></span><span style="width:30%;background:var(--accent-2);"></span><span style="width:35%;background:#B08325;"></span><span style="width:10%;background:var(--ink-faint);"></span></div>
+          <div class="block-list">
+            <span class="k"><span class="dot concept"></span><b>0:00&ndash;0:30</b> smells taxonomy</span>
+            <span class="k"><span class="dot demo"></span><b>0:30&ndash;1:05</b> exception vs. result-type tradeoffs</span>
+            <span class="k"><span class="dot hands"></span><b>1:05&ndash;1:45</b> smell-hunt in a seeded codebase</span>
+            <span class="k"><span class="dot review"></span><b>1:45&ndash;2:00</b> findings walk-through</span>
+          </div>
+          <div class="deliverable"><b>Output</b>A team-specific smell checklist, kept and reused in later sessions.</div>
+        </div>
+      </div>
+
+      <!-- Day 3 -->
+      <div class="day">
+        <div class="day-rail"><div class="day-num">03</div><div class="day-line"></div></div>
+        <div class="day-card">
+          <div class="day-card-head">
+            <div class="day-title">SOLID &amp; Object Design</div>
+            <div class="badges"><span class="badge time">2:00</span><span class="badge topic">Clean Code</span></div>
+          </div>
+          <p class="focus">The bridge from clean lines to clean structure &mdash; five principles as answers to five recurring failures.</p>
+          <ul class="objectives">
+            <li>Spot an SRP or OCP violation from a diff, not just a diagram</li>
+            <li>Use dependency inversion to make a concrete dependency swappable</li>
+            <li>Know when applying SOLID is over-engineering for the problem's size</li>
+          </ul>
+          <div class="blocks"><span style="width:25%;background:var(--accent);"></span><span style="width:35%;background:var(--accent-2);"></span><span style="width:30%;background:#B08325;"></span><span style="width:10%;background:var(--ink-faint);"></span></div>
+          <div class="block-list">
+            <span class="k"><span class="dot concept"></span><b>0:00&ndash;0:30</b> the five principles, by example</span>
+            <span class="k"><span class="dot demo"></span><b>0:30&ndash;1:10</b> before/after refactor of a god class</span>
+            <span class="k"><span class="dot hands"></span><b>1:10&ndash;1:45</b> apply DIP to decouple a real dependency</span>
+            <span class="k"><span class="dot review"></span><b>1:45&ndash;2:00</b> discuss: when SOLID is too much</span>
+          </div>
+          <div class="deliverable"><b>Bridge to next</b>SOLID at the class level sets up architecture at the system level.</div>
+        </div>
+      </div>
+
+      <!-- Day 4 -->
+      <div class="day">
+        <div class="day-rail"><div class="day-num">04</div><div class="day-line"></div></div>
+        <div class="day-card">
+          <div class="day-card-head">
+            <div class="day-title">Refactoring Technique &amp; the Smell Catalog</div>
+            <div class="badges"><span class="badge time">2:00</span><span class="badge topic">Refactoring</span></div>
+          </div>
+          <p class="focus">Refactoring as a disciplined, reversible sequence of small steps &mdash; not a rewrite in disguise.</p>
+          <ul class="objectives">
+            <li>Apply Extract Method, Inline, and Replace Conditional with Polymorphism correctly</li>
+            <li>Keep every intermediate step green under a test suite</li>
+            <li>Match a smell from the Day 2 checklist to its standard refactoring</li>
+          </ul>
+          <div class="blocks"><span style="width:25%;background:var(--accent);"></span><span style="width:25%;background:var(--accent-2);"></span><span style="width:40%;background:#B08325;"></span><span style="width:10%;background:var(--ink-faint);"></span></div>
+          <div class="block-list">
+            <span class="k"><span class="dot concept"></span><b>0:00&ndash;0:30</b> the refactoring workflow, step by step</span>
+            <span class="k"><span class="dot demo"></span><b>0:30&ndash;1:00</b> three refactorings, live, on real code</span>
+            <span class="k"><span class="dot hands"></span><b>1:00&ndash;1:48</b> refactoring kata against a red-green timer</span>
+            <span class="k"><span class="dot review"></span><b>1:48&ndash;2:00</b> what broke, and why</span>
+          </div>
+          <div class="deliverable"><b>Rule</b>No commit may change behavior and structure in the same step.</div>
+        </div>
+      </div>
+
+      <!-- Day 5 -->
+      <div class="day">
+        <div class="day-rail"><div class="day-num">05</div><div class="day-line"></div></div>
+        <div class="day-card">
+          <div class="day-card-head">
+            <div class="day-title">Refactoring Legacy Code Under Test</div>
+            <div class="badges"><span class="badge time">2:00</span><span class="badge topic">Refactoring</span></div>
+          </div>
+          <p class="focus">Applying the same discipline where it's hardest: code with no tests and no clear owner.</p>
+          <ul class="objectives">
+            <li>Write characterization tests to pin current behavior before changing it</li>
+            <li>Find seams to break dependencies without a full rewrite</li>
+            <li>Decide when "leave it alone" is the correct engineering call</li>
+          </ul>
+          <div class="blocks"><span style="width:20%;background:var(--accent);"></span><span style="width:25%;background:var(--accent-2);"></span><span style="width:45%;background:#B08325;"></span><span style="width:10%;background:var(--ink-faint);"></span></div>
+          <div class="block-list">
+            <span class="k"><span class="dot concept"></span><b>0:00&ndash;0:25</b> characterization tests &amp; seams</span>
+            <span class="k"><span class="dot demo"></span><b>0:25&ndash;0:55</b> pinning behavior on an untested module</span>
+            <span class="k"><span class="dot hands"></span><b>0:55&ndash;1:45</b> legacy kata: test, then refactor, a tangled class</span>
+            <span class="k"><span class="dot review"></span><b>1:45&ndash;2:00</b> compare approaches across pairs</span>
+          </div>
+          <div class="deliverable"><b>Bring</b>Your team's actual candidate for "the file nobody wants to touch."</div>
+        </div>
+      </div>
+
+      <!-- Day 6 -->
+      <div class="day">
+        <div class="day-rail"><div class="day-num">06</div><div class="day-line"></div></div>
+        <div class="day-card">
+          <div class="day-card-head">
+            <div class="day-title">Scalability Fundamentals</div>
+            <div class="badges"><span class="badge time">2:00</span><span class="badge topic">Scalable Systems</span></div>
+          </div>
+          <p class="focus">The vocabulary and levers behind "it works, but does it scale?"</p>
+          <ul class="objectives">
+            <li>Distinguish vertical, horizontal, and functional scaling with real cost tradeoffs</li>
+            <li>Design a stateless service boundary that can be safely replicated</li>
+            <li>Place a cache and a load balancer correctly in a request path</li>
+          </ul>
+          <div class="blocks"><span style="width:30%;background:var(--accent);"></span><span style="width:35%;background:var(--accent-2);"></span><span style="width:25%;background:#B08325;"></span><span style="width:10%;background:var(--ink-faint);"></span></div>
+          <div class="block-list">
+            <span class="k"><span class="dot concept"></span><b>0:00&ndash;0:35</b> scaling levers &amp; their costs</span>
+            <span class="k"><span class="dot demo"></span><b>0:35&ndash;1:10</b> walking through a system that hit its ceiling</span>
+            <span class="k"><span class="dot hands"></span><b>1:10&ndash;1:40</b> capacity-plan a service from real traffic numbers</span>
+            <span class="k"><span class="dot review"></span><b>1:40&ndash;2:00</b> group critique</span>
+          </div>
+          <div class="deliverable"><b>Output</b>A one-page capacity plan for a service you're responsible for.</div>
+        </div>
+      </div>
+
+      <!-- Day 7 -->
+      <div class="day">
+        <div class="day-rail"><div class="day-num">07</div><div class="day-line"></div></div>
+        <div class="day-card">
+          <div class="day-card-head">
+            <div class="day-title">Distributed Systems &amp; Resilience</div>
+            <div class="badges"><span class="badge time">2:00</span><span class="badge topic">Scalable Systems</span></div>
+          </div>
+          <p class="focus">What changes once a system spans more than one process, and how to fail without cascading.</p>
+          <ul class="objectives">
+            <li>Choose between synchronous calls and async messaging with reasons, not habit</li>
+            <li>Reason about consistency tradeoffs across service boundaries</li>
+            <li>Add retries, timeouts, and circuit breakers where they actually help</li>
+          </ul>
+          <div class="blocks"><span style="width:30%;background:var(--accent);"></span><span style="width:35%;background:var(--accent-2);"></span><span style="width:25%;background:#B08325;"></span><span style="width:10%;background:var(--ink-faint);"></span></div>
+          <div class="block-list">
+            <span class="k"><span class="dot concept"></span><b>0:00&ndash;0:35</b> consistency, messaging, and failure modes</span>
+            <span class="k"><span class="dot demo"></span><b>0:35&ndash;1:10</b> dissecting a real cascading-failure incident</span>
+            <span class="k"><span class="dot hands"></span><b>1:10&ndash;1:40</b> add a circuit breaker to a flaky call chain</span>
+            <span class="k"><span class="dot review"></span><b>1:40&ndash;2:00</b> incident retro exercise</span>
+          </div>
+          <div class="deliverable"><b>Output</b>A resilience checklist applied to one production dependency.</div>
+        </div>
+      </div>
+
+      <!-- Day 8 -->
+      <div class="day">
+        <div class="day-rail"><div class="day-num">08</div><div class="day-line"></div></div>
+        <div class="day-card">
+          <div class="day-card-head">
+            <div class="day-title">Coding With AI Agents</div>
+            <div class="badges"><span class="badge time">2:00</span><span class="badge topic ai">AI Agents</span></div>
+          </div>
+          <p class="focus">Treating an AI coding agent like a capable but unverified collaborator &mdash; and applying everything from Days 1&ndash;7 to review its output.</p>
+          <ul class="objectives">
+            <li>Write briefs and context an agent can act on without guessing</li>
+            <li>Run an agentic loop: plan, delegate, review, correct</li>
+            <li>Apply the smell checklist and SOLID principles to AI-generated diffs</li>
+            <li>Recognize where agents overreach: security, scope, silent assumptions</li>
+          </ul>
+          <div class="blocks"><span style="width:20%;background:var(--accent);"></span><span style="width:25%;background:var(--accent-2);"></span><span style="width:40%;background:#B08325;"></span><span style="width:15%;background:var(--ink-faint);"></span></div>
+          <div class="block-list">
+            <span class="k"><span class="dot concept"></span><b>0:00&ndash;0:25</b> context, briefs, and agent workflows</span>
+            <span class="k"><span class="dot demo"></span><b>0:25&ndash;0:55</b> live: brief an agent through a small feature</span>
+            <span class="k"><span class="dot hands"></span><b>0:55&ndash;1:45</b> capstone &mdash; direct an agent, then review and refactor its output using the toolkit built so far</span>
+            <span class="k"><span class="dot review"></span><b>1:45&ndash;2:00</b> retrospective</span>
+          </div>
+          <div class="deliverable"><b>Capstone</b>A short real task, done with an agent, reviewed and fixed by hand &mdash; the arc of the course so far, in one exercise. Two architecture sessions follow.</div>
+        </div>
+      </div>
+
+      <!-- Day 9 -->
+      <div class="day">
+        <div class="day-rail"><div class="day-num">09</div><div class="day-line"></div></div>
+        <div class="day-card">
+          <div class="day-card-head">
+            <div class="day-title">The Dependency Rule &amp; Layered Boundaries</div>
+            <div class="badges"><span class="badge time">2:00</span><span class="badge topic">Architecture</span></div>
+          </div>
+          <p class="focus">Why source code dependencies should always point inward, and what that buys a team under change.</p>
+          <ul class="objectives">
+            <li>Draw entities, use cases, and interface adapters as concentric layers</li>
+            <li>Identify a boundary crossing that violates the dependency rule</li>
+            <li>Explain why frameworks and databases belong at the edge, not the center</li>
+          </ul>
+          <div class="blocks"><span style="width:30%;background:var(--accent);"></span><span style="width:35%;background:var(--accent-2);"></span><span style="width:25%;background:#B08325;"></span><span style="width:10%;background:var(--ink-faint);"></span></div>
+          <div class="block-list">
+            <span class="k"><span class="dot concept"></span><b>0:00&ndash;0:35</b> layers &amp; the dependency rule</span>
+            <span class="k"><span class="dot demo"></span><b>0:35&ndash;1:10</b> tracing a request through a layered service</span>
+            <span class="k"><span class="dot hands"></span><b>1:10&ndash;1:40</b> diagram your own service's boundaries</span>
+            <span class="k"><span class="dot review"></span><b>1:40&ndash;2:00</b> critique in small groups</span>
+          </div>
+          <div class="deliverable"><b>Bring</b>A rough architecture diagram (or the code) of a service you own.</div>
+        </div>
+      </div>
+
+      <!-- Day 10 -->
+      <div class="day">
+        <div class="day-rail"><div class="day-num">10</div></div>
+        <div class="day-card">
+          <div class="day-card-head">
+            <div class="day-title">Ports, Adapters &amp; a Real Case Study</div>
+            <div class="badges"><span class="badge time">2:00</span><span class="badge topic">Architecture</span></div>
+          </div>
+          <p class="focus">Taking the dependency rule from diagram to implementation with hexagonal architecture.</p>
+          <ul class="objectives">
+            <li>Define a port as the shape of a dependency the domain needs</li>
+            <li>Swap an adapter (e.g. a datastore) without touching business logic</li>
+            <li>Walk through a full case study: same domain, three different adapters</li>
+          </ul>
+          <div class="blocks"><span style="width:20%;background:var(--accent);"></span><span style="width:40%;background:var(--accent-2);"></span><span style="width:30%;background:#B08325;"></span><span style="width:10%;background:var(--ink-faint);"></span></div>
+          <div class="block-list">
+            <span class="k"><span class="dot concept"></span><b>0:00&ndash;0:25</b> ports &amp; adapters vocabulary</span>
+            <span class="k"><span class="dot demo"></span><b>0:25&ndash;1:15</b> case study: swapping the persistence adapter live</span>
+            <span class="k"><span class="dot hands"></span><b>1:15&ndash;1:45</b> define one port for your Day 9 service</span>
+            <span class="k"><span class="dot review"></span><b>1:45&ndash;2:00</b> group Q&amp;A</span>
+          </div>
+          <div class="deliverable"><b>Output</b>One documented port interface, ready to implement post-course &mdash; and the course's closing session.</div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <section>
+    <div class="section-head"><span class="num">03</span><h2>Running it</h2></div>
+    <div class="note-grid">
+      <div class="note">
+        <h3>Cadence</h3>
+        <p>Ten consecutive working days at 2 hours/day fits well as a morning or end-of-day slot. Compressing to 2 sessions/day (4h) across 5 days works too &mdash; keep same-module sessions (e.g. 4&amp;5, 9&amp;10) on the same or adjacent days so context doesn't go cold.</p>
+      </div>
+      <div class="note">
+        <h3>Group size &amp; format</h3>
+        <p>6&ndash;12 participants, paired for every hands-on block. Works in person or remote; remote sessions need breakout rooms and a shared repo per pair, set up before Day 1.</p>
+      </div>
+      <div class="note">
+        <h3>Tools &amp; prerequisites</h3>
+        <ul>
+          <li>Team's real codebase(s), or a seeded practice repo per language</li>
+          <li>A test runner already wired up &mdash; refactoring days assume green tests</li>
+          <li>An AI coding agent with repo access, configured before Day 8</li>
+        </ul>
+      </div>
+      <div class="note">
+        <h3>Assessment</h3>
+        <p>No exam. Progress shows in the artifacts each session produces &mdash; the smell checklist, the port interface, the capacity plan, the resilience checklist &mdash; which converge on the Day 8 capstone as a single reviewed piece of work &mdash; with two architecture sessions still to come.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer>clean-code &middot; clean-architecture &middot; refactoring &middot; scalable-systems &middot; ai-agents &mdash; v1.0</footer>
+
+</div>

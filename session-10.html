@@ -1,0 +1,429 @@
+<title>One Port, Three Ways</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+  :root{
+    --paper:#F4F6F5; --surface:#FFFFFF; --ink:#1A2226; --ink-soft:#55636A; --ink-faint:#8B979B;
+    --line:#D6DEDD; --line-strong:#B9C4C3;
+    --accent:#1F5D6B; --accent-ink:#0F3038; --accent-soft:#DCEAEA;
+    --accent-2:#6B4A8F; --accent-2-soft:#EAE2F1;
+    --amber:#A6752B; --amber-soft:#F3E6CE;
+    --bad:#B3452F; --bad-soft:#F5E3DE;
+    --shadow: 0 1px 2px rgba(15,48,56,0.06), 0 8px 24px -16px rgba(15,48,56,0.18);
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --paper:#14181A; --surface:#1B2124; --ink:#E7ECEC; --ink-soft:#9AA7AC; --ink-faint:#6C787C;
+      --line:#2B3336; --line-strong:#3A4548;
+      --accent:#74C2CB; --accent-ink:#D8F0F2; --accent-soft:#1E3336;
+      --accent-2:#C3A9E3; --accent-2-soft:#2C2438;
+      --amber:#E0A85C; --amber-soft:#3A2E1C;
+      --bad:#E08868; --bad-soft:#3A241E;
+      --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 8px 24px -16px rgba(0,0,0,0.5);
+    }
+  }
+  :root[data-theme="dark"]{
+    --paper:#14181A; --surface:#1B2124; --ink:#E7ECEC; --ink-soft:#9AA7AC; --ink-faint:#6C787C;
+    --line:#2B3336; --line-strong:#3A4548;
+    --accent:#74C2CB; --accent-ink:#D8F0F2; --accent-soft:#1E3336;
+    --accent-2:#C3A9E3; --accent-2-soft:#2C2438;
+    --amber:#E0A85C; --amber-soft:#3A2E1C;
+    --bad:#E08868; --bad-soft:#3A241E;
+    --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 8px 24px -16px rgba(0,0,0,0.5);
+  }
+
+  :root{
+    --code-bg:#101A1D; --code-ink:#DCEAEA; --code-faint:#5E767A;
+    --code-comment:#6FAFAE; --code-annotate:#E0A85C;
+  }
+
+  *{ box-sizing:border-box; }
+  body{ background:var(--paper); color:var(--ink); font-family:"Source Serif 4", Georgia, serif; padding:0 20px; }
+  h1,h2,h3{ text-wrap:balance; }
+  .wrap{ max-width:920px; margin:0 auto; padding-block:44px 80px; }
+
+  .crumb{
+    font-family:"IBM Plex Mono", monospace; font-size:0.72rem; letter-spacing:0.06em;
+    color:var(--ink-faint); margin-bottom:22px; display:flex; gap:8px; align-items:center; flex-wrap:wrap;
+  }
+  .crumb a{ color:var(--accent); text-decoration:none; border-bottom:1px solid var(--accent-soft); }
+  .crumb a:hover{ border-bottom-color:var(--accent); }
+
+  .eyebrow{
+    font-family:"IBM Plex Mono", monospace; font-size:0.72rem; letter-spacing:0.12em; text-transform:uppercase;
+    color:var(--accent); display:flex; align-items:center; gap:10px; margin-bottom:16px;
+  }
+  .eyebrow::before{ content:""; width:22px; height:1px; background:var(--accent); display:inline-block; }
+  h1{ font-family:"Archivo", sans-serif; font-weight:800; font-size:clamp(1.9rem, 4vw, 2.6rem); line-height:1.08; margin:0 0 12px; letter-spacing:-0.01em; }
+  .lede{ font-size:1.06rem; line-height:1.6; color:var(--ink-soft); max-width:64ch; margin:0 0 28px; }
+
+  .meta-strip{
+    display:grid; grid-template-columns:repeat(4,1fr); gap:1px; background:var(--line);
+    border:1px solid var(--line); border-radius:10px; overflow:hidden; margin-bottom:40px;
+  }
+  .meta{ background:var(--surface); padding:14px 14px; display:flex; flex-direction:column; gap:4px; }
+  .meta b{ font-family:"IBM Plex Mono", monospace; font-size:1.05rem; font-weight:600; color:var(--ink); }
+  .meta span{ font-family:"IBM Plex Mono", monospace; font-size:0.64rem; letter-spacing:0.07em; text-transform:uppercase; color:var(--ink-faint); }
+  @media (max-width:640px){ .meta-strip{ grid-template-columns:repeat(2,1fr); } }
+
+  section{ margin-bottom:52px; }
+  .section-head{ display:flex; align-items:baseline; gap:14px; margin-bottom:18px; border-bottom:1px solid var(--line); padding-bottom:12px; }
+  .section-head .tag{ font-family:"IBM Plex Mono", monospace; font-size:0.74rem; color:var(--accent); font-weight:600; white-space:nowrap; }
+  h2{ font-family:"Archivo", sans-serif; font-weight:700; font-size:1.4rem; margin:0; letter-spacing:-0.01em; }
+  .section-sub{ color:var(--ink-soft); font-size:0.96rem; margin:-6px 0 18px; max-width:65ch; }
+
+  /* role lens */
+  .roles{ display:grid; grid-template-columns:repeat(4,1fr); gap:12px; }
+  @media (max-width:760px){ .roles{ grid-template-columns:repeat(2,1fr); } }
+  @media (max-width:460px){ .roles{ grid-template-columns:1fr; } }
+  .role{ background:var(--surface); border:1px solid var(--line); border-radius:10px; padding:14px 16px; }
+  .role b{ display:block; font-family:"Archivo", sans-serif; font-size:0.82rem; font-weight:600; margin-bottom:6px; color:var(--ink); }
+  .role p{ margin:0; font-size:0.84rem; line-height:1.5; color:var(--ink-soft); }
+
+  /* cheat sheet */
+  .cheat-grid{ display:grid; grid-template-columns:repeat(2,1fr); gap:20px; margin-bottom:22px; }
+  @media (max-width:680px){ .cheat-grid{ grid-template-columns:1fr; } }
+  .cheat{ background:var(--surface); border:1px solid var(--line); border-radius:10px; padding:16px 18px; }
+  .cheat h3{ font-family:"Archivo", sans-serif; font-size:0.88rem; font-weight:600; margin:0 0 10px; color:var(--accent); }
+  .cheat ul{ margin:0; padding-left:1.05em; font-size:0.87rem; line-height:1.55; color:var(--ink-soft); }
+  .cheat li{ margin-bottom:6px; }
+  .cheat li::marker{ color:var(--accent); }
+  .cheat.driven h3{ color:var(--amber); }
+  .cheat.driven li::marker{ color:var(--amber); }
+
+  /* diagrams */
+  .diagram-figure{ margin:18px 0; background:var(--surface); border:1px solid var(--line); border-radius:12px; padding:22px 22px 18px; box-shadow:var(--shadow); }
+  .diagram-figure svg{ display:block; width:100%; height:auto; color:var(--ink); }
+  .diagram-figure figcaption{ margin-top:14px; font-size:0.86rem; color:var(--ink-soft); line-height:1.55; }
+
+  /* code panels */
+  .code-block{ border-radius:10px; overflow:hidden; margin:14px 0; box-shadow:var(--shadow); }
+  .code-head{ display:flex; align-items:center; justify-content:space-between; gap:10px; padding:8px 14px; font-family:"IBM Plex Mono", monospace; font-size:0.68rem; letter-spacing:0.08em; text-transform:uppercase; }
+  .code-head.neutral{ background:#223236; color:#DCEAEA; }
+  .code-head.before{ background:var(--bad); color:#fff; }
+  .code-head.after{ background:var(--accent); color:#fff; }
+  .code-head.a{ background:var(--accent); color:#fff; }
+  .code-head.b{ background:var(--accent-2); color:#fff; }
+  .code-head.c{ background:var(--amber); color:#fff; }
+  pre.code{
+    margin:0; background:var(--code-bg); color:var(--code-ink); padding:16px 18px;
+    font-family:"IBM Plex Mono", monospace; font-size:0.82rem; line-height:1.65; overflow-x:auto;
+  }
+  pre.code .c{ color:var(--code-comment); }
+  pre.code .a{ color:var(--code-annotate); }
+  pre.code .f{ color:var(--code-faint); }
+
+  .demo-notes{ background:var(--surface); border:1px solid var(--line); border-radius:10px; padding:16px 18px; margin-top:8px; }
+  .demo-notes b{ font-family:"IBM Plex Mono", monospace; font-size:0.68rem; letter-spacing:0.08em; text-transform:uppercase; color:var(--accent); display:block; margin-bottom:8px; }
+  .demo-notes ol{ margin:0; padding-left:1.2em; font-size:0.88rem; line-height:1.6; color:var(--ink-soft); }
+  .demo-notes li{ margin-bottom:5px; }
+  .demo-notes li::marker{ font-family:"IBM Plex Mono", monospace; color:var(--accent); font-weight:600; }
+
+  .callout{ background:var(--surface); border:1px solid var(--line); border-radius:10px; padding:14px 18px; margin-bottom:14px; font-size:0.92rem; color:var(--ink-soft); }
+  .callout b{ color:var(--ink); }
+
+  /* three-way adapter grid */
+  .adapter-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:14px 0; }
+  @media (max-width:860px){ .adapter-grid{ grid-template-columns:1fr; } }
+  .adapter-col .code-block{ margin:0 0 8px; }
+  .adapter-col p{ margin:0; font-size:0.84rem; color:var(--ink-soft); line-height:1.5; }
+  .adapter-col pre.code{ font-size:0.76rem; padding:14px; }
+
+  /* kata / exercise cards */
+  .kata{ background:var(--surface); border:1px solid var(--line); border-radius:12px; padding:22px 24px; margin-bottom:20px; box-shadow:var(--shadow); }
+  .kata-head{ display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:8px 14px; margin-bottom:8px; }
+  .kata-title{ font-family:"Archivo", sans-serif; font-weight:700; font-size:1.08rem; color:var(--ink); }
+  .badges{ display:flex; gap:8px; flex-wrap:wrap; align-items:center; }
+  .badge{ font-family:"IBM Plex Mono", monospace; font-size:0.66rem; letter-spacing:0.05em; text-transform:uppercase; padding:4px 9px; border-radius:99px; white-space:nowrap; }
+  .badge.time{ background:var(--paper); border:1px solid var(--line); color:var(--ink-soft); }
+  .badge.level-1{ background:var(--accent-soft); color:var(--accent-ink); }
+  .task{ font-size:0.96rem; line-height:1.6; color:var(--ink); margin:0 0 4px; }
+  .task b{ color:var(--accent); font-family:"Archivo", sans-serif; font-weight:600; font-size:0.82rem; text-transform:uppercase; letter-spacing:0.03em; display:block; margin-bottom:4px; }
+  .q-list{ margin:14px 0 0; padding-left:1.15em; font-size:0.92rem; line-height:1.6; color:var(--ink-soft); }
+  .q-list li{ margin-bottom:6px; }
+  .q-list li::marker{ content:"? "; color:var(--accent); font-family:"IBM Plex Mono", monospace; font-weight:600; }
+  .done-when{ margin-top:14px; padding-top:12px; border-top:1px dashed var(--line); }
+  .done-when b{ font-family:"IBM Plex Mono", monospace; font-size:0.68rem; letter-spacing:0.08em; text-transform:uppercase; color:var(--ink-faint); display:block; margin-bottom:6px; }
+  .done-when ul{ margin:0; padding-left:1.15em; font-size:0.86rem; color:var(--ink-soft); line-height:1.55; }
+  .done-when li::marker{ color:var(--accent); }
+
+  /* debrief */
+  .debrief-grid{ display:grid; grid-template-columns:1fr 1fr; gap:18px; margin-bottom:18px; }
+  @media (max-width:680px){ .debrief-grid{ grid-template-columns:1fr; } }
+  .debrief-card{ background:var(--surface); border:1px solid var(--line); border-radius:10px; padding:16px 18px; }
+  .debrief-card b{ display:block; font-family:"Archivo", sans-serif; font-size:0.82rem; font-weight:600; color:var(--ink); margin-bottom:6px; }
+  .debrief-card p{ margin:0; font-size:0.9rem; line-height:1.55; color:var(--ink-soft); }
+
+  .checklist{ display:flex; flex-direction:column; gap:8px; }
+  .check-row{ display:flex; align-items:flex-start; gap:10px; background:var(--surface); border:1px solid var(--line); border-radius:8px; padding:10px 14px; font-size:0.9rem; color:var(--ink); }
+  .check-row .box{ width:15px; height:15px; border:1.5px solid var(--line-strong); border-radius:4px; flex:none; margin-top:2px; }
+
+  /* facilitator notes */
+  .prep{ background:var(--accent-soft); border:1px solid var(--line); border-radius:10px; padding:18px 20px; margin-bottom:16px; }
+  .prep b{ font-family:"IBM Plex Mono", monospace; font-size:0.68rem; letter-spacing:0.08em; text-transform:uppercase; color:var(--accent-ink); display:block; margin-bottom:8px; }
+  .prep ul{ margin:0; padding-left:1.15em; font-size:0.9rem; line-height:1.6; color:var(--accent-ink); }
+
+  .answer{ background:var(--surface); border:1px dashed var(--line-strong); border-radius:10px; padding:16px 18px; margin-bottom:14px; }
+  .answer > b{ font-family:"IBM Plex Mono", monospace; font-size:0.7rem; letter-spacing:0.06em; text-transform:uppercase; color:var(--ink-faint); display:block; margin-bottom:10px; }
+
+  footer{ margin-top:60px; padding-top:20px; border-top:1px solid var(--line); display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px; font-family:"IBM Plex Mono", monospace; font-size:0.72rem; color:var(--ink-faint); }
+  footer a{ color:var(--accent); text-decoration:none; }
+</style>
+
+<div class="wrap">
+
+  <div class="crumb"><a href="https://claude.ai/code/artifact/d82a43b8-603a-4a49-a9d8-bee201a2d318">Clean Code to Scale</a><span>/</span><a href="https://claude.ai/artifact/TJ44sCwdYXUMUqB8igYXFe">Day 09</a><span>/</span><span>Day 10 of 10</span></div>
+
+  <div class="eyebrow">Session material &middot; Module: Clean Architecture &middot; Course closer</div>
+  <h1>Ports, Adapters &amp; a Real Case Study</h1>
+  <p class="lede">Facilitator and participant material for Day 10 &mdash; the last session of the course, taking the dependency rule from diagram to proof. Day 9 built one port and one adapter; today we add two more and watch <code>PlaceOrder</code> not change at all.</p>
+
+  <div class="meta-strip">
+    <div class="meta"><b>2:00</b><span>Duration</span></div>
+    <div class="meta"><b>10 / 10</b><span>Session</span></div>
+    <div class="meta"><b>Python</b><span>Code samples</span></div>
+    <div class="meta"><b>Pairs</b><span>Live case study</span></div>
+  </div>
+
+  <section>
+    <div class="section-head"><span class="tag">Objectives</span><h2>What today is for</h2></div>
+    <div class="cheat-grid" style="margin-bottom:0; grid-template-columns:repeat(3,1fr);">
+      <div class="cheat"><ul>
+        <li>Define a port as the shape of a dependency the domain needs</li>
+      </ul></div>
+      <div class="cheat"><ul>
+        <li>Swap an adapter &mdash; a datastore, say &mdash; without touching business logic</li>
+      </ul></div>
+      <div class="cheat"><ul>
+        <li>Walk through one case study: same domain, three different adapters</li>
+      </ul></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-head"><span class="tag">Room</span><h2>Why this session, for you specifically</h2></div>
+    <div class="roles">
+      <div class="role"><b>Junior &ndash; Mid Engineers</b><p>Yesterday you drew the boundary. Today you feel the payoff &mdash; the same use case runs against three backends without one edit to it.</p></div>
+      <div class="role"><b>Senior Eng &amp; Tech Leads</b><p>The session to point to when someone asks "why bother with all this abstraction?" The answer today is a live demo, not a diagram.</p></div>
+      <div class="role"><b>QEs</b><p>An in-memory adapter isn't a convenience &mdash; it's what turns a test that needs a running database into one that runs in milliseconds. Watch it happen.</p></div>
+      <div class="role"><b>AI Engineers</b><p>A port is a contract an agent can implement against without ever touching production. This is the shape of a safe, scoped task to hand one.</p></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-head"><span class="tag">0:00&ndash;0:25 &middot; Concept</span><h2>Ports and adapters, by direction</h2></div>
+    <p class="section-sub">Same dependency rule as Day 9, new vocabulary: which side of the core a port sits on determines who calls whom.</p>
+
+    <figure class="diagram-figure">
+      <svg viewBox="0 0 700 210" role="img" aria-label="A hexagon labeled PlaceOrder sits in the center with a port on each side. On the left, a driving adapter, OrderController, calls into the hexagon through a port. On the right, the hexagon calls out through a port to a driven adapter, PostgresOrderRepository.">
+        <defs>
+          <marker id="d5-flow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+            <path d="M0,0 L10,5 L0,10 Z" fill="currentColor"/>
+          </marker>
+        </defs>
+
+        <polygon points="425,105 387.5,169.9 312.5,169.9 275,105 312.5,40.1 387.5,40.1" fill="var(--accent-2-soft)" stroke="var(--accent-2)" stroke-width="2"/>
+        <text x="350" y="100" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="12" font-weight="600" fill="currentColor">PlaceOrder</text>
+        <text x="350" y="116" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="9" fill="var(--ink-faint)">+ Order, + port</text>
+
+        <rect x="20" y="80" width="140" height="50" rx="7" fill="var(--surface)" stroke="currentColor" stroke-width="1.5"/>
+        <text x="90" y="102" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="10" fill="currentColor">OrderController</text>
+        <text x="90" y="116" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="9" fill="var(--ink-faint)">(driving adapter)</text>
+
+        <rect x="540" y="80" width="140" height="50" rx="7" fill="var(--surface)" stroke="currentColor" stroke-width="1.5"/>
+        <text x="610" y="102" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="10" fill="currentColor">PostgresOrder</text>
+        <text x="610" y="116" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="9" fill="var(--ink-faint)">Repository (driven)</text>
+
+        <line x1="160" y1="105" x2="270" y2="105" stroke="currentColor" stroke-width="1.5" marker-end="url(#d5-flow)"/>
+        <text x="215" y="95" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="9" fill="var(--ink-faint)">calls in</text>
+
+        <line x1="430" y1="105" x2="535" y2="105" stroke="currentColor" stroke-width="1.5" marker-end="url(#d5-flow)"/>
+        <text x="482" y="95" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="9" fill="var(--ink-faint)">calls out</text>
+
+        <text x="90" y="150" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="9" letter-spacing="1" fill="var(--ink-faint)">DRIVING ADAPTER</text>
+        <text x="610" y="150" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="9" letter-spacing="1" fill="var(--ink-faint)">DRIVEN ADAPTER</text>
+      </svg>
+      <figcaption>The hexagon isn't decorative &mdash; it's why the pattern is called hexagonal architecture. Every face is a port. A driving adapter calls into the core; the core calls out through a different port to a driven adapter. Both still depend inward, same as Day 9.</figcaption>
+    </figure>
+
+    <div class="cheat-grid">
+      <div class="cheat">
+        <h3>Driving side &mdash; calls in</h3>
+        <ul>
+          <li>The port describes what the outside world can ask the core to do</li>
+          <li>Adapters: HTTP controllers, CLI commands, test harnesses, message consumers</li>
+          <li>The adapter depends on the core; the core has no idea any of them exist</li>
+        </ul>
+      </div>
+      <div class="cheat driven">
+        <h3>Driven side &mdash; calls out</h3>
+        <ul>
+          <li>The port describes what the core needs from the outside world</li>
+          <li>Adapters: database repositories, email/SMS senders, payment gateways, third-party APIs</li>
+          <li>Same dependency rule, opposite direction of data flow: the adapter still depends on the core's port</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-head"><span class="tag">0:25&ndash;1:15 &middot; Live demo</span><h2>The same port, three adapters</h2></div>
+    <div class="callout"><b>Where Day 9 left off &mdash;</b> one port (<code>OrderRepository</code>), one adapter (<code>PostgresOrderRepository</code>), one use case (<code>PlaceOrder</code>) that depends on the port, never the adapter. Today we add two more adapters live, and count how many lines of <code>PlaceOrder</code> change. The answer is the whole session.</div>
+
+    <div class="adapter-grid">
+      <div class="adapter-col">
+        <div class="code-block">
+          <div class="code-head a"><span>Postgres</span><span>production</span></div>
+          <pre class="code">class PostgresOrderRepository(
+    OrderRepository
+):
+    def save(self, order):
+        conn = psycopg2.connect(
+            "dbname=orders"
+        )
+        cur = conn.cursor()
+        cur.execute(
+            "INSERT INTO orders "
+            "(id, status) VALUES "
+            "(%s, %s)",
+            (order.id, order.status),
+        )
+        conn.commit()</pre>
+        </div>
+        <p>From Day 9, unchanged. The real backend.</p>
+      </div>
+      <div class="adapter-col">
+        <div class="code-block">
+          <div class="code-head b"><span>In-memory</span><span>tests</span></div>
+          <pre class="code">class InMemoryOrderRepository(
+    OrderRepository
+):
+    def __init__(self):
+        self.orders = {}
+
+    def save(self, order):
+        self.orders[order.id] = (
+            order
+        )</pre>
+        </div>
+        <p>No network, no database, no setup. Five lines.</p>
+      </div>
+      <div class="adapter-col">
+        <div class="code-block">
+          <div class="code-head c"><span>Logging</span><span>production + audit</span></div>
+          <pre class="code">class LoggingOrderRepository(
+    OrderRepository
+):
+    def __init__(self, wrapped, logger):
+        self.wrapped = wrapped
+        self.logger = logger
+
+    def save(self, order):
+        self.logger.info(
+            f"saving {order.id}"
+        )
+        self.wrapped.save(order)</pre>
+        </div>
+        <p>Wraps another adapter &mdash; doesn't replace it.</p>
+      </div>
+    </div>
+
+    <div class="code-block">
+      <div class="code-head after"><span>wiring &mdash; the only thing that changes</span><span>PlaceOrder.run() is untouched</span></div>
+      <pre class="code"><span class="c"># production</span>
+place_order = PlaceOrder(PostgresOrderRepository())
+
+<span class="c"># tests &mdash; no network, no database</span>
+place_order = PlaceOrder(InMemoryOrderRepository())
+
+<span class="c"># production, with an audit trail &mdash; wraps the real adapter</span>
+place_order = PlaceOrder(
+    LoggingOrderRepository(PostgresOrderRepository(), logger)
+)
+
+<span class="a"># PlaceOrder.run() never changes. Not one line, in any of the three.</span></pre>
+    </div>
+
+    <div class="demo-notes">
+      <b>Talking points</b>
+      <ol>
+        <li><code>PlaceOrder.run()</code> is identical in all three lines above &mdash; same file, same method, zero edits.</li>
+        <li><code>InMemoryOrderRepository</code> turns a test that needed a running Postgres instance into one that runs in milliseconds with no setup.</li>
+        <li><code>LoggingOrderRepository</code> doesn't replace the Postgres adapter &mdash; it wraps it. Composition, not modification, because both sides only ever depend on the port.</li>
+        <li>Whoever constructs <code>PlaceOrder</code> &mdash; a test, a script, your production entry point &mdash; decides which adapter to wire in. <code>PlaceOrder</code> itself never gets a vote.</li>
+      </ol>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-head"><span class="tag">1:15&ndash;1:45 &middot; Hands-on</span><h2>Define one port for your own service</h2></div>
+    <p class="section-sub">Bring back your Day 9 diagram &mdash; specifically the violation you circled, or any item from your "Frameworks &amp; Drivers" row. No diagram handy? Today's <code>OrderRepository</code> case study works fine to practice on instead.</p>
+
+    <div class="kata">
+      <div class="kata-head">
+        <div class="kata-title">Write a port, then one adapter for it</div>
+        <div class="badges"><span class="badge time">30 min</span><span class="badge level-1">Solo &rarr; pairs</span></div>
+      </div>
+      <div class="task"><b>Task</b>Pick one concrete dependency from your own service. Write the port &mdash; only the methods your use case actually calls, named for what it needs, not for the technology behind it. Then write one adapter implementing it: real, or a fake built just for this exercise.</div>
+      <ul class="q-list">
+        <li>Look at the port you just wrote &mdash; does it describe what your use case needs, or does it leak details from one specific implementation (a method named after a SQL table, an argument shaped like an HTTP response)?</li>
+        <li>If you had five minutes to write a second adapter for this port &mdash; an in-memory fake, purely for tests &mdash; how many methods would you actually have to implement?</li>
+        <li>Which of your Day 9 "Frameworks &amp; Drivers" items would benefit most from becoming a port? Which one is genuinely fine staying a direct dependency?</li>
+      </ul>
+      <div class="done-when"><b>Done when</b><ul>
+        <li>You have a port with 1&ndash;3 methods, named for what the use case needs, not the technology</li>
+        <li>You have one working or sketched adapter implementing it</li>
+        <li>You can state, in one sentence, what a second adapter would need to do differently</li>
+      </ul></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-head"><span class="tag">1:45&ndash;2:00 &middot; Review</span><h2>Group Q&amp;A</h2></div>
+    <div class="debrief-grid">
+      <div class="debrief-card"><b>Ask the room</b><p>What port did you define, and what surprised you about writing it &mdash; too big, too small, or about right?</p></div>
+      <div class="debrief-card"><b>Ask tech leads</b><p>Is there a port in your codebase today that's really just "the third-party SDK's interface, renamed"? What would a real port look like instead?</p></div>
+      <div class="debrief-card"><b>Ask QEs</b><p>Now that you've seen an in-memory adapter live, what's the first slow or flaky test in your suite you'd target with this pattern?</p></div>
+      <div class="debrief-card"><b>Ask AI engineers</b><p>If "implement this port" were an agent's entire task, with no other context, how confident are you it would succeed first try? What does that say about the port's quality?</p></div>
+    </div>
+    <p class="section-sub" style="margin-bottom:10px;">Before the room breaks, each person commits to one:</p>
+    <div class="checklist">
+      <div class="check-row"><span class="box"></span>Turn today's sketched port into a real interface in your codebase, even without a second adapter yet</div>
+      <div class="check-row"><span class="box"></span>Find one slow test in your suite caused by a real dependency, and name the port that would fix it</div>
+      <div class="check-row"><span class="box"></span>Write one paragraph describing a driving and a driven adapter in your own service, using today's vocabulary</div>
+      <div class="check-row"><span class="box"></span>This is the last session of the course &mdash; take the port you defined back to your own service this week, while it's still fresh</div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-head"><span class="tag">Prep</span><h2>Facilitator notes</h2></div>
+    <div class="prep">
+      <b>Before the session</b>
+      <ul>
+        <li>Load the full Day 9 code &mdash; <code>Order</code>, <code>OrderRepository</code>, <code>PlaceOrder</code>, <code>PostgresOrderRepository</code> &mdash; into your environment beforehand. Today builds directly on it; don't start from scratch</li>
+        <li>Practice the live swap (production &rarr; in-memory &rarr; logging-wrapped) before the session. The moment <code>PlaceOrder</code> doesn't change should feel almost anticlimactic when you demo it &mdash; that's the point landing correctly</li>
+        <li>Remind people to bring their Day 9 worksheet. For anyone without one, today's <code>OrderRepository</code> case study is a fine stand-in to practice on</li>
+        <li>Reuse the trio-review format from Day 9 for the hands-on debrief if it worked well last time</li>
+      </ul>
+    </div>
+
+    <div class="answer">
+      <b>Reference &mdash; the three adapters, side by side</b>
+      <table style="width:100%; border-collapse:collapse; font-size:0.86rem;">
+        <tr>
+          <th style="text-align:left; font-family:'IBM Plex Mono',monospace; font-size:0.66rem; letter-spacing:0.06em; text-transform:uppercase; color:var(--ink-faint); padding:8px 12px; border-bottom:1px solid var(--line-strong);">Adapter</th>
+          <th style="text-align:left; font-family:'IBM Plex Mono',monospace; font-size:0.66rem; letter-spacing:0.06em; text-transform:uppercase; color:var(--ink-faint); padding:8px 12px; border-bottom:1px solid var(--line-strong);">Used for</th>
+          <th style="text-align:left; font-family:'IBM Plex Mono',monospace; font-size:0.66rem; letter-spacing:0.06em; text-transform:uppercase; color:var(--ink-faint); padding:8px 12px; border-bottom:1px solid var(--line-strong);">Teaches</th>
+        </tr>
+        <tr><td style="padding:10px 12px; border-bottom:1px solid var(--line); font-family:'IBM Plex Mono',monospace; font-weight:600; color:var(--ink);">PostgresOrderRepository</td><td style="padding:10px 12px; border-bottom:1px solid var(--line); color:var(--ink-soft);">Production</td><td style="padding:10px 12px; border-bottom:1px solid var(--line); color:var(--ink-soft);">A real adapter talking to a real backend</td></tr>
+        <tr><td style="padding:10px 12px; border-bottom:1px solid var(--line); font-family:'IBM Plex Mono',monospace; font-weight:600; color:var(--ink);">InMemoryOrderRepository</td><td style="padding:10px 12px; border-bottom:1px solid var(--line); color:var(--ink-soft);">Tests</td><td style="padding:10px 12px; border-bottom:1px solid var(--line); color:var(--ink-soft);">Testability is a side effect of the boundary, not extra work</td></tr>
+        <tr><td style="padding:10px 12px; border-bottom:1px solid var(--line); font-family:'IBM Plex Mono',monospace; font-weight:600; color:var(--ink);">LoggingOrderRepository</td><td style="padding:10px 12px; border-bottom:1px solid var(--line); color:var(--ink-soft);">Production + audit</td><td style="padding:10px 12px; border-bottom:1px solid var(--line); color:var(--ink-soft);">Adapters compose &mdash; cross-cutting behavior doesn't need to touch the core</td></tr>
+      </table>
+    </div>
+  </section>
+
+  <footer>
+    <span><a href="https://claude.ai/artifact/TJ44sCwdYXUMUqB8igYXFe">Prev &mdash; Day 09</a> &middot; Day 10 / 10 &middot; Clean Architecture &middot; Ports, Adapters &amp; a Real Case Study</span>
+    <span><a href="https://claude.ai/code/artifact/d82a43b8-603a-4a49-a9d8-bee201a2d318">Back to the full curriculum</a> &mdash; course complete</span>
+  </footer>
+
+</div>
