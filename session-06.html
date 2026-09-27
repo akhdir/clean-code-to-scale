@@ -1,0 +1,609 @@
+<title>Any Instance Will Do</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+  :root{
+    --paper:#F4F6F5; --surface:#FFFFFF; --ink:#1A2226; --ink-soft:#55636A; --ink-faint:#8B979B;
+    --line:#D6DEDD; --line-strong:#B9C4C3;
+    --accent:#1F5D6B; --accent-ink:#0F3038; --accent-soft:#DCEAEA;
+    --accent-2:#6B4A8F; --accent-2-soft:#EAE2F1;
+    --amber:#A6752B; --amber-soft:#F3E6CE;
+    --bad:#B3452F; --bad-soft:#F5E3DE;
+    --shadow: 0 1px 2px rgba(15,48,56,0.06), 0 8px 24px -16px rgba(15,48,56,0.18);
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --paper:#14181A; --surface:#1B2124; --ink:#E7ECEC; --ink-soft:#9AA7AC; --ink-faint:#6C787C;
+      --line:#2B3336; --line-strong:#3A4548;
+      --accent:#74C2CB; --accent-ink:#D8F0F2; --accent-soft:#1E3336;
+      --accent-2:#C3A9E3; --accent-2-soft:#2C2438;
+      --amber:#E0A85C; --amber-soft:#3A2E1C;
+      --bad:#E08868; --bad-soft:#3A241E;
+      --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 8px 24px -16px rgba(0,0,0,0.5);
+    }
+  }
+  :root[data-theme="dark"]{
+    --paper:#14181A; --surface:#1B2124; --ink:#E7ECEC; --ink-soft:#9AA7AC; --ink-faint:#6C787C;
+    --line:#2B3336; --line-strong:#3A4548;
+    --accent:#74C2CB; --accent-ink:#D8F0F2; --accent-soft:#1E3336;
+    --accent-2:#C3A9E3; --accent-2-soft:#2C2438;
+    --amber:#E0A85C; --amber-soft:#3A2E1C;
+    --bad:#E08868; --bad-soft:#3A241E;
+    --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 8px 24px -16px rgba(0,0,0,0.5);
+  }
+
+  :root{
+    --code-bg:#101A1D; --code-ink:#DCEAEA; --code-faint:#5E767A;
+    --code-comment:#6FAFAE; --code-annotate:#E0A85C;
+  }
+
+  *{ box-sizing:border-box; }
+  body{ background:var(--paper); color:var(--ink); font-family:"Source Serif 4", Georgia, serif; padding:0 20px; }
+  h1,h2,h3{ text-wrap:balance; }
+  .wrap{ max-width:920px; margin:0 auto; padding-block:44px 80px; }
+
+  .crumb{
+    font-family:"IBM Plex Mono", monospace; font-size:0.72rem; letter-spacing:0.06em;
+    color:var(--ink-faint); margin-bottom:22px; display:flex; gap:8px; align-items:center; flex-wrap:wrap;
+  }
+  .crumb a{ color:var(--accent); text-decoration:none; border-bottom:1px solid var(--accent-soft); }
+  .crumb a:hover{ border-bottom-color:var(--accent); }
+
+  .eyebrow{
+    font-family:"IBM Plex Mono", monospace; font-size:0.72rem; letter-spacing:0.12em; text-transform:uppercase;
+    color:var(--accent); display:flex; align-items:center; gap:10px; margin-bottom:16px;
+  }
+  .eyebrow::before{ content:""; width:22px; height:1px; background:var(--accent); display:inline-block; }
+  h1{ font-family:"Archivo", sans-serif; font-weight:800; font-size:clamp(1.9rem, 4vw, 2.6rem); line-height:1.08; margin:0 0 12px; letter-spacing:-0.01em; }
+  .lede{ font-size:1.06rem; line-height:1.6; color:var(--ink-soft); max-width:64ch; margin:0 0 28px; }
+
+  .meta-strip{
+    display:grid; grid-template-columns:repeat(4,1fr); gap:1px; background:var(--line);
+    border:1px solid var(--line); border-radius:10px; overflow:hidden; margin-bottom:40px;
+  }
+  .meta{ background:var(--surface); padding:14px 14px; display:flex; flex-direction:column; gap:4px; }
+  .meta b{ font-family:"IBM Plex Mono", monospace; font-size:1.05rem; font-weight:600; color:var(--ink); }
+  .meta span{ font-family:"IBM Plex Mono", monospace; font-size:0.64rem; letter-spacing:0.07em; text-transform:uppercase; color:var(--ink-faint); }
+  @media (max-width:640px){ .meta-strip{ grid-template-columns:repeat(2,1fr); } }
+
+  section{ margin-bottom:52px; }
+  .section-head{ display:flex; align-items:baseline; gap:14px; margin-bottom:18px; border-bottom:1px solid var(--line); padding-bottom:12px; }
+  .section-head .tag{ font-family:"IBM Plex Mono", monospace; font-size:0.74rem; color:var(--accent); font-weight:600; white-space:nowrap; }
+  h2{ font-family:"Archivo", sans-serif; font-weight:700; font-size:1.4rem; margin:0; letter-spacing:-0.01em; }
+  .section-sub{ color:var(--ink-soft); font-size:0.96rem; margin:-6px 0 18px; max-width:65ch; }
+
+  /* role lens */
+  .roles{ display:grid; grid-template-columns:repeat(4,1fr); gap:12px; }
+  @media (max-width:760px){ .roles{ grid-template-columns:repeat(2,1fr); } }
+  @media (max-width:460px){ .roles{ grid-template-columns:1fr; } }
+  .role{ background:var(--surface); border:1px solid var(--line); border-radius:10px; padding:14px 16px; }
+  .role b{ display:block; font-family:"Archivo", sans-serif; font-size:0.82rem; font-weight:600; margin-bottom:6px; color:var(--ink); }
+  .role p{ margin:0; font-size:0.84rem; line-height:1.5; color:var(--ink-soft); }
+
+  /* cheat sheet */
+  .cheat-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:20px; margin-bottom:22px; }
+  @media (max-width:760px){ .cheat-grid{ grid-template-columns:1fr; } }
+  .cheat{ background:var(--surface); border:1px solid var(--line); border-radius:10px; padding:16px 18px; }
+  .cheat h3{ font-family:"Archivo", sans-serif; font-size:0.88rem; font-weight:600; margin:0 0 10px; color:var(--accent); }
+  .cheat ul{ margin:0; padding-left:1.05em; font-size:0.87rem; line-height:1.55; color:var(--ink-soft); }
+  .cheat li{ margin-bottom:6px; }
+  .cheat li::marker{ color:var(--accent); }
+  .cheat.b h3{ color:var(--accent-2); }
+  .cheat.b li::marker{ color:var(--accent-2); }
+  .cheat.c h3{ color:var(--amber); }
+  .cheat.c li::marker{ color:var(--amber); }
+
+  /* diagrams */
+  .diagram-figure{ margin:18px 0; background:var(--surface); border:1px solid var(--line); border-radius:12px; padding:22px 22px 18px; box-shadow:var(--shadow); }
+  .diagram-figure svg{ display:block; width:100%; height:auto; color:var(--ink); }
+  .diagram-figure figcaption{ margin-top:14px; font-size:0.86rem; color:var(--ink-soft); line-height:1.55; }
+
+  /* code panels */
+  .code-block{ border-radius:10px; overflow:hidden; margin:14px 0; box-shadow:var(--shadow); }
+  .code-head{ display:flex; align-items:center; justify-content:space-between; gap:10px; padding:8px 14px; font-family:"IBM Plex Mono", monospace; font-size:0.68rem; letter-spacing:0.08em; text-transform:uppercase; }
+  .code-head.neutral{ background:#223236; color:#DCEAEA; }
+  .code-head.before{ background:var(--bad); color:#fff; }
+  .code-head.after{ background:var(--accent); color:#fff; }
+  pre.code{
+    margin:0; background:var(--code-bg); color:var(--code-ink); padding:16px 18px;
+    font-family:"IBM Plex Mono", monospace; font-size:0.82rem; line-height:1.65; overflow-x:auto;
+  }
+  pre.code .c{ color:var(--code-comment); }
+  pre.code .a{ color:var(--code-annotate); }
+  pre.code .f{ color:var(--code-faint); }
+
+  .demo-notes{ background:var(--surface); border:1px solid var(--line); border-radius:10px; padding:16px 18px; margin-top:8px; }
+  .demo-notes b{ font-family:"IBM Plex Mono", monospace; font-size:0.68rem; letter-spacing:0.08em; text-transform:uppercase; color:var(--accent); display:block; margin-bottom:8px; }
+  .demo-notes ol{ margin:0; padding-left:1.2em; font-size:0.88rem; line-height:1.6; color:var(--ink-soft); }
+  .demo-notes li{ margin-bottom:5px; }
+  .demo-notes li::marker{ font-family:"IBM Plex Mono", monospace; color:var(--accent); font-weight:600; }
+
+  .callout{ background:var(--surface); border:1px solid var(--line); border-radius:10px; padding:14px 18px; margin-bottom:14px; font-size:0.92rem; color:var(--ink-soft); }
+  .callout b{ color:var(--ink); }
+  .callout.bad{ background:var(--bad-soft); }
+  .callout.bad b{ color:var(--bad); }
+
+  /* stat strip inside narrative */
+  .stat-row{ display:flex; gap:14px; flex-wrap:wrap; margin:16px 0; }
+  .stat-chip{ background:var(--surface); border:1px solid var(--line); border-radius:10px; padding:12px 16px; flex:1; min-width:150px; }
+  .stat-chip b{ display:block; font-family:"IBM Plex Mono", monospace; font-size:1.3rem; font-weight:600; color:var(--ink); }
+  .stat-chip span{ font-family:"IBM Plex Mono", monospace; font-size:0.68rem; letter-spacing:0.05em; text-transform:uppercase; color:var(--ink-faint); }
+  .stat-chip.flag b{ color:var(--bad); }
+
+  /* worksheet table */
+  .plan-table{ width:100%; border-collapse:collapse; margin:14px 0; font-size:0.9rem; }
+  .plan-table th{ text-align:left; font-family:"IBM Plex Mono", monospace; font-size:0.66rem; letter-spacing:0.06em; text-transform:uppercase; color:var(--ink-faint); padding:8px 12px; border-bottom:1px solid var(--line-strong); }
+  .plan-table td{ padding:10px 12px; border-bottom:1px solid var(--line); color:var(--ink-soft); vertical-align:top; }
+  .plan-table td.name{ color:var(--ink); font-weight:600; font-family:"IBM Plex Mono", monospace; font-size:0.82rem; white-space:nowrap; }
+  .plan-table tr.blank td{ color:var(--ink-faint); font-style:italic; }
+
+  /* kata / exercise cards */
+  .kata{ background:var(--surface); border:1px solid var(--line); border-radius:12px; padding:22px 24px; margin-bottom:20px; box-shadow:var(--shadow); }
+  .kata-head{ display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:8px 14px; margin-bottom:8px; }
+  .kata-title{ font-family:"Archivo", sans-serif; font-weight:700; font-size:1.08rem; color:var(--ink); }
+  .badges{ display:flex; gap:8px; flex-wrap:wrap; align-items:center; }
+  .badge{ font-family:"IBM Plex Mono", monospace; font-size:0.66rem; letter-spacing:0.05em; text-transform:uppercase; padding:4px 9px; border-radius:99px; white-space:nowrap; }
+  .badge.time{ background:var(--paper); border:1px solid var(--line); color:var(--ink-soft); }
+  .badge.level-1{ background:var(--accent-soft); color:var(--accent-ink); }
+  .task{ font-size:0.96rem; line-height:1.6; color:var(--ink); margin:0 0 4px; }
+  .task b{ color:var(--accent); font-family:"Archivo", sans-serif; font-weight:600; font-size:0.82rem; text-transform:uppercase; letter-spacing:0.03em; display:block; margin-bottom:4px; }
+  .q-list{ margin:14px 0 0; padding-left:1.15em; font-size:0.92rem; line-height:1.6; color:var(--ink-soft); }
+  .q-list li{ margin-bottom:6px; }
+  .q-list li::marker{ content:"? "; color:var(--accent); font-family:"IBM Plex Mono", monospace; font-weight:600; }
+  .done-when{ margin-top:14px; padding-top:12px; border-top:1px dashed var(--line); }
+  .done-when b{ font-family:"IBM Plex Mono", monospace; font-size:0.68rem; letter-spacing:0.08em; text-transform:uppercase; color:var(--ink-faint); display:block; margin-bottom:6px; }
+  .done-when ul{ margin:0; padding-left:1.15em; font-size:0.86rem; color:var(--ink-soft); line-height:1.55; }
+  .done-when li::marker{ color:var(--accent); }
+
+  /* debrief */
+  .debrief-grid{ display:grid; grid-template-columns:1fr 1fr; gap:18px; margin-bottom:18px; }
+  @media (max-width:680px){ .debrief-grid{ grid-template-columns:1fr; } }
+  .debrief-card{ background:var(--surface); border:1px solid var(--line); border-radius:10px; padding:16px 18px; }
+  .debrief-card b{ display:block; font-family:"Archivo", sans-serif; font-size:0.82rem; font-weight:600; color:var(--ink); margin-bottom:6px; }
+  .debrief-card p{ margin:0; font-size:0.9rem; line-height:1.55; color:var(--ink-soft); }
+
+  .checklist{ display:flex; flex-direction:column; gap:8px; }
+  .check-row{ display:flex; align-items:flex-start; gap:10px; background:var(--surface); border:1px solid var(--line); border-radius:8px; padding:10px 14px; font-size:0.9rem; color:var(--ink); }
+  .check-row .box{ width:15px; height:15px; border:1.5px solid var(--line-strong); border-radius:4px; flex:none; margin-top:2px; }
+
+  /* facilitator notes */
+  .prep{ background:var(--accent-soft); border:1px solid var(--line); border-radius:10px; padding:18px 20px; margin-bottom:16px; }
+  .prep b{ font-family:"IBM Plex Mono", monospace; font-size:0.68rem; letter-spacing:0.08em; text-transform:uppercase; color:var(--accent-ink); display:block; margin-bottom:8px; }
+  .prep ul{ margin:0; padding-left:1.15em; font-size:0.9rem; line-height:1.6; color:var(--accent-ink); }
+
+  .answer{ background:var(--surface); border:1px dashed var(--line-strong); border-radius:10px; padding:16px 18px; margin-bottom:14px; }
+  .answer > b{ font-family:"IBM Plex Mono", monospace; font-size:0.7rem; letter-spacing:0.06em; text-transform:uppercase; color:var(--ink-faint); display:block; margin-bottom:10px; }
+
+  footer{ margin-top:60px; padding-top:20px; border-top:1px solid var(--line); display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px; font-family:"IBM Plex Mono", monospace; font-size:0.72rem; color:var(--ink-faint); }
+  footer a{ color:var(--accent); text-decoration:none; }
+</style>
+
+<div class="wrap">
+
+  <div class="crumb"><a href="https://claude.ai/code/artifact/d82a43b8-603a-4a49-a9d8-bee201a2d318">Clean Code to Scale</a><span>/</span><span>Day 06 of 10</span></div>
+
+  <div class="eyebrow">Session material &middot; Module: Scalable Systems</div>
+  <h1>Scalability Fundamentals</h1>
+  <p class="lede">Facilitator and participant material for Day 6 &mdash; the first Scalable Systems session, and the first time this course asks "what happens under load" instead of "is this readable." Same order-processing service as every prior day, now traced through a flash sale that breaks it.</p>
+
+  <div class="meta-strip">
+    <div class="meta"><b>2:00</b><span>Duration</span></div>
+    <div class="meta"><b>06 / 10</b><span>Session</span></div>
+    <div class="meta"><b>Python</b><span>Code samples</span></div>
+    <div class="meta"><b>Pairs</b><span>Capacity plan</span></div>
+  </div>
+
+  <section>
+    <div class="section-head"><span class="tag">Objectives</span><h2>What today is for</h2></div>
+    <div class="cheat-grid" style="margin-bottom:0;">
+      <div class="cheat"><ul>
+        <li>Distinguish vertical, horizontal, and functional scaling &mdash; and quantify, with Amdahl's Law and the USL, where horizontal stops paying off</li>
+      </ul></div>
+      <div class="cheat"><ul>
+        <li>Design a stateless service boundary, then scale the data behind it with sharding, consistent hashing, and read replicas</li>
+      </ul></div>
+      <div class="cheat"><ul>
+        <li>Justify a capacity plan's safety margin with queueing theory, not a gut-feel percentage</li>
+      </ul></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-head"><span class="tag">Room</span><h2>Why this session, for you specifically</h2></div>
+    <div class="roles">
+      <div class="role"><b>Junior &ndash; Mid Engineers</b><p>The first session that asks what happens under load instead of whether the code is readable &mdash; a new lens on skills you already have.</p></div>
+      <div class="role"><b>Senior Eng &amp; Tech Leads</b><p>Amdahl's Law answers "will 2x the servers give us 2x the throughput?" before anyone spends the money. Today's deliverable turns that into a template you can reuse.</p></div>
+      <div class="role"><b>QEs</b><p>Load testing only means something once "scaled" has a number attached to it &mdash; and queueing theory tells you which utilization to actually test at.</p></div>
+      <div class="role"><b>AI Engineers</b><p>An agent told to "make this faster" will often reach for a cache or a bigger box without asking if the service can even be replicated. Today gives you the question to ask first.</p></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-head"><span class="tag">0:00&ndash;0:45 &middot; Concept</span><h2>Three levers, one precondition</h2></div>
+    <p class="section-sub">Vertical, horizontal, and functional scaling solve the same problem with different tradeoffs. Only one of them is free to reach for &mdash; and it has a precondition the other two don't.</p>
+
+    <figure class="diagram-figure">
+      <svg viewBox="0 0 780 380" role="img" aria-label="A client sends a request to a load balancer, which routes it to any of three identical, stateless service instances. Each instance reads and writes through a shared cache, which falls through to a shared database on a miss. The instances hold no state of their own — any of them can answer any request.">
+        <defs>
+          <marker id="d6-flow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+            <path d="M0,0 L10,5 L0,10 Z" fill="currentColor"/>
+          </marker>
+        </defs>
+
+        <rect x="20" y="160" width="110" height="60" rx="8" fill="var(--surface)" stroke="currentColor" stroke-width="1.5"/>
+        <text x="75" y="195" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="11" fill="currentColor">Client</text>
+
+        <rect x="190" y="160" width="130" height="60" rx="8" fill="var(--amber-soft)" stroke="var(--amber)" stroke-width="2"/>
+        <text x="255" y="186" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="10.5" fill="currentColor">Load</text>
+        <text x="255" y="202" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="10.5" fill="currentColor">Balancer</text>
+
+        <rect x="380" y="55" width="150" height="55" rx="8" fill="var(--accent-soft)" stroke="var(--accent)" stroke-width="1.5"/>
+        <rect x="380" y="163" width="150" height="55" rx="8" fill="var(--accent-soft)" stroke="var(--accent)" stroke-width="1.5"/>
+        <rect x="380" y="271" width="150" height="55" rx="8" fill="var(--accent-soft)" stroke="var(--accent)" stroke-width="1.5"/>
+        <text x="455" y="87" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="10.5" fill="currentColor">instance A</text>
+        <text x="455" y="195" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="10.5" fill="currentColor">instance B</text>
+        <text x="455" y="303" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="10.5" fill="currentColor">instance C</text>
+
+        <rect x="610" y="90" width="150" height="55" rx="8" fill="var(--surface)" stroke="currentColor" stroke-width="1.5"/>
+        <text x="685" y="122" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="10.5" fill="currentColor">Cache</text>
+
+        <rect x="610" y="235" width="150" height="55" rx="8" fill="var(--surface)" stroke="currentColor" stroke-width="1.5"/>
+        <text x="685" y="267" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="10.5" fill="currentColor">Database</text>
+
+        <line x1="130" y1="190" x2="185" y2="190" stroke="currentColor" stroke-width="1.5" marker-end="url(#d6-flow)"/>
+        <text x="157" y="180" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="9" fill="var(--ink-faint)">request</text>
+
+        <line x1="320" y1="180" x2="375" y2="95" stroke="currentColor" stroke-width="1.3" marker-end="url(#d6-flow)"/>
+        <line x1="320" y1="190" x2="375" y2="190" stroke="currentColor" stroke-width="1.3" marker-end="url(#d6-flow)"/>
+        <line x1="320" y1="200" x2="375" y2="285" stroke="currentColor" stroke-width="1.3" marker-end="url(#d6-flow)"/>
+        <text x="335" y="145" font-family="IBM Plex Mono, monospace" font-size="9" fill="var(--amber)">any instance</text>
+        <text x="335" y="157" font-family="IBM Plex Mono, monospace" font-size="9" fill="var(--amber)">will do</text>
+
+        <line x1="530" y1="185" x2="605" y2="130" stroke="currentColor" stroke-width="1.3" marker-end="url(#d6-flow)"/>
+        <text x="560" y="145" font-family="IBM Plex Mono, monospace" font-size="9" fill="var(--ink-faint)">read / write</text>
+
+        <line x1="685" y1="145" x2="685" y2="230" stroke="currentColor" stroke-width="1.3" marker-end="url(#d6-flow)"/>
+        <text x="695" y="192" font-family="IBM Plex Mono, monospace" font-size="9" fill="var(--ink-faint)">miss &rarr; fetch</text>
+
+        <text x="455" y="345" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="9.5" letter-spacing="0.5" fill="var(--accent)">STATELESS &mdash; NO INSTANCE KNOWS ABOUT ANOTHER</text>
+      </svg>
+      <figcaption>Every instance is identical and holds nothing of its own &mdash; any state that must survive between requests lives in the cache or the database instead. That's what makes "any instance will do" true, and it's the one precondition horizontal scaling can't skip.</figcaption>
+    </figure>
+
+    <div class="cheat-grid">
+      <div class="cheat">
+        <h3>Vertical &mdash; scale up</h3>
+        <ul>
+          <li>A bigger machine. No code changes, simplest lever to pull</li>
+          <li>Hard ceiling: there's always a biggest instance size</li>
+          <li>One box is one point of failure</li>
+        </ul>
+      </div>
+      <div class="cheat b">
+        <h3>Horizontal &mdash; scale out</h3>
+        <ul>
+          <li>More machines running the same code, behind a load balancer</li>
+          <li>Cheap and near-linear at first &mdash; but requires statelessness, and the payoff curves below</li>
+          <li>Redundancy comes free: lose one instance, the rest keep serving</li>
+        </ul>
+      </div>
+      <div class="cheat c">
+        <h3>Functional &mdash; split by responsibility</h3>
+        <ul>
+          <li>Decompose a monolith so each piece scales to its own load profile</li>
+          <li>Isolates failure &mdash; one overloaded piece doesn't take down the rest</li>
+          <li>Trades function calls for network calls &mdash; Day 7's whole subject</li>
+        </ul>
+      </div>
+    </div>
+
+    <h3 style="font-family:'Archivo',sans-serif; font-size:1.05rem; margin:32px 0 6px;">The math behind the ceiling</h3>
+    <p class="section-sub" style="margin-top:0;">"Add more instances" isn't free of diminishing returns &mdash; and past a point, it can make things worse, not better.</p>
+
+    <figure class="diagram-figure">
+      <svg viewBox="0 0 700 340" role="img" aria-label="A chart of speedup versus number of instances. Amdahl's Law rises and flattens toward an asymptote of 20x, the ceiling set by the 5 percent of work that can't be parallelized. The Universal Scalability Law, which also accounts for coordination overhead between instances, rises more slowly, peaks around 24 instances at roughly 10.5x, and then declines — adding more instances past that point actively makes throughput worse.">
+        <defs>
+          <marker id="d6-pt" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6">
+            <circle cx="5" cy="5" r="4" fill="var(--accent-2)"/>
+          </marker>
+        </defs>
+
+        <line x1="70" y1="290" x2="660" y2="290" stroke="currentColor" stroke-width="1.2"/>
+        <line x1="70" y1="20" x2="70" y2="290" stroke="currentColor" stroke-width="1.2"/>
+        <text x="365" y="322" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="10" letter-spacing="0.5" fill="var(--ink-faint)">INSTANCES (N)</text>
+        <text x="30" y="155" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="10" letter-spacing="0.5" fill="var(--ink-faint)" transform="rotate(-90 30 155)">SPEEDUP</text>
+
+        <line x1="70" y1="222.5" x2="660" y2="222.5" stroke="currentColor" stroke-width="0.75" opacity="0.15"/>
+        <line x1="70" y1="155" x2="660" y2="155" stroke="currentColor" stroke-width="0.75" opacity="0.15"/>
+        <line x1="70" y1="87.5" x2="660" y2="87.5" stroke="currentColor" stroke-width="0.75" opacity="0.15"/>
+        <text x="60" y="293" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="9.5" fill="var(--ink-faint)">0</text>
+        <text x="60" y="226" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="9.5" fill="var(--ink-faint)">5</text>
+        <text x="60" y="158.5" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="9.5" fill="var(--ink-faint)">10</text>
+        <text x="60" y="91" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="9.5" fill="var(--ink-faint)">15</text>
+        <text x="60" y="24" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="9.5" fill="var(--ink-faint)">20</text>
+
+        <text x="70" y="305" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="9.5" fill="var(--ink-faint)">0</text>
+        <text x="217.5" y="305" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="9.5" fill="var(--ink-faint)">8</text>
+        <text x="365" y="305" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="9.5" fill="var(--ink-faint)">16</text>
+        <text x="512.5" y="305" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="9.5" fill="var(--ink-faint)">24</text>
+        <text x="660" y="305" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="9.5" fill="var(--ink-faint)">32</text>
+
+        <line x1="70" y1="20" x2="660" y2="20" stroke="var(--accent)" stroke-width="1" stroke-dasharray="3 4" opacity="0.6"/>
+        <text x="600" y="15" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="9.5" fill="var(--accent)">asymptote: 1/s = 20</text>
+
+        <line x1="90" y1="45" x2="118" y2="45" stroke="var(--accent)" stroke-width="3"/>
+        <text x="126" y="49" font-family="IBM Plex Mono, monospace" font-size="10" fill="var(--accent)">Amdahl's Law (5% serial)</text>
+        <line x1="90" y1="68" x2="118" y2="68" stroke="var(--accent-2)" stroke-width="3"/>
+        <text x="126" y="72" font-family="IBM Plex Mono, monospace" font-size="10" fill="var(--accent-2)">Universal Scalability Law (USL)</text>
+
+        <polyline points="88.4,276.5 106.9,264.3 143.75,251.3 217.5,210.0 291.25,185.5 365,166.6 438.75,151.5 512.5,139.3 586.25,129.2 660,120.4"
+          fill="none" stroke="var(--accent)" stroke-width="2.5"/>
+        <text x="520" y="132" font-family="IBM Plex Mono, monospace" font-size="10" fill="var(--accent)">Amdahl (5% serial)</text>
+
+        <polyline points="88.4,276.5 106.9,263.6 143.75,239.9 217.5,201.7 291.25,175.8 365,159.8 438.75,151.5 512.5,148.4 586.25,148.7 660,151.0"
+          fill="none" stroke="var(--accent-2)" stroke-width="2.5"/>
+        <circle cx="512.5" cy="148.4" r="4.5" fill="var(--accent-2)"/>
+        <text x="470" y="180" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="10" fill="var(--accent-2)">USL: peaks ~N=24,</text>
+        <text x="470" y="194" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="10" fill="var(--accent-2)">then declines</text>
+      </svg>
+      <figcaption><b>Amdahl's Law</b> says speedup is capped by whatever fraction of the work can't be parallelized &mdash; with just 5% serial work, no amount of hardware ever exceeds 20&times;. The <b>Universal Scalability Law</b> adds a second, uglier term: the cost of instances coordinating with each other (cache invalidation, lock contention, chatty replication). Past a certain N, that coordination cost grows faster than the work being parallelized &mdash; and adding instances makes the system slower, not faster. Both curves are real; the USL is the one production systems actually live on.</figcaption>
+    </figure>
+
+    <div class="callout"><b>Worked example &mdash; the nightly loyalty-points job.</b> One machine recalculates every customer's loyalty tier in 100 minutes. Profiling shows 5 of those minutes are unavoidably serial &mdash; acquiring a lock and writing the final summary table &mdash; so <code>s = 5/100 = 0.05</code>, the same 5% plotted above. Amdahl's formula, <code>speedup(N) = 1 / (s + (1&minus;s)/N)</code>, turns that into a schedule:
+      <table class="plan-table" style="margin-top:10px;">
+        <tr><th>Machines (N)</th><th>Speedup</th><th>Job time</th></tr>
+        <tr><td class="name">1</td><td>1.0&times;</td><td>100 min</td></tr>
+        <tr><td class="name">4</td><td>3.5&times;</td><td>28.7 min</td></tr>
+        <tr><td class="name">20</td><td>10.3&times;</td><td>9.75 min</td></tr>
+        <tr><td class="name">100</td><td>16.8&times;</td><td>5.95 min</td></tr>
+        <tr><td class="name">&infin; (the ceiling)</td><td>20&times;</td><td>5 min &mdash; never less</td></tr>
+      </table>
+      No matter how many machines run this job, it can never finish faster than 5 minutes &mdash; the time the serial 5% takes on its own. That's what the asymptote in the chart actually means: a floor, not a suggestion. Going from 20 to 100 machines buys 3.65 fewer minutes; going from 1 to 20 bought 90.
+    </div>
+
+    <h3 style="font-family:'Archivo',sans-serif; font-size:1.05rem; margin:32px 0 6px;">Scaling data, not just compute</h3>
+    <p class="section-sub" style="margin-top:0;">Stateless instances scale by copy-paste. A single database doesn't &mdash; it has to be split, and splitting it naively is its own trap.</p>
+
+    <div class="callout"><b>Sharding, in one paragraph.</b> Sharding is splitting one dataset across multiple database instances, each holding a subset of the rows &mdash; instead of one <code>orders</code> table on one machine, four smaller <code>orders</code> tables on four machines, each one a full, independent database in its own right. Every write and read has to be routed to the one shard that actually holds that row, which is a job the application (or a routing layer in front of it) now has to do that it never had to do with a single database. The hard part was never the splitting &mdash; it's deciding, consistently, which row goes to which shard. That's what the rest of this section is about.</div>
+
+    <h3 style="font-family:'Archivo',sans-serif; font-size:1.05rem; margin:28px 0 6px;">Mod hashing: simple, until N changes</h3>
+    <p class="section-sub" style="margin-top:0;">The obvious way to pick a shard: hash the key into a number, then take that number modulo the shard count. <code>hash("order_8842")</code> might come out to some large number; with 4 shards, <code>that_number % 4</code> gives a value from 0 to 3 &mdash; the shard index. It's fast, needs no lookup table, and spreads keys evenly as long as the hash function is decent.</p>
+    <p class="section-sub">The catch is sitting right inside the formula: <code>N</code> &mdash; the shard count &mdash; is one of the inputs. Change N, and the formula's output changes for almost every key, not just the new one. Here's the same 8 keys, mod 4 versus mod 5:</p>
+
+    <table class="plan-table">
+      <tr><th>hash(key)</th><th>shard @ N=4</th><th>shard @ N=5</th><th>moved?</th></tr>
+      <tr><td class="name">10</td><td>2</td><td>0</td><td>yes</td></tr>
+      <tr><td class="name">11</td><td>3</td><td>1</td><td>yes</td></tr>
+      <tr><td class="name">12</td><td>0</td><td>2</td><td>yes</td></tr>
+      <tr><td class="name">13</td><td>1</td><td>3</td><td>yes</td></tr>
+      <tr><td class="name">14</td><td>2</td><td>4</td><td>yes</td></tr>
+      <tr><td class="name">15</td><td>3</td><td>0</td><td>yes</td></tr>
+      <tr><td class="name">16</td><td>0</td><td>1</td><td>yes</td></tr>
+      <tr><td class="name">17</td><td>1</td><td>2</td><td>yes</td></tr>
+    </table>
+    <p class="section-sub">Every key in this sample moved shard. At real scale that means the moment you add capacity, nearly the entire dataset has to be copied to new shards before the system is even usable again &mdash; the opposite of what "add a shard" was supposed to buy you.</p>
+
+    <h3 style="font-family:'Archivo',sans-serif; font-size:1.05rem; margin:28px 0 6px;">Consistent hashing: same idea, one change</h3>
+    <p class="section-sub" style="margin-top:0;">Forget shard counts for a second and just picture a clock. Instead of 12 numbers, this clock has thousands, but the idea is the same &mdash; and instead of hours, it holds <em>shards</em>. Hash each shard's name and that's where it sits on the clock face:</p>
+
+    <div class="stat-row">
+      <div class="stat-chip"><b>shard A</b><span>sits at 2 o'clock</span></div>
+      <div class="stat-chip"><b>shard B</b><span>sits at 5 o'clock</span></div>
+      <div class="stat-chip"><b>shard C</b><span>sits at 8 o'clock</span></div>
+      <div class="stat-chip"><b>shard D</b><span>sits at 11 o'clock</span></div>
+    </div>
+
+    <p class="section-sub">Now hash a key the exact same way &mdash; <code>order_8842</code> lands on 3 o'clock. The rule for finding its shard is almost embarrassingly simple: <b>walk clockwise until you hit one.</b> From 3 o'clock, the next shard around is B at 5 o'clock. Done &mdash; <code>order_8842</code> lives on B. No modulo, no shard count anywhere in that rule.</p>
+
+    <p class="section-sub">Here's the payoff. Add a 5th shard, E, at 9 o'clock &mdash; right between C (8 o'clock) and D (11 o'clock). <code>order_8842</code> at 3 o'clock doesn't care: it still walks straight to B at 5. Nothing about A, B, C, or D moved, because their positions were never computed <em>from</em> each other. The only keys that notice are the ones sitting between 8 and 9 o'clock &mdash; they used to walk all the way to D at 11, and now they stop early, at E. Everyone else's walk is identical to before E existed.</p>
+    <p class="section-sub">That's the whole mechanism. The diagram below draws the same rule on a real ring, with real keys, so you can see exactly which one moves and why the rest don't.</p>
+
+    <figure class="diagram-figure">
+      <svg viewBox="-40 0 440 400" role="img" aria-label="A consistent-hashing ring with four shards, A through D, and three keys already assigned to them. A fifth shard, E, is added between C and D. Only the one key that fell between C and E is remapped from D to E; the other keys keep their original shard.">
+        <circle cx="200" cy="200" r="150" fill="none" stroke="currentColor" stroke-width="1.5"/>
+
+        <circle cx="251.3" cy="59.0" r="8" fill="var(--accent)"/>
+        <text x="263" y="52" font-family="IBM Plex Mono, monospace" font-size="11" fill="currentColor">shard A</text>
+        <circle cx="341" cy="251.3" r="8" fill="var(--accent)"/>
+        <text x="353" y="268" font-family="IBM Plex Mono, monospace" font-size="11" fill="currentColor">shard B</text>
+        <circle cx="148.7" cy="341" r="8" fill="var(--accent)"/>
+        <text x="136" y="362" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="11" fill="currentColor">shard C</text>
+        <circle cx="70" cy="125" r="8" fill="var(--accent)"/>
+        <text x="58" y="116" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="11" fill="currentColor">shard D</text>
+
+        <circle cx="59" cy="251.3" r="9" fill="var(--amber)"/>
+        <text x="46" y="270" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="11" font-weight="600" fill="var(--amber)">shard E (new)</text>
+
+        <circle cx="330" cy="125" r="5" fill="var(--accent)"/>
+        <text x="340" y="120" font-family="IBM Plex Mono, monospace" font-size="10" fill="var(--ink-faint)">K1</text>
+        <circle cx="275" cy="330" r="5" fill="var(--accent)"/>
+        <text x="285" y="345" font-family="IBM Plex Mono, monospace" font-size="10" fill="var(--ink-faint)">K2</text>
+        <circle cx="148.7" cy="59.0" r="5" fill="var(--accent)"/>
+        <text x="138" y="50" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="10" fill="var(--ink-faint)">K3</text>
+
+        <circle cx="103.6" cy="314.9" r="5.5" fill="var(--amber)"/>
+        <text x="92" y="330" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="10" font-weight="600" fill="var(--amber)">K4 &rarr; moved</text>
+      </svg>
+      <figcaption>Adding shard E only remaps the keys between it and its counter-clockwise neighbor &mdash; K4 moves from D to E, and K1, K2, and K3 never had to move at all. A naive <code>hash(key) % N</code> scheme would have reshuffled almost every key the moment N changed; consistent hashing is what makes adding a shard a routine operation instead of an outage.</figcaption>
+    </figure>
+
+    <p class="section-sub">Consistent hashing solves one specific problem &mdash; rebalancing. It's one of four common ways to decide which shard a row lives on in the first place. Same <code>orders</code> table, split by <code>customer_id</code>, four different answers for where customer 8842 lives:</p>
+
+    <table class="plan-table">
+      <tr><th>Strategy</th><th>Where customer 8842 lives</th><th>Strength</th><th>Tradeoff</th></tr>
+      <tr><td class="name">Range-based</td><td>IDs 8000&ndash;8999 &rarr; Shard C</td><td>Range scans ("customers 8000&ndash;8999") stay on one shard</td><td>New signups get sequential IDs &mdash; the newest shard absorbs all new write traffic</td></tr>
+      <tr><td class="name">Hash (mod N)</td><td><code>hash(8842) % 4</code> &rarr; Shard B</td><td>Even load, no hotspot</td><td>Adding a 5th shard reshuffles roughly 80% of all keys overnight</td></tr>
+      <tr><td class="name">Consistent hashing</td><td>Placed on the ring above, owned by the nearest shard clockwise</td><td>Even load, and adding a shard remaps only ~1/N of keys</td><td>Range scans are gone entirely; needs "virtual nodes" per shard or load stays uneven</td></tr>
+      <tr><td class="name">Directory-based</td><td>Looked up in a shard-map service &rarr; Shard D</td><td>Total flexibility &mdash; rebalance any single key on its own</td><td>The directory is a new bottleneck and single point of failure unless it's scaled too</td></tr>
+    </table>
+    <p class="section-sub">None of these is strictly better. The right one depends on whether your queries need ranges, how skewed the key distribution already is, and how much operational complexity the team can carry.</p>
+
+    <p class="section-sub">Read-heavy services often reach for read replicas before sharding &mdash; more copies of the whole database, reads spread across them, writes still going to one primary. It's cheaper than sharding and doesn't touch the schema. It also has a cost that shows up later, in today's demo.</p>
+  </section>
+
+  <section>
+    <div class="section-head"><span class="tag">0:45&ndash;1:15 &middot; Live demo</span><h2>A flash sale finds the ceiling</h2></div>
+    <p class="section-sub">Walk through this as a narrative, live &mdash; the numbers first, then the code that explains them.</p>
+
+    <div class="stat-row">
+      <div class="stat-chip"><b>800 req/s</b><span>Comfortable baseline</span></div>
+      <div class="stat-chip flag"><b>6,000 req/s</b><span>Flash sale peak</span></div>
+      <div class="stat-chip flag"><b>100%</b><span>CPU, single instance</span></div>
+    </div>
+
+    <div class="callout"><b>The obvious fix &mdash;</b> add eight more instances of the same size behind a load balancer. Nine instances at ~800 req/s each covers 6,000 req/s with room to spare. It doesn't work: customers start seeing empty carts mid-checkout.</div>
+
+    <div class="code-block">
+      <div class="code-head before"><span>checkout_service.py &mdash; stateful</span><span>breaks the moment a 2nd instance exists</span></div>
+      <pre class="code"><span class="a"># carts lives in this process's memory only</span>
+carts = {}
+
+def add_to_cart(session_id, item):
+    carts.setdefault(session_id, []).append(item)
+
+def get_cart(session_id):
+    return carts.get(session_id, [])</pre>
+    </div>
+
+    <div class="demo-notes">
+      <b>Why nine instances made it worse, not better</b>
+      <ol>
+        <li>Request 1 (add to cart) lands on instance A. <code>carts</code> in A's memory now has this customer's item.</li>
+        <li>Request 2 (view cart) lands on instance C, chosen by the load balancer with no idea request 1 ever happened. C's <code>carts</code> is empty for this customer.</li>
+        <li>The bug was always there &mdash; one instance just always answered both requests, so it never showed.</li>
+      </ol>
+    </div>
+
+    <div class="code-block">
+      <div class="code-head after"><span>checkout_service.py &mdash; stateless</span><span>cart lives in Redis, not in the process</span></div>
+      <pre class="code">def add_to_cart(session_id, item):
+    redis.rpush(f"cart:{session_id}", item)
+
+def get_cart(session_id):
+    return redis.lrange(f"cart:{session_id}", 0, -1)</pre>
+    </div>
+
+    <div class="demo-notes">
+      <b>Talking points</b>
+      <ol>
+        <li>Same two functions, same call sites &mdash; only where the state lives changed. That's usually true: statelessness is a persistence decision, not a rewrite.</li>
+        <li>Now any of the nine instances can answer either request, because none of them are the source of truth &mdash; Redis is.</li>
+        <li>One more lever, cheap and easy to miss: the product-price lookup this whole flow depends on was hitting the database on every single cart operation. A cache in front of it (same Cache box in the diagram) cuts database load without adding a single instance.</li>
+      </ol>
+    </div>
+
+    <h3 style="font-family:'Archivo',sans-serif; font-size:1.05rem; margin:32px 0 6px;">Epilogue: read replicas buy headroom, with a catch</h3>
+    <p class="section-sub" style="margin-top:0;">Reads still outpace what the cache absorbs, so the team adds two read replicas &mdash; writes go to the primary, reads spread across three databases. Three weeks later, a support ticket: "your site changed my address back."</p>
+
+    <div class="code-block">
+      <div class="code-head before"><span>orders.py &mdash; before</span><span>every read hits a random replica</span></div>
+      <pre class="code">def get_order_confirmation(order_id):
+    return db.read_replica().get_order(order_id)</pre>
+    </div>
+
+    <div class="demo-notes">
+      <b>What actually happened</b>
+      <ol>
+        <li>Customer updates their shipping address at checkout &mdash; a write, sent straight to the primary.</li>
+        <li>The confirmation page loads a split second later and reads the order back &mdash; routed to whichever replica the load balancer picks.</li>
+        <li>Replication lag is normally a few tens of milliseconds. This time it was enough: the replica answered with the address as it stood <em>before</em> the write. The customer saw their old address and assumed the site had reverted it.</li>
+      </ol>
+    </div>
+
+    <div class="code-block">
+      <div class="code-head after"><span>orders.py &mdash; after</span><span>a read that follows its own write goes to the primary</span></div>
+      <pre class="code">def get_order_confirmation(order_id, session):
+    if session.wrote_recently(order_id):
+        return db.primary().get_order(order_id)
+    return db.read_replica().get_order(order_id)</pre>
+    </div>
+
+    <div class="demo-notes">
+      <b>Talking points</b>
+      <ol>
+        <li>This isn't the CAP theorem's partition scenario from Day 7 &mdash; nothing was unreachable. It's replication lag: a normal, constant, small delay that becomes visible exactly when a user reads back what they just wrote.</li>
+        <li>The fix is narrow on purpose: only reads that follow their own recent write go to the primary. Sending every read to the primary would erase the whole reason for adding replicas.</li>
+        <li>This is the cost side of the read-replica lever &mdash; real, but specific and fixable, not a reason to avoid replicas altogether.</li>
+      </ol>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-head"><span class="tag">1:15&ndash;1:45 &middot; Hands-on</span><h2>Capacity-plan a real service</h2></div>
+    <p class="section-sub">Work through the worked example below first, then do the same math for a service you actually own.</p>
+
+    <div class="kata">
+      <div class="kata-head">
+        <div class="kata-title">Fill out your own capacity plan</div>
+        <div class="badges"><span class="badge time">30 min</span><span class="badge level-1">Pairs</span></div>
+      </div>
+      <div class="task"><b>Task</b>Using real numbers where you have them &mdash; best estimates where you don't &mdash; work out how many instances your service needs, with explicit redundancy, and whether statelessness is even true yet.</div>
+
+      <table class="plan-table">
+        <tr><th>Line item</th><th>Worked example (checkout)</th><th>Yours</th></tr>
+        <tr><td class="name">Current peak traffic</td><td>800 req/s</td><td class="blank">&hellip;</td></tr>
+        <tr><td class="name">Expected traffic (6 mo)</td><td>2,400 req/s (3&times; growth)</td><td class="blank">&hellip;</td></tr>
+        <tr><td class="name">Capacity per instance</td><td>750 req/s at 70% CPU</td><td class="blank">&hellip;</td></tr>
+        <tr><td class="name">Instances needed</td><td>2,400 &divide; 750 = 3.2 &rarr; 4</td><td class="blank">&hellip;</td></tr>
+        <tr><td class="name">Redundancy headroom</td><td>+1 for failover = 5 total</td><td class="blank">&hellip;</td></tr>
+        <tr><td class="name">Actually stateless?</td><td>Yes &mdash; after the Redis fix</td><td class="blank">&hellip;</td></tr>
+      </table>
+
+      <div class="callout"><b>Why 70%, not 95%?</b> Queueing delay scales roughly with &rho;/(1&minus;&rho;), where &rho; is utilization. At 70% that factor is 2.3&times;; at 90% it's 9&times;; at 95% it's 19&times;. The closer a service runs to fully utilized, the more a small traffic bump turns into a large latency spike &mdash; the safety margin above isn't caution for its own sake, it's what keeps the queue from blowing up.</div>
+
+      <ul class="q-list">
+        <li>What's your service's actual bottleneck &mdash; CPU, memory, or a downstream dependency? A capacity plan without a named bottleneck is a guess wearing a spreadsheet.</li>
+        <li>If your service isn't stateless today, what's the smallest piece of state you'd need to externalize first?</li>
+        <li>Where would a cache buy the most headroom cheaply, before reaching for another instance?</li>
+        <li>Is your data layer sharded, replicated, or a single instance? If a single instance is the actual bottleneck, more app-server instances won't touch it.</li>
+      </ul>
+      <div class="done-when"><b>Done when</b><ul>
+        <li>You have real or best-estimate numbers for every row above</li>
+        <li>Your instance count includes explicit redundancy, not just a bare minimum</li>
+        <li>You know whether your service is actually stateless &mdash; and if not, what blocks it</li>
+      </ul></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-head"><span class="tag">1:45&ndash;2:00 &middot; Review</span><h2>Group critique</h2></div>
+    <div class="debrief-grid">
+      <div class="debrief-card"><b>Ask the room</b><p>What surprised you about your own numbers &mdash; did you already know your service's real capacity, or did you have to guess?</p></div>
+      <div class="debrief-card"><b>Ask tech leads</b><p>Has anyone ever proposed "just add more servers" for a problem that Amdahl's Law or the USL says won't fix? How would you make that case in the room, in the moment?</p></div>
+      <div class="debrief-card"><b>Ask QEs</b><p>What load test would actually validate the plan someone just wrote &mdash; and does that test exist today?</p></div>
+      <div class="debrief-card"><b>Ask AI engineers</b><p>If you asked an agent to "make this service handle more load," what's the first question it should ask before touching any code?</p></div>
+    </div>
+    <p class="section-sub" style="margin-bottom:10px;">Before the room breaks, each person commits to one:</p>
+    <div class="checklist">
+      <div class="check-row"><span class="box"></span>Save your capacity plan somewhere your team can see it &mdash; before the next traffic spike, not after</div>
+      <div class="check-row"><span class="box"></span>Find the one piece of state that would block horizontal scaling, and name where it should live instead</div>
+      <div class="check-row"><span class="box"></span>Run, or schedule, the load test that would actually validate today's numbers</div>
+      <div class="check-row"><span class="box"></span>Bring your plan's biggest open question to Day 7, where one scaled service becomes a system of them</div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-head"><span class="tag">Prep</span><h2>Facilitator notes</h2></div>
+    <div class="prep">
+      <b>Before the session</b>
+      <ul>
+        <li>Bring real traffic or capacity numbers for at least one team service if you can &mdash; "here are our actual numbers" lands harder than the worked example alone</li>
+        <li>The worked example's math is deliberately simple arithmetic (800 &rarr; 2,400 req/s, 750 req/s/instance, +1 redundancy) &mdash; resist making it more sophisticated than the room needs</li>
+        <li>Have the stateful-cart code ready to trace live, pointing at exactly which request lands on which instance and why it fails</li>
+        <li>Some pairs won't have real numbers for their own service &mdash; let them use rough estimates or reuse the worked example, and steer their discussion toward the methodology instead</li>
+        <li>The Amdahl/USL chart is the one place this session gets genuinely theoretical &mdash; spend time on the qualitative point (coordination overhead can make more instances actively worse), not on deriving the formulas. Nobody needs to leave able to compute &kappa; and &sigma; by hand</li>
+        <li>The consistent-hashing ring only needs to land one idea: adding a shard remaps a fraction of keys, not all of them. Skip the deeper "how do you pick a hash function" rabbit hole unless the room pulls you into it</li>
+      </ul>
+    </div>
+
+    <div class="answer">
+      <b>Reference &mdash; the worked example, restated</b>
+      <p style="margin:0; font-size:0.9rem; color:var(--ink-soft); line-height:1.6;">Checkout handles 800 req/s comfortably today. A flash sale in six months is expected to push that to 2,400 req/s. Load testing shows one instance holds 750 req/s before CPU crosses 70%. <code>2400 / 750 = 3.2</code>, rounded up to 4 instances for the load itself, plus 1 more so the system survives a single instance failing &mdash; 5 total. None of this matters until the cart's state moves out of process memory and into Redis, which is why that fix comes first in the demo, not last.</p>
+    </div>
+  </section>
+
+  <footer>
+    <span>Day 06 / 10 &middot; Scalable Systems &middot; Scalability Fundamentals</span>
+    <span>Next &mdash; Day 07: Distributed Systems &amp; Resilience</span>
+  </footer>
+
+</div>

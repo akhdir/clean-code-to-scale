@@ -1,0 +1,438 @@
+<title>Pick Two</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+  :root{
+    --paper:#F4F6F5; --surface:#FFFFFF; --ink:#1A2226; --ink-soft:#55636A; --ink-faint:#8B979B;
+    --line:#D6DEDD; --line-strong:#B9C4C3;
+    --accent:#1F5D6B; --accent-ink:#0F3038; --accent-soft:#DCEAEA;
+    --accent-2:#6B4A8F; --accent-2-soft:#EAE2F1;
+    --amber:#A6752B; --amber-soft:#F3E6CE;
+    --bad:#B3452F; --bad-soft:#F5E3DE;
+    --shadow: 0 1px 2px rgba(15,48,56,0.06), 0 8px 24px -16px rgba(15,48,56,0.18);
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --paper:#14181A; --surface:#1B2124; --ink:#E7ECEC; --ink-soft:#9AA7AC; --ink-faint:#6C787C;
+      --line:#2B3336; --line-strong:#3A4548;
+      --accent:#74C2CB; --accent-ink:#D8F0F2; --accent-soft:#1E3336;
+      --accent-2:#C3A9E3; --accent-2-soft:#2C2438;
+      --amber:#E0A85C; --amber-soft:#3A2E1C;
+      --bad:#E08868; --bad-soft:#3A241E;
+      --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 8px 24px -16px rgba(0,0,0,0.5);
+    }
+  }
+  :root[data-theme="dark"]{
+    --paper:#14181A; --surface:#1B2124; --ink:#E7ECEC; --ink-soft:#9AA7AC; --ink-faint:#6C787C;
+    --line:#2B3336; --line-strong:#3A4548;
+    --accent:#74C2CB; --accent-ink:#D8F0F2; --accent-soft:#1E3336;
+    --accent-2:#C3A9E3; --accent-2-soft:#2C2438;
+    --amber:#E0A85C; --amber-soft:#3A2E1C;
+    --bad:#E08868; --bad-soft:#3A241E;
+    --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 8px 24px -16px rgba(0,0,0,0.5);
+  }
+
+  :root{
+    --code-bg:#101A1D; --code-ink:#DCEAEA; --code-faint:#5E767A;
+    --code-comment:#6FAFAE; --code-annotate:#E0A85C;
+  }
+
+  *{ box-sizing:border-box; }
+  body{ background:var(--paper); color:var(--ink); font-family:"Source Serif 4", Georgia, serif; padding:0 20px; }
+  h1,h2,h3{ text-wrap:balance; }
+  .wrap{ max-width:920px; margin:0 auto; padding-block:44px 80px; }
+
+  .crumb{
+    font-family:"IBM Plex Mono", monospace; font-size:0.72rem; letter-spacing:0.06em;
+    color:var(--ink-faint); margin-bottom:22px; display:flex; gap:8px; align-items:center; flex-wrap:wrap;
+  }
+  .crumb a{ color:var(--accent); text-decoration:none; border-bottom:1px solid var(--accent-soft); }
+  .crumb a:hover{ border-bottom-color:var(--accent); }
+
+  .eyebrow{
+    font-family:"IBM Plex Mono", monospace; font-size:0.72rem; letter-spacing:0.12em; text-transform:uppercase;
+    color:var(--accent); display:flex; align-items:center; gap:10px; margin-bottom:16px;
+  }
+  .eyebrow::before{ content:""; width:22px; height:1px; background:var(--accent); display:inline-block; }
+  h1{ font-family:"Archivo", sans-serif; font-weight:800; font-size:clamp(1.9rem, 4vw, 2.6rem); line-height:1.08; margin:0 0 12px; letter-spacing:-0.01em; }
+  .lede{ font-size:1.06rem; line-height:1.6; color:var(--ink-soft); max-width:64ch; margin:0 0 28px; }
+
+  .meta-strip{
+    display:grid; grid-template-columns:repeat(4,1fr); gap:1px; background:var(--line);
+    border:1px solid var(--line); border-radius:10px; overflow:hidden; margin-bottom:40px;
+  }
+  .meta{ background:var(--surface); padding:14px 14px; display:flex; flex-direction:column; gap:4px; }
+  .meta b{ font-family:"IBM Plex Mono", monospace; font-size:1.05rem; font-weight:600; color:var(--ink); }
+  .meta span{ font-family:"IBM Plex Mono", monospace; font-size:0.64rem; letter-spacing:0.07em; text-transform:uppercase; color:var(--ink-faint); }
+  @media (max-width:640px){ .meta-strip{ grid-template-columns:repeat(2,1fr); } }
+
+  section{ margin-bottom:52px; }
+  .section-head{ display:flex; align-items:baseline; gap:14px; margin-bottom:18px; border-bottom:1px solid var(--line); padding-bottom:12px; }
+  .section-head .tag{ font-family:"IBM Plex Mono", monospace; font-size:0.74rem; color:var(--accent); font-weight:600; white-space:nowrap; }
+  h2{ font-family:"Archivo", sans-serif; font-weight:700; font-size:1.4rem; margin:0; letter-spacing:-0.01em; }
+  .section-sub{ color:var(--ink-soft); font-size:0.96rem; margin:-6px 0 18px; max-width:65ch; }
+
+  /* role lens */
+  .roles{ display:grid; grid-template-columns:repeat(4,1fr); gap:12px; }
+  @media (max-width:760px){ .roles{ grid-template-columns:repeat(2,1fr); } }
+  @media (max-width:460px){ .roles{ grid-template-columns:1fr; } }
+  .role{ background:var(--surface); border:1px solid var(--line); border-radius:10px; padding:14px 16px; }
+  .role b{ display:block; font-family:"Archivo", sans-serif; font-size:0.82rem; font-weight:600; margin-bottom:6px; color:var(--ink); }
+  .role p{ margin:0; font-size:0.84rem; line-height:1.5; color:var(--ink-soft); }
+
+  /* cheat sheet */
+  .cheat-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:20px; margin-bottom:22px; }
+  @media (max-width:760px){ .cheat-grid{ grid-template-columns:1fr; } }
+  .cheat{ background:var(--surface); border:1px solid var(--line); border-radius:10px; padding:16px 18px; }
+  .cheat h3{ font-family:"Archivo", sans-serif; font-size:0.88rem; font-weight:600; margin:0 0 10px; color:var(--accent); }
+  .cheat ul{ margin:0; padding-left:1.05em; font-size:0.87rem; line-height:1.55; color:var(--ink-soft); }
+  .cheat li{ margin-bottom:6px; }
+  .cheat li::marker{ color:var(--accent); }
+  .cheat.b h3{ color:var(--accent-2); }
+  .cheat.b li::marker{ color:var(--accent-2); }
+  .cheat.c h3{ color:var(--amber); }
+  .cheat.c li::marker{ color:var(--amber); }
+
+  /* diagrams */
+  .diagram-figure{ margin:18px 0; background:var(--surface); border:1px solid var(--line); border-radius:12px; padding:22px 22px 18px; box-shadow:var(--shadow); }
+  .diagram-figure svg{ display:block; width:100%; height:auto; color:var(--ink); }
+  .diagram-figure figcaption{ margin-top:14px; font-size:0.86rem; color:var(--ink-soft); line-height:1.55; }
+
+  /* code panels */
+  .code-block{ border-radius:10px; overflow:hidden; margin:14px 0; box-shadow:var(--shadow); }
+  .code-head{ display:flex; align-items:center; justify-content:space-between; gap:10px; padding:8px 14px; font-family:"IBM Plex Mono", monospace; font-size:0.68rem; letter-spacing:0.08em; text-transform:uppercase; }
+  .code-head.neutral{ background:#223236; color:#DCEAEA; }
+  .code-head.before{ background:var(--bad); color:#fff; }
+  .code-head.after{ background:var(--accent); color:#fff; }
+  pre.code{
+    margin:0; background:var(--code-bg); color:var(--code-ink); padding:16px 18px;
+    font-family:"IBM Plex Mono", monospace; font-size:0.82rem; line-height:1.65; overflow-x:auto;
+  }
+  pre.code .c{ color:var(--code-comment); }
+  pre.code .a{ color:var(--code-annotate); }
+  pre.code .f{ color:var(--code-faint); }
+
+  .demo-notes{ background:var(--surface); border:1px solid var(--line); border-radius:10px; padding:16px 18px; margin-top:8px; }
+  .demo-notes b{ font-family:"IBM Plex Mono", monospace; font-size:0.68rem; letter-spacing:0.08em; text-transform:uppercase; color:var(--accent); display:block; margin-bottom:8px; }
+  .demo-notes ol{ margin:0; padding-left:1.2em; font-size:0.88rem; line-height:1.6; color:var(--ink-soft); }
+  .demo-notes li{ margin-bottom:5px; }
+  .demo-notes li::marker{ font-family:"IBM Plex Mono", monospace; color:var(--accent); font-weight:600; }
+
+  .callout{ background:var(--surface); border:1px solid var(--line); border-radius:10px; padding:14px 18px; margin-bottom:14px; font-size:0.92rem; color:var(--ink-soft); }
+  .callout b{ color:var(--ink); }
+  .callout.bad{ background:var(--bad-soft); }
+  .callout.bad b{ color:var(--bad); }
+
+  /* timeline */
+  .timeline{ display:flex; flex-direction:column; margin:16px 0; }
+  .tl-row{ display:flex; gap:14px; padding:10px 0; border-bottom:1px dashed var(--line); }
+  .tl-row:last-child{ border-bottom:none; }
+  .tl-t{ flex:none; width:64px; font-family:"IBM Plex Mono", monospace; font-size:0.78rem; color:var(--bad); font-weight:600; padding-top:2px; }
+  .tl-t.ok{ color:var(--accent); }
+  .tl-body p{ margin:0; font-size:0.92rem; color:var(--ink); line-height:1.5; }
+  .tl-body b{ font-family:"Archivo", sans-serif; }
+
+  /* kata / exercise cards */
+  .kata{ background:var(--surface); border:1px solid var(--line); border-radius:12px; padding:22px 24px; margin-bottom:20px; box-shadow:var(--shadow); }
+  .kata-head{ display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:8px 14px; margin-bottom:8px; }
+  .kata-title{ font-family:"Archivo", sans-serif; font-weight:700; font-size:1.08rem; color:var(--ink); }
+  .badges{ display:flex; gap:8px; flex-wrap:wrap; align-items:center; }
+  .badge{ font-family:"IBM Plex Mono", monospace; font-size:0.66rem; letter-spacing:0.05em; text-transform:uppercase; padding:4px 9px; border-radius:99px; white-space:nowrap; }
+  .badge.time{ background:var(--paper); border:1px solid var(--line); color:var(--ink-soft); }
+  .badge.level-1{ background:var(--accent-soft); color:var(--accent-ink); }
+  .task{ font-size:0.96rem; line-height:1.6; color:var(--ink); margin:0 0 4px; }
+  .task b{ color:var(--accent); font-family:"Archivo", sans-serif; font-weight:600; font-size:0.82rem; text-transform:uppercase; letter-spacing:0.03em; display:block; margin-bottom:4px; }
+  .q-list{ margin:14px 0 0; padding-left:1.15em; font-size:0.92rem; line-height:1.6; color:var(--ink-soft); }
+  .q-list li{ margin-bottom:6px; }
+  .q-list li::marker{ content:"? "; color:var(--accent); font-family:"IBM Plex Mono", monospace; font-weight:600; }
+  .done-when{ margin-top:14px; padding-top:12px; border-top:1px dashed var(--line); }
+  .done-when b{ font-family:"IBM Plex Mono", monospace; font-size:0.68rem; letter-spacing:0.08em; text-transform:uppercase; color:var(--ink-faint); display:block; margin-bottom:6px; }
+  .done-when ul{ margin:0; padding-left:1.15em; font-size:0.86rem; color:var(--ink-soft); line-height:1.55; }
+  .done-when li::marker{ color:var(--accent); }
+
+  /* debrief */
+  .debrief-grid{ display:grid; grid-template-columns:1fr 1fr; gap:18px; margin-bottom:18px; }
+  @media (max-width:680px){ .debrief-grid{ grid-template-columns:1fr; } }
+  .debrief-card{ background:var(--surface); border:1px solid var(--line); border-radius:10px; padding:16px 18px; }
+  .debrief-card b{ display:block; font-family:"Archivo", sans-serif; font-size:0.82rem; font-weight:600; color:var(--ink); margin-bottom:6px; }
+  .debrief-card p{ margin:0; font-size:0.9rem; line-height:1.55; color:var(--ink-soft); }
+
+  .checklist{ display:flex; flex-direction:column; gap:8px; }
+  .check-row{ display:flex; align-items:flex-start; gap:10px; background:var(--surface); border:1px solid var(--line); border-radius:8px; padding:10px 14px; font-size:0.9rem; color:var(--ink); }
+  .check-row .box{ width:15px; height:15px; border:1.5px solid var(--line-strong); border-radius:4px; flex:none; margin-top:2px; }
+
+  /* facilitator notes */
+  .prep{ background:var(--accent-soft); border:1px solid var(--line); border-radius:10px; padding:18px 20px; margin-bottom:16px; }
+  .prep b{ font-family:"IBM Plex Mono", monospace; font-size:0.68rem; letter-spacing:0.08em; text-transform:uppercase; color:var(--accent-ink); display:block; margin-bottom:8px; }
+  .prep ul{ margin:0; padding-left:1.15em; font-size:0.9rem; line-height:1.6; color:var(--accent-ink); }
+
+  .answer{ background:var(--surface); border:1px dashed var(--line-strong); border-radius:10px; padding:16px 18px; margin-bottom:14px; }
+  .answer > b{ font-family:"IBM Plex Mono", monospace; font-size:0.7rem; letter-spacing:0.06em; text-transform:uppercase; color:var(--ink-faint); display:block; margin-bottom:10px; }
+
+  footer{ margin-top:60px; padding-top:20px; border-top:1px solid var(--line); display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px; font-family:"IBM Plex Mono", monospace; font-size:0.72rem; color:var(--ink-faint); }
+  footer a{ color:var(--accent); text-decoration:none; }
+</style>
+
+<div class="wrap">
+
+  <div class="crumb"><a href="https://claude.ai/code/artifact/d82a43b8-603a-4a49-a9d8-bee201a2d318">Clean Code to Scale</a><span>/</span><span>Day 07 of 10</span></div>
+
+  <div class="eyebrow">Session material &middot; Module: Scalable Systems</div>
+  <h1>Distributed Systems &amp; Resilience</h1>
+  <p class="lede">Facilitator and participant material for Day 7. Day 6 replicated one service. Today, that service talks to others across a network &mdash; and a network can always fail halfway through, which "correct code" alone has never protected anyone from.</p>
+
+  <div class="meta-strip">
+    <div class="meta"><b>2:00</b><span>Duration</span></div>
+    <div class="meta"><b>07 / 10</b><span>Session</span></div>
+    <div class="meta"><b>Python</b><span>Code samples</span></div>
+    <div class="meta"><b>Pairs</b><span>Incident retro</span></div>
+  </div>
+
+  <section>
+    <div class="section-head"><span class="tag">Objectives</span><h2>What today is for</h2></div>
+    <div class="cheat-grid" style="margin-bottom:0;">
+      <div class="cheat"><ul>
+        <li>Choose between synchronous calls and async messaging with reasons, not habit</li>
+      </ul></div>
+      <div class="cheat"><ul>
+        <li>Reason about CAP and consistency tradeoffs across a real service boundary</li>
+      </ul></div>
+      <div class="cheat"><ul>
+        <li>Add retries, timeouts, and circuit breakers where they actually help &mdash; and know where they don't</li>
+      </ul></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-head"><span class="tag">Room</span><h2>Why this session, for you specifically</h2></div>
+    <div class="roles">
+      <div class="role"><b>Junior &ndash; Mid Engineers</b><p>The first time a single logical operation can genuinely fail halfway through. That's a category of bug "correct code" doesn't protect against.</p></div>
+      <div class="role"><b>Senior Eng &amp; Tech Leads</b><p>CAP tradeoffs are architecture decisions your team already makes implicitly every time it picks a datastore or a retry policy. Today makes them explicit.</p></div>
+      <div class="role"><b>QEs</b><p>A distributed failure only reproduces under partition or latency conditions a normal test suite doesn't create. Today gives you the vocabulary to name what to inject.</p></div>
+      <div class="role"><b>AI Engineers</b><p>An agent told to "add a retry" will wrap any call in a loop, including ones where retrying makes an outage worse. Today gives you the checklist to catch that.</p></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-head"><span class="tag">0:00&ndash;0:35 &middot; Concept</span><h2>CAP, messaging, and how failure spreads</h2></div>
+    <p class="section-sub">"Consistency, availability, partition tolerance &mdash; pick two" is the famous phrasing, and it's a slight oversimplification worth correcting properly before using it.</p>
+
+    <figure class="diagram-figure">
+      <svg viewBox="0 0 780 300" role="img" aria-label="OrderService tries to call InventoryService across a network partition. Blocked by the partition, OrderService must choose: refuse the request and stay consistent, or answer anyway using stale inventory data and stay available. Both are valid engineering choices; picking neither on purpose is the actual failure mode.">
+        <defs>
+          <marker id="d7-flow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+            <path d="M0,0 L10,5 L0,10 Z" fill="currentColor"/>
+          </marker>
+        </defs>
+
+        <rect x="30" y="30" width="170" height="60" rx="8" fill="var(--accent-soft)" stroke="var(--accent)" stroke-width="1.5"/>
+        <text x="115" y="65" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="11" fill="currentColor">OrderService</text>
+
+        <rect x="580" y="30" width="170" height="60" rx="8" fill="var(--surface)" stroke="currentColor" stroke-width="1.5"/>
+        <text x="665" y="65" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="11" fill="currentColor">InventoryService</text>
+
+        <line x1="200" y1="60" x2="575" y2="60" stroke="var(--bad)" stroke-width="2" stroke-dasharray="2 6"/>
+        <text x="390" y="45" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="10" letter-spacing="0.5" fill="var(--bad)">NETWORK PARTITION</text>
+
+        <line x1="115" y1="90" x2="115" y2="150" stroke="currentColor" stroke-width="1.3" marker-end="url(#d7-flow)"/>
+        <text x="128" y="125" font-family="IBM Plex Mono, monospace" font-size="9.5" fill="var(--ink-faint)">must decide, now</text>
+
+        <rect x="15" y="160" width="290" height="110" rx="8" fill="var(--accent-soft)" stroke="var(--accent)" stroke-width="1.5"/>
+        <text x="160" y="185" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="10.5" font-weight="600" fill="currentColor">CHOOSE CONSISTENCY</text>
+        <text x="35" y="208" font-family="IBM Plex Mono, monospace" font-size="9.5" fill="currentColor">Refuse the order.</text>
+        <text x="35" y="225" font-family="IBM Plex Mono, monospace" font-size="9.5" fill="currentColor">Never oversell &mdash;</text>
+        <text x="35" y="242" font-family="IBM Plex Mono, monospace" font-size="9.5" fill="currentColor">but unavailable during</text>
+        <text x="35" y="259" font-family="IBM Plex Mono, monospace" font-size="9.5" fill="currentColor">the partition.</text>
+
+        <rect x="325" y="160" width="290" height="110" rx="8" fill="var(--amber-soft)" stroke="var(--amber)" stroke-width="1.5"/>
+        <text x="470" y="185" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="10.5" font-weight="600" fill="currentColor">CHOOSE AVAILABILITY</text>
+        <text x="345" y="208" font-family="IBM Plex Mono, monospace" font-size="9.5" fill="currentColor">Confirm using the last-</text>
+        <text x="345" y="225" font-family="IBM Plex Mono, monospace" font-size="9.5" fill="currentColor">known stock count.</text>
+        <text x="345" y="242" font-family="IBM Plex Mono, monospace" font-size="9.5" fill="currentColor">Always responds &mdash; might</text>
+        <text x="345" y="259" font-family="IBM Plex Mono, monospace" font-size="9.5" fill="currentColor">oversell.</text>
+      </svg>
+      <figcaption>Partition tolerance isn't really a choice &mdash; networks partition whether you plan for it or not. The real decision CAP describes is what OrderService does <em>during</em> one: both branches are legitimate engineering answers. The failure mode is never picking either on purpose.</figcaption>
+    </figure>
+
+    <div class="callout"><b>Beyond CAP &mdash; PACELC.</b> CAP only governs behavior <em>during</em> a partition. The rest of the time, a distributed system still trades Latency against Consistency: a strongly-consistent read across regions is slower than an eventually-consistent one, partition or not. If OrderService and InventoryService live in the same region, PACELC's <em>else</em> clause is the tradeoff you're living with every single request &mdash; not just the rare partition.</div>
+
+    <div class="cheat-grid">
+      <div class="cheat">
+        <h3>CAP &amp; consistency</h3>
+        <ul>
+          <li>Partitions happen; the real choice is Consistency vs. Availability <em>during</em> one</li>
+          <li>Strong consistency: every read sees the latest write, everywhere</li>
+          <li>Eventual consistency: reads may be briefly stale, but converge</li>
+          <li>PACELC: even with no partition, trade Latency against Consistency</li>
+        </ul>
+      </div>
+      <div class="cheat b">
+        <h3>Sync vs. async</h3>
+        <ul>
+          <li>Sync: simple mental model, but couples your availability to theirs</li>
+          <li>Async (queue/event): decouples timing, adds durability &mdash; and eventual consistency</li>
+          <li>Ask: does the caller need the result <em>now</em> to proceed, or can it happen eventually?</li>
+          <li>At-least-once delivery means the handler must be idempotent</li>
+        </ul>
+      </div>
+      <div class="cheat c">
+        <h3>Containing failure</h3>
+        <ul>
+          <li>Every synchronous call needs a timeout &mdash; a hang anywhere becomes a hang everywhere</li>
+          <li>Retries: only for transient, idempotent calls, with backoff and jitter</li>
+          <li>Circuit breaker: stop calling a failing dependency; fail fast, let it recover</li>
+          <li>Bulkheads: isolate resource pools so one slow dependency can't starve the rest</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-head"><span class="tag">0:35&ndash;1:10 &middot; Live demo</span><h2>Dissecting a cascading failure</h2></div>
+    <p class="section-sub">A single external dependency having a slow afternoon takes down the entire checkout flow. Walk the timeline first, then the code that let it happen.</p>
+
+    <div class="timeline">
+      <div class="tl-row"><div class="tl-t">10:02</div><div class="tl-body"><p><b>FraudCheckAPI</b> (external, third-party) starts responding in 30s instead of its usual 200ms &mdash; their incident, not ours.</p></div></div>
+      <div class="tl-row"><div class="tl-t">10:03</div><div class="tl-body"><p><b>PaymentService</b> calls it with no timeout. Every request thread waiting on a fraud check now blocks for the full 30s.</p></div></div>
+      <div class="tl-row"><div class="tl-t">10:06</div><div class="tl-body"><p>PaymentService's thread pool is fully occupied waiting. New requests to PaymentService &mdash; for anything, not just fraud checks &mdash; start queuing.</p></div></div>
+      <div class="tl-row"><div class="tl-t">10:08</div><div class="tl-body"><p><b>OrderService</b> calls PaymentService with no timeout either. Its threads now block waiting on a service that's blocked waiting on FraudCheckAPI.</p></div></div>
+      <div class="tl-row"><div class="tl-t">10:11</div><div class="tl-body"><p>Checkout is down, site-wide. The original problem was one external dependency having a bad ten minutes.</p></div></div>
+    </div>
+
+    <div class="code-block">
+      <div class="code-head before"><span>payment_service.py &mdash; before</span><span>no timeout, no breaker, no fallback</span></div>
+      <pre class="code">def confirm_payment(order):
+    fraud_result = fraud_check_api.check(order)
+    if fraud_result.flagged:
+        return reject(order)
+    return charge_payment(order)</pre>
+    </div>
+
+    <div class="code-block">
+      <div class="code-head after"><span>payment_service.py &mdash; after</span><span>timeout + circuit breaker + fallback</span></div>
+      <pre class="code">fraud_breaker = CircuitBreaker(
+    failure_threshold=5,
+    reset_after_seconds=30,
+)
+
+def confirm_payment(order):
+    try:
+        fraud_result = fraud_breaker.call(
+            lambda: fraud_check_api.check(order, timeout=2.0)
+        )
+    except (CircuitOpenError, TimeoutError):
+        <span class="c"># the dependency is having a bad day &mdash; don't have one too</span>
+        return flag_for_manual_review(order)
+
+    if fraud_result.flagged:
+        return reject(order)
+    return charge_payment(order)</pre>
+    </div>
+
+    <div class="demo-notes">
+      <b>Talking points</b>
+      <ol>
+        <li>The 2-second timeout is the whole fix for the cascade &mdash; it caps how long one bad dependency can hold a thread, no matter what the dependency does.</li>
+        <li>The circuit breaker is what stops <em>retrying</em> a dependency that's already down from making things worse &mdash; after 5 failures, it stops trying for 30 seconds and fails fast instead.</li>
+        <li><code>flag_for_manual_review</code> is a real fallback, not an error page &mdash; the business kept operating, just more slowly and more manually, for the orders that needed it.</li>
+        <li>This wasn't a synchronous-vs-async decision <em>we</em> get to relitigate here &mdash; fraud checks that gate a charge need an answer before the charge happens. The fix is containment, not switching to async.</li>
+      </ol>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-head"><span class="tag">1:10&ndash;1:40 &middot; Hands-on</span><h2>Contain a flaky call chain</h2></div>
+    <p class="section-sub">Work in pairs. <code>get_shipping_estimate</code> below can hang checkout entirely over something that was never worth blocking on.</p>
+
+    <div class="kata">
+      <div class="kata-head">
+        <div class="kata-title">Add a timeout, a bounded retry, and a circuit breaker</div>
+        <div class="badges"><span class="badge time">30 min</span><span class="badge level-1">Pairs</span></div>
+      </div>
+      <div class="task"><b>Task</b>Change <code>checkout</code> so a struggling <code>shipping_rate_api</code> never blocks the order. Add a timeout, a bounded retry with backoff (only if the call is safe to retry), a circuit breaker, and a flat-rate fallback for when the circuit is open.</div>
+      <div class="code-block">
+        <div class="code-head neutral"><span>shipping.py</span><span>starter</span></div>
+        <pre class="code">def get_shipping_estimate(order):
+    rate = shipping_rate_api.get_rate(order.destination, order.weight)
+    return rate
+
+def checkout(order):
+    estimate = get_shipping_estimate(order)
+    order.shipping_cost = estimate
+    return finalize_order(order)</pre>
+      </div>
+      <ul class="q-list">
+        <li>Is <code>get_rate</code> idempotent? What would make you decide <em>not</em> to retry it?</li>
+        <li>What's the right fallback when the circuit is open &mdash; fail the whole checkout, or degrade gracefully? What does "degrade gracefully" actually mean for a shipping estimate?</li>
+        <li>How would you test that the circuit breaker genuinely opens, without waiting for a real outage to happen?</li>
+      </ul>
+      <div class="done-when"><b>Done when</b><ul>
+        <li><code>checkout</code> never hangs on <code>shipping_rate_api</code> alone, no matter how it fails</li>
+        <li>The retry only fires for the failure modes you decided were safe to retry</li>
+        <li>You can state, in one sentence, what a customer sees when the circuit is open</li>
+      </ul></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-head"><span class="tag">1:40&ndash;2:00 &middot; Review</span><h2>Incident retro exercise</h2></div>
+    <div class="debrief-grid">
+      <div class="debrief-card"><b>Ask the room</b><p>Where in your own systems does a synchronous call have no timeout today? What sits downstream of it?</p></div>
+      <div class="debrief-card"><b>Ask tech leads</b><p>When your riskiest two services hit a partition, does the business already know whether it wants consistency or availability &mdash; or does that get decided under pressure, mid-incident?</p></div>
+      <div class="debrief-card"><b>Ask QEs</b><p>How would you actually test a circuit breaker, or a CAP tradeoff decision &mdash; what would you inject to prove either one works?</p></div>
+      <div class="debrief-card"><b>Ask AI engineers</b><p>An agent is told to "add retries here." What question should it ask before doing that, and would it know to ask it unprompted?</p></div>
+    </div>
+    <p class="section-sub" style="margin-bottom:10px;">Before the room breaks, each person commits to one:</p>
+    <div class="checklist">
+      <div class="check-row"><span class="box"></span>Find one synchronous call in your codebase with no timeout, and give it one this week</div>
+      <div class="check-row"><span class="box"></span>Name, explicitly, whether your riskiest dependency chooses consistency or availability during a partition</div>
+      <div class="check-row"><span class="box"></span>Add a circuit breaker to the one dependency most likely to have a bad day</div>
+      <div class="check-row"><span class="box"></span>Bring your resilience checklist to Day 8, where the course turns to coding with AI agents</div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-head"><span class="tag">Prep</span><h2>Facilitator notes</h2></div>
+    <div class="prep">
+      <b>Before the session</b>
+      <ul>
+        <li>Load <code>payment_service.py</code> (demo) and <code>shipping.py</code> (kata) into your environment beforehand</li>
+        <li>If your team has had a real cascading-failure incident, bring the real timeline instead of (or alongside) the fraud-check narrative &mdash; a real postmortem lands harder</li>
+        <li>The CAP diagram's two branches are both intentionally reasonable &mdash; resist the pull to present "choose availability" as the wrong answer; which one is right depends entirely on the business</li>
+        <li>Have a simple <code>CircuitBreaker</code> reference implementation ready for pairs who get stuck on the mechanics rather than the judgment calls</li>
+      </ul>
+    </div>
+
+    <div class="answer">
+      <b>Answer key &mdash; shipping.py</b>
+      <pre class="code" style="border-radius:8px;">shipping_breaker = CircuitBreaker(failure_threshold=5, reset_after_seconds=30)
+FLAT_RATE_FALLBACK = 7.99
+
+def get_shipping_estimate(order):
+    def attempt():
+        return shipping_rate_api.get_rate(
+            order.destination, order.weight, timeout=1.5
+        )
+
+    for attempt_number in range(2):  # one retry &mdash; a rate lookup is a safe GET
+        try:
+            return shipping_breaker.call(attempt)
+        except CircuitOpenError:
+            return FLAT_RATE_FALLBACK
+        except TimeoutError:
+            if attempt_number == 1:
+                return FLAT_RATE_FALLBACK
+            time.sleep(0.2)  # brief backoff before the one retry
+
+def checkout(order):
+    order.shipping_cost = get_shipping_estimate(order)
+    return finalize_order(order)</pre>
+      <p style="margin:10px 0 0; font-size:0.85rem; color:var(--ink-soft);">The flat rate is a real business decision, not a placeholder &mdash; someone has to decide it's an acceptable customer experience before this ships. That conversation is itself part of "done."</p>
+    </div>
+  </section>
+
+  <footer>
+    <span>Day 07 / 10 &middot; Scalable Systems &middot; Distributed Systems &amp; Resilience</span>
+    <span>Next &mdash; Day 08: Coding With AI Agents</span>
+  </footer>
+
+</div>

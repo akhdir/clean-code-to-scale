@@ -113,6 +113,12 @@
   pre.code .a{ color:var(--code-annotate); }
   pre.code .f{ color:var(--code-faint); }
 
+  .smell-grid{ display:grid; grid-template-columns:repeat(2,1fr); gap:16px; margin-top:14px; }
+  @media (max-width:760px){ .smell-grid{ grid-template-columns:1fr; } }
+  .smell-card{ background:var(--surface); border:1px solid var(--line); border-radius:10px; overflow:hidden; box-shadow:var(--shadow); }
+  .smell-card .smell-label{ padding:10px 14px; font-size:0.82rem; font-weight:600; color:var(--ink); border-bottom:1px solid var(--line); font-family:"Source Serif 4", serif; }
+  .smell-card pre.code{ font-size:0.76rem; padding:14px 16px; }
+
   .demo-notes{ background:var(--surface); border:1px solid var(--line); border-radius:10px; padding:16px 18px; margin-top:8px; }
   .demo-notes b{ font-family:"IBM Plex Mono", monospace; font-size:0.68rem; letter-spacing:0.08em; text-transform:uppercase; color:var(--accent); display:block; margin-bottom:8px; }
   .demo-notes ol{ margin:0; padding-left:1.2em; font-size:0.88rem; line-height:1.6; color:var(--ink-soft); }
@@ -244,6 +250,87 @@
       <div class="pair"><span class="bad">genymdhms</span><span class="arrow">&rarr;</span><span class="good">generation_timestamp</span></div>
       <div class="pair"><span class="bad">class Manager: def data()</span><span class="arrow">&rarr;</span><span class="good">class InvoiceGenerator: def generate_invoice()</span></div>
       <div class="pair"><span class="bad">ENABLE_LOYALTY_DISCOUNT = True<br>def calculate_total(subtotal):<br>&nbsp;&nbsp;if ENABLE_LOYALTY_DISCOUNT: return subtotal * 0.9</span><span class="arrow">&rarr;</span><span class="good">def calculate_total(subtotal, apply_discount):<br>&nbsp;&nbsp;if apply_discount: return subtotal * 0.9</span><span style="color:var(--ink-faint); font-family:'Source Serif 4', serif; font-size:0.8rem;">&mdash; same call, no longer at the mercy of a flag flipped elsewhere</span></div>
+    </div>
+
+    <h3 style="font-family:'Archivo',sans-serif; font-size:1.05rem; margin:28px 0 6px;">Six habits, six functions caught in the act</h3>
+    <p class="section-sub" style="margin-top:0;">One small sample per bullet above &mdash; just the issue, not the fix. Read each one and name the smell before checking which bullet it maps to.</p>
+    <div class="smell-grid">
+      <div class="smell-card">
+        <div class="smell-label">Do one thing, at one level of abstraction</div>
+        <pre class="code">def process_order(order):
+    <span class="c"># arithmetic</span>
+    total = sum(i.price * i.qty for i in order.items)
+
+    <span class="c"># infrastructure</span>
+    conn = psycopg2.connect(DB_URL)
+    conn.cursor().execute(
+        "UPDATE orders SET total=%s WHERE id=%s",
+        (total, order.id))
+    conn.commit()
+
+    <span class="c"># business action</span>
+    send_email(order.customer.email, "Order confirmed")</pre>
+      </div>
+      <div class="smell-card">
+        <div class="smell-label">Prefer 0&ndash;2 arguments; 3+ is a signal to introduce an object</div>
+        <pre class="code">def create_shipment(name, street, city, state,
+                     zip_code, country, weight_kg,
+                     service_level):
+    ...
+
+<span class="c"># call site tells you nothing about which is which</span>
+create_shipment("J. Rivera", "12 Elm St", "Austin",
+                "TX", "78701", "US", 4.2, "express")</pre>
+      </div>
+      <div class="smell-card">
+        <div class="smell-label">A boolean flag argument means the function does two things &mdash; split it</div>
+        <pre class="code">def save_user(user, send_welcome_email):
+    db.save(user)
+    if send_welcome_email:
+        email_service.send(user.email, "Welcome!")
+
+<span class="c"># one function, two different jobs, chosen by a flag</span>
+save_user(new_user, True)
+save_user(imported_user, False)</pre>
+      </div>
+      <div class="smell-card">
+        <div class="smell-label">No side effects hiding behind an innocent name</div>
+        <pre class="code">def check_password(user, password):
+    if user.password_hash == hash(password):
+        <span class="a">Session.initialize(user)</span>  <span class="c"># never mentioned</span>
+        return True
+    return False
+
+<span class="c"># reads like a pure question &mdash; a caller who just wants
+# to confirm a password just started a session too</span></pre>
+      </div>
+      <div class="smell-card">
+        <div class="smell-label">Don't let a global variable change what a function returns</div>
+        <pre class="code">IS_HOLIDAY_SEASON = False
+
+def calculate_shipping_cost(weight_kg):
+    rate = 8.0
+    if IS_HOLIDAY_SEASON:
+        rate = 12.0
+    return weight_kg * rate
+
+<span class="c"># calculate_shipping_cost(5) returns a different answer
+# in December than in June &mdash; nothing at the call site says why</span></pre>
+      </div>
+      <div class="smell-card">
+        <div class="smell-label">Extract until you can't, then stop &mdash; don't over-fragment</div>
+        <pre class="code">def add_one(x):
+    return increment(x)
+
+def increment(x):
+    return plus_one(x)
+
+def plus_one(x):
+    return x + 1
+
+<span class="c"># three functions, three stack frames, to compute x + 1 &mdash;
+# indirection with no abstraction behind it</span></pre>
+      </div>
     </div>
   </section>
 
