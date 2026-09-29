@@ -387,6 +387,35 @@
     </div>
 
     <div class="callout"><b>Why this belongs before today's smells &mdash;</b> a long parameter list of booleans, an if/elif chain that "grew one case at a time," a speculative flag nobody remembers adding: all three often turn out to be an unmapped truth table. Before assuming a tangle needs an object or a strategy pattern, check whether it just needs 10 minutes on a grid. <b>Where it stops helping:</b> past 4&ndash;5 boolean inputs a K-map gets as unwieldy as the code it's replacing &mdash; that's the point where a decision table, a lookup dict, or the Strategy pattern from Day 3 takes over.</div>
+
+    <div class="kata">
+      <div class="kata-head">
+        <div class="kata-title">Kata &mdash; four flags, one K-map</div>
+        <div class="badges"><span class="badge time">~15 min</span><span class="badge level-3">Stretch</span></div>
+      </div>
+      <div class="task"><b>Task</b>Optional &mdash; this one adds 15 minutes to the session rather than borrowing from another section, so use it only if the room has the time. Same move, one variable bigger, right at the edge where the callout above says a K-map stops being worth it. Build the truth table (16 rows), draw the 4-variable map (two row-variables and two column-variables, both Gray-coded 00/01/11/10), group every block of adjacent 1s, and rewrite the function from what you read off the map.</div>
+      <div class="code-block">
+        <div class="code-head neutral"><span>refunds.py</span><span>starter</span></div>
+        <pre class="code">def should_auto_approve_refund(is_member, under_threshold, first_time_request, item_verified):
+    if under_threshold and item_verified:
+        return True
+    if is_member and item_verified and first_time_request:
+        return True
+    if is_member and item_verified and not first_time_request:
+        return True
+    return False</pre>
+      </div>
+      <ul class="q-list">
+        <li>Four flags means 16 rows &mdash; <code>is_member</code> (M), <code>under_threshold</code> (U), <code>first_time_request</code> (F), <code>item_verified</code> (V). Before you fill the table in: how many of the four do you expect to actually matter?</li>
+        <li>Look for a group of <em>four</em> adjacent 1s (a "quad"), not just pairs &mdash; a bigger group drops more variables from its term. Do your groups overlap anywhere?</li>
+        <li>Which flag never decides the output on its own, in any group you find &mdash; and what does that mean for this function's parameter list?</li>
+      </ul>
+      <div class="done-when"><b>Done when</b><ul>
+        <li>Your truth table has all 16 rows, not just the combinations the original three <code>if</code>s happened to cover</li>
+        <li>You can name every group on your map and the term it reduces to</li>
+        <li>Your rewritten function is one <code>return</code>, with no more parameters than it actually uses</li>
+      </ul></div>
+    </div>
   </section>
 
   <section>
@@ -797,12 +826,25 @@ def notify_customer(customer, message):
     <div class="prep">
       <b>Before the session</b>
       <ul>
-        <li>The Karnaugh-map warm-up (now two worked examples) adds 20 minutes, bringing the session to 2:20 total &mdash; if you're locked to a 2:00 slot, it's the one section safe to cut without breaking anything downstream; the second example (<code>fraud_check.py</code>) is also the easiest piece to drop on its own if 20 minutes doesn't fit but 10 does</li>
+        <li>The Karnaugh-map warm-up (two worked examples) adds 20 minutes, bringing the session to 2:20 total &mdash; if you're locked to a 2:00 slot, it's the one section safe to cut without breaking anything downstream; the second example (<code>fraud_check.py</code>) is also the easiest piece to drop on its own if 20 minutes doesn't fit but 10 does</li>
+        <li>The warm-up's <code>refunds.py</code> kata is a further optional 15 minutes on top of that, for a room that wants hands-on practice with a K-map before moving on &mdash; it's additive, not a substitute for the two demos</li>
         <li>Load <code>inventory.py</code> and <code>order_fulfillment.py</code> (stretch) into a shared repo or branch &mdash; or swap in a real, anonymized file from the team's own codebase for higher stakes</li>
         <li>Decide beforehand whether your team already has an exceptions-vs-result-type convention; if so, present it as the existing answer rather than an open question</li>
         <li>Share a blank smell-log table (same four columns) per pair, on paper or a shared doc</li>
         <li>Time-box the findings walk-through to ~90 seconds per pair so everyone presents, and capture the merged list live &mdash; that doc is the session's real output</li>
       </ul>
+    </div>
+
+    <div class="answer">
+      <b>Answer key &mdash; refunds.py kata</b>
+      <p style="margin:0 0 10px; font-size:0.86rem; color:var(--ink-soft);">Output only depends on <code>is_member</code> (M), <code>under_threshold</code> (U), and <code>item_verified</code> (V) &mdash; <code>first_time_request</code> (F) never changes the answer. The two branches that check it, <code>M&amp;V&amp;F</code> and <code>M&amp;V&amp;not F</code>, together cover both of its values, which is exactly the tell: if two branches only differ by one flag being negated and return the same thing, that flag was never doing anything.</p>
+      <table class="smell-table" style="margin:0 0 10px;">
+        <tr><th>Group</th><th>Cells covered</th><th>Term</th></tr>
+        <tr><td class="name">Quad 1</td><td>U=1, V=1 &mdash; M and F vary freely</td><td><code>U &middot; V</code></td></tr>
+        <tr><td class="name">Quad 2</td><td>M=1, V=1 &mdash; U and F vary freely</td><td><code>M &middot; V</code></td></tr>
+      </table>
+      <pre class="code" style="border-radius:8px;">def should_auto_approve_refund(is_member, under_threshold, item_verified):
+    return item_verified and (under_threshold or is_member)</pre>
     </div>
 
     <div class="answer">
