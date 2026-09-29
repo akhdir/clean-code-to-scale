@@ -109,6 +109,17 @@
   pre.code .a{ color:var(--code-annotate); }
   pre.code .f{ color:var(--code-faint); }
 
+  .diagram-figure{ margin:18px 0; background:var(--surface); border:1px solid var(--line); border-radius:12px; padding:22px 22px 18px; box-shadow:var(--shadow); }
+  .diagram-figure svg{ display:block; width:100%; height:auto; color:var(--ink); }
+  .diagram-figure figcaption{ margin-top:14px; font-size:0.86rem; color:var(--ink-soft); line-height:1.55; }
+
+  .smell-grid{ display:grid; grid-template-columns:repeat(2,1fr); gap:16px; margin-top:14px; }
+  @media (max-width:760px){ .smell-grid{ grid-template-columns:1fr; } }
+  .smell-card{ background:var(--surface); border:1px solid var(--line); border-left:3px solid var(--accent); border-radius:10px; overflow:hidden; box-shadow:var(--shadow); }
+  .smell-card.error{ border-left-color:var(--bad); }
+  .smell-card .smell-label{ padding:10px 14px; font-size:0.82rem; font-weight:600; color:var(--ink); border-bottom:1px solid var(--line); font-family:"Source Serif 4", serif; }
+  .smell-card pre.code{ font-size:0.74rem; padding:14px 16px; }
+
   .demo-notes{ background:var(--surface); border:1px solid var(--line); border-radius:10px; padding:16px 18px; margin-top:8px; }
   .demo-notes b{ font-family:"IBM Plex Mono", monospace; font-size:0.68rem; letter-spacing:0.08em; text-transform:uppercase; color:var(--accent); display:block; margin-bottom:8px; }
   .demo-notes ol{ margin:0; padding-left:1.2em; font-size:0.88rem; line-height:1.6; color:var(--ink-soft); }
@@ -179,10 +190,10 @@
 
   <div class="eyebrow">Session material &middot; Module: Clean Code</div>
   <h1>Error Handling &amp; Code Smells</h1>
-  <p class="lede">Facilitator and participant material for Day 2. The demo picks up exactly where Day 1's <code>checkout.py</code> left off &mdash; the ambiguous <code>{"status": "failed"}</code> we deliberately didn't fix last time is today's starting point.</p>
+  <p class="lede">Facilitator and participant material for Day 2. We open with a 15-minute Karnaugh-map warm-up on simplifying tangled boolean conditionals, then the demo picks up exactly where Day 1's <code>checkout.py</code> left off &mdash; the ambiguous <code>{"status": "failed"}</code> we deliberately didn't fix last time is today's starting point.</p>
 
   <div class="meta-strip">
-    <div class="meta"><b>2:00</b><span>Duration</span></div>
+    <div class="meta"><b>2:15</b><span>Duration</span></div>
     <div class="meta"><b>02 / 10</b><span>Session</span></div>
     <div class="meta"><b>Python</b><span>Code samples</span></div>
     <div class="meta"><b>Pairs</b><span>Smell hunt</span></div>
@@ -214,7 +225,95 @@
   </section>
 
   <section>
-    <div class="section-head"><span class="tag">0:00&ndash;0:30 &middot; Concept</span><h2>A shared taxonomy of smells</h2></div>
+    <div class="section-head"><span class="tag">0:00&ndash;0:15 &middot; Warm-up</span><h2>Karnaugh maps: simplifying messy conditionals</h2></div>
+    <p class="section-sub">A 15-minute tool for one specific ugly shape: a function with 3&ndash;4 boolean flags and an if/elif chain nobody's sure is exhaustive. A <b>Karnaugh map</b> (K-map) is a grid layout of a truth table that makes redundant branches visible instead of algebraic &mdash; the same kind of tangle Day 1's <code>report(csv, summary, verbose)</code> kata untangled by hand, but with a tool that scales past what you can eyeball.</p>
+
+    <div class="callout"><b>The rule</b> &mdash; a free-shipping check with three independent flags: <code>is_member</code> (P), <code>total_over_50</code> (T), <code>is_promo_day</code> (D). Someone encoded the business rule as one explicit <code>if</code> per case they could think of.</div>
+
+    <div class="code-block">
+      <div class="code-head before"><span>shipping.py &mdash; before</span><span>4 branches, unclear if that's all of them</span></div>
+      <pre class="code">def qualifies_for_free_shipping(is_member, total_over_50, is_promo_day):
+    if is_member and total_over_50 and is_promo_day:
+        return True
+    if is_member and total_over_50 and not is_promo_day:
+        return True
+    if is_member and not total_over_50 and is_promo_day:
+        return True
+    if not is_member and total_over_50 and is_promo_day:
+        return True
+    return False</pre>
+    </div>
+
+    <p class="section-sub">Three booleans means 8 possible calls. Laying every one out as a truth table is the first step &mdash; and the only way to be sure the four <code>if</code>s above are actually every <code>True</code> case:</p>
+
+    <table class="smell-table">
+      <tr><th>P &middot; member</th><th>T &middot; total &gt; $50</th><th>D &middot; promo day</th><th>Output</th></tr>
+      <tr><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+      <tr><td>0</td><td>0</td><td>1</td><td>0</td></tr>
+      <tr><td>0</td><td>1</td><td>0</td><td>0</td></tr>
+      <tr class="example"><td>0</td><td>1</td><td>1</td><td>1</td></tr>
+      <tr><td>1</td><td>0</td><td>0</td><td>0</td></tr>
+      <tr class="example"><td>1</td><td>0</td><td>1</td><td>1</td></tr>
+      <tr class="example"><td>1</td><td>1</td><td>0</td><td>1</td></tr>
+      <tr class="example"><td>1</td><td>1</td><td>1</td><td>1</td></tr>
+    </table>
+
+    <p class="section-sub">A K-map plots the same 8 rows on a grid where every neighboring cell differs by exactly one input &mdash; so a rectangle of adjacent 1s is a pattern algebra would take several steps to spot:</p>
+
+    <figure class="diagram-figure">
+      <svg viewBox="0 0 620 260" role="img" aria-label="Karnaugh map for qualifies_for_free_shipping, with three boolean inputs P (member), T (total over 50), and D (promo day) plotted against their eight combinations. Three overlapping groups of adjacent 1-cells simplify the truth table to P and T, or P and D, or T and D — true whenever at least two of the three conditions hold.">
+        <text x="330" y="22" text-anchor="middle" font-size="13" fill="currentColor" opacity="0.75">T, D &rarr;</text>
+        <text x="85" y="100" text-anchor="middle" font-size="13" fill="currentColor" opacity="0.75">P</text>
+
+        <text x="195" y="45" text-anchor="middle" font-size="13" fill="currentColor" opacity="0.75">00</text>
+        <text x="285" y="45" text-anchor="middle" font-size="13" fill="currentColor" opacity="0.75">01</text>
+        <text x="375" y="45" text-anchor="middle" font-size="13" fill="currentColor" opacity="0.75">11</text>
+        <text x="465" y="45" text-anchor="middle" font-size="13" fill="currentColor" opacity="0.75">10</text>
+        <text x="130" y="100" text-anchor="middle" font-size="13" fill="currentColor" opacity="0.75">0</text>
+        <text x="130" y="170" text-anchor="middle" font-size="13" fill="currentColor" opacity="0.75">1</text>
+
+        <rect x="150" y="60" width="360" height="140" fill="none" stroke="currentColor" stroke-width="1" opacity="0.6"/>
+        <line x1="240" y1="60" x2="240" y2="200" stroke="currentColor" stroke-width="1" opacity="0.35"/>
+        <line x1="330" y1="60" x2="330" y2="200" stroke="currentColor" stroke-width="1" opacity="0.35"/>
+        <line x1="420" y1="60" x2="420" y2="200" stroke="currentColor" stroke-width="1" opacity="0.35"/>
+        <line x1="150" y1="130" x2="510" y2="130" stroke="currentColor" stroke-width="1" opacity="0.35"/>
+
+        <rect x="336" y="66" width="78" height="128" rx="16" fill="var(--accent)" fill-opacity="0.15" stroke="var(--accent)" stroke-width="3"/>
+        <rect x="336" y="138" width="168" height="54" rx="16" fill="var(--accent-2)" fill-opacity="0.15" stroke="var(--accent-2)" stroke-width="3"/>
+        <rect x="246" y="138" width="168" height="54" rx="14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-dasharray="7 5"/>
+
+        <text x="195" y="102" text-anchor="middle" font-size="20" font-weight="700" fill="currentColor">0</text>
+        <text x="285" y="102" text-anchor="middle" font-size="20" font-weight="700" fill="currentColor">0</text>
+        <text x="375" y="102" text-anchor="middle" font-size="20" font-weight="700" fill="currentColor">1</text>
+        <text x="465" y="102" text-anchor="middle" font-size="20" font-weight="700" fill="currentColor">0</text>
+        <text x="195" y="172" text-anchor="middle" font-size="20" font-weight="700" fill="currentColor">0</text>
+        <text x="285" y="172" text-anchor="middle" font-size="20" font-weight="700" fill="currentColor">1</text>
+        <text x="375" y="172" text-anchor="middle" font-size="20" font-weight="700" fill="currentColor">1</text>
+        <text x="465" y="172" text-anchor="middle" font-size="20" font-weight="700" fill="currentColor">1</text>
+
+        <line x1="150" y1="228" x2="178" y2="228" stroke="var(--accent)" stroke-width="3"/>
+        <text x="184" y="232" font-size="12" fill="currentColor">T &middot; D</text>
+        <line x1="260" y1="228" x2="288" y2="228" stroke="var(--accent-2)" stroke-width="3"/>
+        <text x="294" y="232" font-size="12" fill="currentColor">P &middot; T</text>
+        <line x1="370" y1="228" x2="398" y2="228" stroke="currentColor" stroke-width="2.5" stroke-dasharray="7 5"/>
+        <text x="404" y="232" font-size="12" fill="currentColor">P &middot; D</text>
+      </svg>
+      <figcaption>Every pair of adjacent 1-cells is a term: the teal pair reads <b>T&middot;D</b>, the plum pair reads <b>P&middot;T</b>, the dashed pair reads <b>P&middot;D</b> &mdash; and that's the whole map. Three two-cell groups, not four separate branches.</figcaption>
+    </figure>
+
+    <p class="section-sub">Read straight off the map: <code>output = (P&middot;T) + (P&middot;D) + (T&middot;D)</code> &mdash; true whenever <em>at least two</em> of the three conditions hold. That's not just shorter, it's a rule a person can actually say out loud:</p>
+
+    <div class="code-block">
+      <div class="code-head after"><span>shipping.py &mdash; after</span><span>the truth table, not the branches</span></div>
+      <pre class="code">def qualifies_for_free_shipping(is_member, total_over_50, is_promo_day):
+    return sum([is_member, total_over_50, is_promo_day]) >= 2</pre>
+    </div>
+
+    <div class="callout"><b>Why this belongs before today's smells &mdash;</b> a long parameter list of booleans, an if/elif chain that "grew one case at a time," a speculative flag nobody remembers adding: all three often turn out to be an unmapped truth table. Before assuming a tangle needs an object or a strategy pattern, check whether it just needs 10 minutes on a grid. <b>Where it stops helping:</b> past 4&ndash;5 boolean inputs a K-map gets as unwieldy as the code it's replacing &mdash; that's the point where a decision table, a lookup dict, or the Strategy pattern from Day 3 takes over.</div>
+  </section>
+
+  <section>
+    <div class="section-head"><span class="tag">0:15&ndash;0:45 &middot; Concept</span><h2>A shared taxonomy of smells</h2></div>
     <p class="section-sub">Read all three columns aloud. The goal isn't to memorize a list &mdash; it's to leave with shared names for things everyone already senses but nobody's agreed how to describe.</p>
     <div class="cheat-grid">
       <div class="cheat">
@@ -247,10 +346,147 @@
         </ul>
       </div>
     </div>
+
+    <h3 style="font-family:'Archivo',sans-serif; font-size:1.05rem; margin:28px 0 6px;">Ten smells, caught in the act</h3>
+    <p class="section-sub" style="margin-top:0;">One sample per smell from the two columns above &mdash; just the issue, not the fix.</p>
+    <div class="smell-grid">
+      <div class="smell-card">
+        <div class="smell-label">Duplicate code</div>
+        <pre class="code">def calculate_monthly_invoice(customer):
+    total = sum(i.price * i.qty for i in customer.items)
+    total = total * (1 - customer.discount_rate)
+    total = total * 1.08  <span class="c"># tax</span>
+    return round(total, 2)
+
+def calculate_annual_invoice(customer):
+    total = sum(i.price * i.qty for i in customer.items)
+    total = total * (1 - customer.discount_rate)
+    total = total * 1.08  <span class="c"># tax</span>
+    return round(total * 12, 2)
+
+<span class="c"># the pricing formula is copy-pasted &mdash; fix the tax
+# rate in one function and the other keeps the old rate</span></pre>
+      </div>
+      <div class="smell-card">
+        <div class="smell-label">Long parameter list</div>
+        <pre class="code">def schedule_delivery(order_id, address, city, state,
+        zip_code, carrier, weight_kg, is_fragile,
+        requires_signature):
+    ...
+
+<span class="c"># 9 positional args &mdash; a caller has to read the
+# function body to know what's required</span>
+schedule_delivery(4821, "12 Elm St", "Austin", "TX",
+    "78701", "UPS", 3.4, True, False)</pre>
+      </div>
+      <div class="smell-card">
+        <div class="smell-label">Feature envy</div>
+        <pre class="code">def format_invoice_header(invoice):
+    name = invoice.customer.profile.legal_name
+    addr = invoice.customer.profile.billing_address
+    tax_id = invoice.customer.profile.tax_id
+    return f"{name}\n{addr}\nTax ID: {tax_id}"
+
+<span class="c"># barely touches invoice itself &mdash; it's three
+# levels deep into customer.profile instead</span></pre>
+      </div>
+      <div class="smell-card">
+        <div class="smell-label">Speculative generality</div>
+        <pre class="code">def send_notification(user, message, channel="email",
+                       retry_strategy=None):
+    if channel == "email":
+        email_service.send(user.email, message)
+    elif channel == "sms":
+        sms_service.send(user.phone, message)
+    <span class="c"># retry_strategy has never been passed</span>
+
+<span class="c"># added "in case we need custom retries someday" &mdash;
+# no caller uses it, no one remembers why it's there</span></pre>
+      </div>
+      <div class="smell-card" style="grid-column:1 / -1;">
+        <div class="smell-label">Shotgun surgery</div>
+        <pre class="code"><span class="c"># adding a new "gift_wrap" order option touches all of these:</span>
+order_form.py       <span class="c"># add the checkbox</span>
+order_model.py      <span class="c"># add the field</span>
+pricing.py          <span class="c"># add the surcharge</span>
+invoice_pdf.py      <span class="c"># add the line item</span>
+shipping_label.py   <span class="c"># add the packing note</span>
+
+<span class="c"># one product decision, five unrelated files edited in
+# lockstep &mdash; nothing about "gift wrap" lives in one place</span></pre>
+      </div>
+      <div class="smell-card error">
+        <div class="smell-label">Swallowed exceptions</div>
+        <pre class="code">def update_customer_email(customer, new_email):
+    try:
+        customer.email = new_email
+        db.save(customer)
+    except:
+        pass
+
+<span class="c"># the save can fail for a dozen reasons &mdash; a bad
+# connection, a constraint violation, a typo'd column &mdash;
+# and every one disappears without a trace</span></pre>
+      </div>
+      <div class="smell-card error">
+        <div class="smell-label">Error codes as strings or None</div>
+        <pre class="code">def find_customer(customer_id):
+    customer = db.query(customer_id)
+    if customer is None:
+        return "NOT_FOUND"
+    if customer.is_deleted:
+        return "DELETED"
+    return customer
+
+<span class="c"># sometimes returns a Customer, sometimes a string &mdash;
+# nothing in the signature enforces which</span></pre>
+      </div>
+      <div class="smell-card error">
+        <div class="smell-label">Catching Exception broadly</div>
+        <pre class="code">def parse_shipping_weight(raw_value):
+    try:
+        return float(raw_value) * 2.20462
+    except Exception:
+        return 0.0
+
+<span class="c"># a malformed input and a typo in this function's own
+# code both produce the same silent 0.0</span></pre>
+      </div>
+      <div class="smell-card error">
+        <div class="smell-label">Error handling mixed with business logic</div>
+        <pre class="code">def apply_refund(order):
+    try:
+        if order.status != "delivered":
+            return {"error": "not eligible"}
+        amount = order.total * 0.95  <span class="c"># restocking fee</span>
+        payment_gateway.refund(order.payment_id, amount)
+        order.status = "refunded"
+        db.save(order)
+        send_refund_email(order.customer.email, amount)
+    except Exception as e:
+        log.error(e)
+        return {"error": "failed"}
+
+<span class="c"># eligibility, the fee rule, the refund call, and the
+# notification are all one undifferentiated block</span></pre>
+      </div>
+      <div class="smell-card error">
+        <div class="smell-label">Retrying blindly</div>
+        <pre class="code">def fetch_exchange_rate(currency):
+    while True:
+        try:
+            return exchange_api.get_rate(currency)
+        except ConnectionError:
+            continue
+
+<span class="c"># no limit, no backoff &mdash; if the API is down, this
+# hammers it as fast as the network allows, forever</span></pre>
+      </div>
+    </div>
   </section>
 
   <section>
-    <div class="section-head"><span class="tag">0:30&ndash;1:05 &middot; Live demo</span><h2>Exceptions vs. result types</h2></div>
+    <div class="section-head"><span class="tag">0:45&ndash;1:20 &middot; Live demo</span><h2>Exceptions vs. result types</h2></div>
     <div class="callout"><b>Where Day 1 left off &mdash;</b> <code>process_checkout</code> collapses every possible payment failure into one ambiguous outcome. A declined card, a network timeout, and a misconfigured gateway all look identical to the caller.</div>
     <div class="code-block">
       <div class="code-head neutral"><span>checkout.py &mdash; Day 1's ending point</span><span>1 outcome for N failures</span></div>
@@ -346,7 +582,7 @@ outcome = process_checkout(order, customer, gateway)</pre>
   </section>
 
   <section>
-    <div class="section-head"><span class="tag">1:05&ndash;1:45 &middot; Hands-on</span><h2>Smell hunt</h2></div>
+    <div class="section-head"><span class="tag">1:20&ndash;2:00 &middot; Hands-on</span><h2>Smell hunt</h2></div>
     <p class="section-sub">Work in pairs through <code>inventory.py</code> below &mdash; or swap in a real (anonymized) file from your own codebase for higher stakes. Log every smell you find using the table format shown, naming it from this morning's taxonomy where it fits.</p>
 
     <div class="kata">
@@ -462,7 +698,7 @@ def notify_customer(customer, message):
   </section>
 
   <section>
-    <div class="section-head"><span class="tag">1:45&ndash;2:00 &middot; Review</span><h2>Findings walk-through</h2></div>
+    <div class="section-head"><span class="tag">2:00&ndash;2:15 &middot; Review</span><h2>Findings walk-through</h2></div>
     <p class="section-sub">Each pair gets ~90 seconds to share their top finding. Merge everything into one shared list live &mdash; that merged list is today's real deliverable, not this handout.</p>
     <div class="debrief-grid">
       <div class="debrief-card"><b>Ask the room</b><p>Which smell did you find most often in your own codebase &mdash; and did you already have a name for it before today?</p></div>
@@ -484,6 +720,7 @@ def notify_customer(customer, message):
     <div class="prep">
       <b>Before the session</b>
       <ul>
+        <li>The Karnaugh-map warm-up adds 15 minutes, bringing the session to 2:15 total &mdash; if you're locked to a 2:00 slot, it's the one section safe to cut without breaking anything downstream; nothing later depends on it</li>
         <li>Load <code>inventory.py</code> and <code>order_fulfillment.py</code> (stretch) into a shared repo or branch &mdash; or swap in a real, anonymized file from the team's own codebase for higher stakes</li>
         <li>Decide beforehand whether your team already has an exceptions-vs-result-type convention; if so, present it as the existing answer rather than an open question</li>
         <li>Share a blank smell-log table (same four columns) per pair, on paper or a shared doc</li>

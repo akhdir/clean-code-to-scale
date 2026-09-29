@@ -2,6 +2,7 @@ node_modules/
 package.json
 package-lock.json
 build_deck.js
+build_deck_02.js
 build_curriculum_deck.js
 *.pptx
 .DS_Store
