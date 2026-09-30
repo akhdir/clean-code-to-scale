@@ -119,6 +119,32 @@
   pre.code .a{ color:var(--code-annotate); }
   pre.code .f{ color:var(--code-faint); }
 
+  .smell-grid{ display:grid; grid-template-columns:repeat(2,1fr); gap:16px; margin-top:18px; }
+  @media (max-width:760px){ .smell-grid{ grid-template-columns:1fr; } }
+  .smell-card{ background:var(--surface); border:1px solid var(--line); border-left:3px solid var(--bad); border-radius:10px; overflow:hidden; box-shadow:var(--shadow); }
+  .smell-card .smell-label{ padding:10px 14px 12px; border-bottom:1px solid var(--line); font-family:"Source Serif 4", serif; }
+  .smell-card .smell-label b{ display:block; font-size:0.82rem; font-weight:600; color:var(--ink); margin-bottom:4px; }
+  .smell-card .smell-label span{ display:block; font-size:0.8rem; line-height:1.45; color:var(--ink-soft); }
+  .smell-card pre.code{ font-size:0.76rem; padding:14px 16px; }
+
+  .pattern-grid{ display:grid; grid-template-columns:repeat(2,1fr); gap:16px; margin-top:18px; }
+  @media (max-width:760px){ .pattern-grid{ grid-template-columns:1fr; } }
+  .pattern-card{ background:var(--surface); border:1px solid var(--line); border-left:3px solid var(--accent); border-radius:10px; overflow:hidden; box-shadow:var(--shadow); }
+  .pattern-card .pattern-label{ padding:10px 14px 12px; border-bottom:1px solid var(--line); font-family:"Source Serif 4", serif; }
+  .pattern-card .pattern-label b{ display:block; font-size:0.88rem; font-weight:700; color:var(--ink); font-family:"Archivo", sans-serif; }
+  .pattern-card .pattern-label .tag{ display:inline-block; font-family:"IBM Plex Mono", monospace; font-size:0.62rem; letter-spacing:0.05em; text-transform:uppercase; color:var(--accent-ink); background:var(--accent-soft); padding:2px 7px; border-radius:99px; margin:5px 0 6px; }
+  .pattern-card .pattern-label span.desc{ display:block; font-size:0.8rem; line-height:1.45; color:var(--ink-soft); }
+  .pattern-card pre.code{ font-size:0.76rem; padding:14px 16px; }
+
+  .split-label{ padding:9px 14px; font-family:"IBM Plex Mono", monospace; font-size:0.64rem; letter-spacing:0.08em; text-transform:uppercase; border-top:1px solid var(--line); }
+  .split-label.before{ color:var(--bad); }
+  .split-label.after{ color:var(--accent); }
+
+  .primer{ background:var(--accent-2-soft); border:1px solid var(--line); border-radius:10px; padding:20px 22px 6px; }
+  .primer h3{ font-family:"Archivo", sans-serif; font-size:0.98rem; font-weight:700; margin:0 0 6px; color:var(--accent-2); }
+  .primer p{ font-size:0.9rem; line-height:1.55; color:var(--ink); max-width:70ch; margin:0 0 14px; }
+  .primer .code-block{ margin:0 0 18px; }
+
   .demo-notes{ background:var(--surface); border:1px solid var(--line); border-radius:10px; padding:16px 18px; margin-top:8px; }
   .demo-notes b{ font-family:"IBM Plex Mono", monospace; font-size:0.68rem; letter-spacing:0.08em; text-transform:uppercase; color:var(--accent); display:block; margin-bottom:8px; }
   .demo-notes ol{ margin:0; padding-left:1.2em; font-size:0.88rem; line-height:1.6; color:var(--ink-soft); }
@@ -130,12 +156,16 @@
 
   /* kata / exercise cards */
   .kata{ background:var(--surface); border:1px solid var(--line); border-radius:12px; padding:22px 24px; margin-bottom:20px; box-shadow:var(--shadow); }
+  .kata-grid{ display:grid; grid-template-columns:repeat(2,1fr); gap:16px; margin-top:14px; }
+  @media (max-width:760px){ .kata-grid{ grid-template-columns:1fr; } }
+  .kata-grid .kata{ padding:18px 20px; margin-bottom:0; }
   .kata-head{ display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:8px 14px; margin-bottom:8px; }
   .kata-title{ font-family:"Archivo", sans-serif; font-weight:700; font-size:1.08rem; color:var(--ink); }
   .badges{ display:flex; gap:8px; flex-wrap:wrap; align-items:center; }
   .badge{ font-family:"IBM Plex Mono", monospace; font-size:0.66rem; letter-spacing:0.05em; text-transform:uppercase; padding:4px 9px; border-radius:99px; white-space:nowrap; }
   .badge.time{ background:var(--paper); border:1px solid var(--line); color:var(--ink-soft); }
   .badge.level-1{ background:var(--accent-soft); color:var(--accent-ink); }
+  .badge.level-2{ background:var(--accent-2-soft); color:var(--accent-2); }
   .badge.level-3{ background:var(--bad-soft); color:var(--bad); }
   .task{ font-size:0.96rem; line-height:1.6; color:var(--ink); margin:0 0 4px; }
   .task b{ color:var(--accent); font-family:"Archivo", sans-serif; font-weight:600; font-size:0.82rem; text-transform:uppercase; letter-spacing:0.03em; display:block; margin-bottom:4px; }
@@ -175,24 +205,27 @@
   <div class="crumb"><a href="https://claude.ai/code/artifact/d82a43b8-603a-4a49-a9d8-bee201a2d318">Clean Code to Scale</a><span>/</span><a href="https://claude.ai/code/artifact/83a34622-996b-42de-a440-996350b22201">Day 01</a><span>/</span><a href="https://claude.ai/code/artifact/6910c9d4-7a9c-4351-9f28-ec2ca98648f0">Day 02</a><span>/</span><span>Day 03 of 10</span></div>
 
   <div class="eyebrow">Session material &middot; Module: Clean Code</div>
-  <h1>SOLID &amp; Object Design</h1>
-  <p class="lede">Facilitator and participant material for Day 3 &mdash; the bridge from clean lines to clean structure. Five principles, each one an answer to a specific, recurring failure you've probably already lived through.</p>
+  <h1>OOP and Design Patterns</h1>
+  <p class="lede">Facilitator and participant material for Day 3 &mdash; the bridge from clean lines to clean structure. Five principles, each one an answer to a specific, recurring failure you've probably already lived through &mdash; plus the four design patterns that turn out to just be those principles, applied, each with its own 5&ndash;10 minute kata. This is now a deep, modular reference rather than a single 2-hour sitting &mdash; see the facilitator notes for what to run live versus hand out.</p>
 
   <div class="meta-strip">
-    <div class="meta"><b>2:00</b><span>Duration</span></div>
+    <div class="meta"><b>3:20</b><span>Duration</span></div>
     <div class="meta"><b>03 / 10</b><span>Session</span></div>
     <div class="meta"><b>Python</b><span>Code samples</span></div>
-    <div class="meta"><b>Pairs</b><span>DIP kata</span></div>
+    <div class="meta"><b>Pairs</b><span>2 katas</span></div>
   </div>
 
   <section>
     <div class="section-head"><span class="tag">Objectives</span><h2>What today is for</h2></div>
-    <div class="cheat-grid" style="margin-bottom:0;">
+    <div class="cheat-grid" style="grid-template-columns:repeat(2,1fr); margin-bottom:0;">
       <div class="cheat"><ul>
         <li>Spot an SRP or OCP violation from a diff, not just a diagram</li>
       </ul></div>
       <div class="cheat"><ul>
         <li>Use dependency inversion to make a concrete dependency swappable</li>
+      </ul></div>
+      <div class="cheat"><ul>
+        <li>Recognize Strategy, Factory Method, Decorator, and Observer as SOLID applied, not new theory to memorize</li>
       </ul></div>
       <div class="cheat"><ul>
         <li>Know when applying SOLID is over-engineering for the problem's size</li>
@@ -211,7 +244,59 @@
   </section>
 
   <section>
-    <div class="section-head"><span class="tag">0:00&ndash;0:30 &middot; Concept</span><h2>Five letters, five failures</h2></div>
+    <div class="section-head"><span class="tag">Optional &middot; not in the clock</span><h2>New to object-oriented code? Start here.</h2></div>
+    <p class="section-sub">Everything today assumes you know what a class and a subclass are. If that's already second nature, skip straight to the five principles below &mdash; if not, these two ideas are all of the prerequisite this session has.</p>
+    <div class="primer">
+      <h3>What is a class?</h3>
+      <p>A class is a blueprint for creating objects that bundle related data (called <b>attributes</b>) and behavior (called <b>methods</b>) together &mdash; instead of passing loose variables around to separate functions that operate on them.</p>
+      <div class="code-block">
+        <div class="code-head neutral"><span>primer.py</span><span>a class, and an object made from it</span></div>
+        <pre class="code">class Employee:
+    def __init__(self, name, hourly_rate):
+        self.name = name
+        self.hourly_rate = hourly_rate     <span class="c"># attribute: data this object holds</span>
+        self.vacation_days = 15             <span class="c"># attribute: every employee starts with 15</span>
+
+    def calculate_pay(self, hours):         <span class="c"># method: behavior this object can do</span>
+        return hours * self.hourly_rate
+
+    def describe(self):                     <span class="c"># method: reads the attributes above</span>
+        return f"{self.name}: {self.vacation_days} vacation days/year"
+
+employee = Employee("Sam", 25)   <span class="c"># an object &mdash; one instance built from the class</span>
+print(employee.calculate_pay(40))
+<span class="c"># prints: 1000</span></pre>
+      </div>
+      <p style="margin-top:-6px;">The class is the blueprint; <code>employee</code> is one specific object built from it. Call <code>Employee(...)</code> again with a different name and rate and you get a second, independent object &mdash; same blueprint, its own data. Every class you see for the rest of today is built the same way: attributes plus methods.</p>
+
+      <h3>What is inheritance (a.k.a. extension)?</h3>
+      <p>Inheritance lets one class reuse another class's attributes and methods, then add its own or override the ones it doesn't like. The new class (the <b>subclass</b>) is a more specific version of the original (the <b>superclass</b>) &mdash; anywhere an <code>Employee</code> is expected, a <code>Manager</code> can stand in for it, because it <em>is</em> one.</p>
+      <div class="code-block">
+        <div class="code-head neutral"><span>primer.py</span><span>a subclass extending Employee</span></div>
+        <pre class="code">class Manager(Employee):              <span class="c"># Manager extends (inherits from) Employee</span>
+    def calculate_pay(self, hours):   <span class="c"># overrides calculate_pay with its own version</span>
+        return hours * self.hourly_rate * 1.15   <span class="c"># managers earn a 15% bonus</span>
+
+    <span class="c"># no __init__, no vacation_days, no describe() here &mdash;
+    # Manager never writes any of that itself</span>
+
+manager = Manager("Jordan", 25)
+print(manager.calculate_pay(40))
+<span class="c"># prints: 1150.0
+# Manager's own calculate_pay() ran, not Employee's</span>
+
+print(manager.describe())
+<span class="c"># prints: Jordan: 15 vacation days/year
+# describe() and vacation_days came from Employee, untouched &mdash;
+# that's the actual value of inheritance: free reuse of the
+# 90% that doesn't change, not just permission to override</span></pre>
+      </div>
+      <p style="margin-top:-6px;"><code>class Manager(Employee):</code> is Python's syntax for "Manager inherits from Employee." Every principle in this session, and every pattern, is really a rule of thumb about using these two ideas &mdash; classes and inheritance &mdash; without them turning on you as the codebase grows.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-head"><span class="tag">0:00&ndash;1:30 &middot; Concept</span><h2>Five letters, five failures</h2></div>
     <p class="section-sub">Each principle is a named answer to a way codebases actually break. Read all five &mdash; today's demo and kata both live mostly in the last one.</p>
     <div class="principles">
       <div class="principle-row">
@@ -235,7 +320,7 @@
         <div class="p-body">
           <b>Liskov Substitution &mdash; a subclass shouldn't surprise the caller</b>
           <p>Anywhere the parent type is expected, a subclass should work the same way, not throw or silently do nothing.</p>
-          <div class="ex"><b>Example:</b> a <code>Refund</code> subclass of <code>Payment</code> that raises <code>NotImplementedError</code> on <code>.charge()</code> breaks every caller that trusts <code>Payment</code>.</div>
+          <div class="ex"><b>Example:</b> a <code>GiftCardPayment</code> that raises on <code>.refund()</code> breaks any caller that trusts every <code>Payment</code> supports it.</div>
         </div>
       </div>
       <div class="principle-row">
@@ -243,7 +328,7 @@
         <div class="p-body">
           <b>Interface Segregation &mdash; don't force unused methods</b>
           <p>A class shouldn't have to implement a method it has no use for, just because it shares an interface with something that does.</p>
-          <div class="ex"><b>Example:</b> a <code>ReadOnlyReport</code> forced to implement <code>.save()</code> only because every other <code>Report</code> does.</div>
+          <div class="ex"><b>Example:</b> a <code>RobotWorker</code> forced to implement <code>.eat_lunch()</code> and <code>.sleep()</code> only because every <code>Worker</code> does.</div>
         </div>
       </div>
       <div class="principle-row emphasis">
@@ -255,10 +340,332 @@
         </div>
       </div>
     </div>
+
+    <h3 style="font-family:'Archivo',sans-serif; font-size:1.05rem; margin:28px 0 6px;">O, L, and I, made concrete</h3>
+    <p class="section-sub" style="margin-top:0;">S and D carry today's demo and kata &mdash; here's one violation each for the three letters that otherwise stay theoretical, issue and fix. O's example is deliberately not another discount chain &mdash; you'll see enough of those today.</p>
+    <div class="smell-grid">
+      <div class="smell-card" style="grid-column:1 / -1;">
+        <div class="smell-label"><b>Open/Closed</b><span>An order-status handler with one <code>elif</code> per status. Every new status means editing a function that already works, and re-testing the ones that already did.</span></div>
+        <pre class="code">def handle_status_change(order):
+    if order.status == "paid":
+        send_confirmation_email(order)
+    elif order.status == "shipped":
+        send_tracking_email(order)
+    elif order.status == "delivered":
+        request_review(order)
+    elif order.status == "cancelled":
+        send_cancellation_email(order)
+
+<span class="c"># adding "refunded" means editing this function and</span>
+<span class="c"># re-testing every status that already worked</span></pre>
+        <div class="split-label after">The fix &mdash; a lookup table, not a chain</div>
+        <pre class="code">STATUS_HANDLERS = {
+    "paid": send_confirmation_email,
+    "shipped": send_tracking_email,
+    "delivered": request_review,
+    "cancelled": send_cancellation_email,
+}
+
+def handle_status_change(order):
+    handler = STATUS_HANDLERS.get(order.status)
+    if handler:
+        handler(order)
+
+<span class="c"># adding "refunded" is one new dict entry &mdash;</span>
+<span class="c"># handle_status_change never changes again</span></pre>
+        <p style="margin:10px 14px 12px; font-size:0.8rem; line-height:1.45; color:var(--ink-soft);">Strategy classes aren't the only way to satisfy OCP &mdash; a plain lookup table works too, and reads more naturally when each "behavior" is already just a function, with no state of its own to carry.</p>
+      </div>
+      <div class="smell-card">
+        <div class="smell-label"><b>Liskov Substitution</b><span>Every <code>Payment</code> is supposed to support <code>.refund()</code>. A gift card can't be &mdash; so code that trusts the contract crashes the moment one shows up in the list.</span></div>
+        <pre class="code">class Payment:
+    def refund(self, amount): raise NotImplementedError
+
+class CreditCardPayment(Payment):
+    def refund(self, amount):
+        gateway.refund(self.card_token, amount)
+
+class GiftCardPayment(Payment):
+    def refund(self, amount):
+        raise NotImplementedError("not refundable")
+
+<span class="c"># works fine until a GiftCardPayment is in the list</span>
+for payment in customer.payments:
+    payment.refund(order.total)  <span class="c"># boom, eventually</span></pre>
+        <div class="split-label after">The fix &mdash; refund becomes its own capability</div>
+        <pre class="code">class Payment:
+    ...  <span class="c"># whatever every payment shares</span>
+
+class Refundable:
+    def refund(self, amount): raise NotImplementedError
+
+class CreditCardPayment(Payment, Refundable):
+    def refund(self, amount):
+        gateway.refund(self.card_token, amount)
+
+class GiftCardPayment(Payment):
+    <span class="c"># no refund() at all &mdash; never a real capability</span>
+    pass
+
+<span class="c"># the caller asks, instead of assuming</span>
+refundable = [p for p in customer.payments
+              if isinstance(p, Refundable)]
+for payment in refundable:
+    payment.refund(order.total)</pre>
+      </div>
+      <div class="smell-card">
+        <div class="smell-label"><b>Interface Segregation</b><span>The classic version of this smell: a <code>Worker</code> interface with a lunch break and a sleep schedule &mdash; two things a robot doesn't have.</span></div>
+        <pre class="code">class Worker:
+    def work(self): raise NotImplementedError
+    def eat_lunch(self): raise NotImplementedError
+    def sleep(self): raise NotImplementedError
+
+class HumanWorker(Worker):
+    def work(self): assemble_parts()
+    def eat_lunch(self): take_break()
+    def sleep(self): clock_out()
+
+class RobotWorker(Worker):
+    def work(self): assemble_parts()
+    def eat_lunch(self):
+        raise NotImplementedError("robots don't eat")
+    def sleep(self):
+        raise NotImplementedError("robots don't sleep")
+
+<span class="c"># RobotWorker answers to a lunch break and a sleep
+# schedule &mdash; neither has anything to do with welding</span></pre>
+        <div class="split-label after">The fix &mdash; split the fat interface in two</div>
+        <pre class="code">class Workable:
+    def work(self): raise NotImplementedError
+
+class Schedulable:
+    def eat_lunch(self): raise NotImplementedError
+    def sleep(self): raise NotImplementedError
+
+class HumanWorker(Workable, Schedulable):
+    def work(self): assemble_parts()
+    def eat_lunch(self): take_break()
+    def sleep(self): clock_out()
+
+class RobotWorker(Workable):
+    def work(self): assemble_parts()
+    <span class="c"># no eat_lunch or sleep &mdash; never had a use for either</span>
+
+<span class="c"># only ask Schedulable workers to clock out</span>
+for worker in shift.workers:
+    if isinstance(worker, Schedulable):
+        worker.sleep()</pre>
+      </div>
+    </div>
+
+    <h3 style="font-family:'Archivo',sans-serif; font-size:1.05rem; margin:28px 0 6px;">Patterns you already have the tools for</h3>
+    <p class="section-sub" style="margin-top:0;">A "design pattern" is usually just one of these five principles, applied to a recurring shape. Each one below is the same code, twice &mdash; without the pattern, then with it.</p>
+    <div class="pattern-grid">
+      <div class="pattern-card">
+        <div class="pattern-label"><b>Strategy</b><span class="tag">OCP &middot; DIP</span><span class="desc">You already built this &mdash; it's <code>DiscountStrategy</code> in today's live demo, shown here in miniature.</span></div>
+        <div class="split-label before">Without it</div>
+        <pre class="code">def calculate_discount(total, discount_type):
+    if discount_type == "loyalty":
+        return total * 0.9
+    elif discount_type == "seasonal":
+        return total * 0.85
+    elif discount_type == "employee":
+        return total * 0.7
+    return total
+
+<span class="c"># adding "student" means editing this function,
+# and re-testing every branch that's already there</span></pre>
+        <div class="split-label after">With Strategy</div>
+        <pre class="code">class DiscountStrategy:
+    def apply(self, total): raise NotImplementedError
+
+class SeasonalDiscount(DiscountStrategy):
+    def apply(self, total): return total * 0.85
+
+<span class="c"># adding "student" means adding a class &mdash;
+# this line never changes again</span>
+total = discount.apply(total)</pre>
+        <p style="margin:10px 14px 12px; font-size:0.8rem; line-height:1.45; color:var(--ink-soft);"><b style="color:var(--ink);">What improved:</b> the function that varies is gone. Nothing left to re-test when a discount type is added &mdash; there's only something to add.</p>
+      </div>
+      <div class="pattern-card">
+        <div class="pattern-label"><b>Factory Method</b><span class="tag">DIP &middot; OCP</span><span class="desc">Centralizes object construction in one place, instead of an if/elif scattered across every call site that needs one.</span></div>
+        <div class="split-label before">Without it</div>
+        <pre class="code"><span class="c"># repeated at every call site that needs a notifier</span>
+if customer.channel == "email":
+    notifier = EmailNotifier(smtp_host="smtp.x.com")
+elif customer.channel == "sms":
+    notifier = SmsNotifier(api_key="xxxx")
+notifier.send(message)
+
+<span class="c"># ...copy-pasted again, three files over</span></pre>
+        <div class="split-label after">With Factory Method</div>
+        <pre class="code">class NotifierFactory:
+    def create(self, channel):
+        if channel == "email": return EmailNotifier()
+        if channel == "sms": return SmsNotifier()
+        raise ValueError(channel)
+
+<span class="c"># every call site asks, none of them decide</span>
+notifier = NotifierFactory().create(customer.channel)
+notifier.send(message)</pre>
+        <p style="margin:10px 14px 12px; font-size:0.8rem; line-height:1.45; color:var(--ink-soft);"><b style="color:var(--ink);">What improved:</b> the construction logic lived in five places before &mdash; a new channel meant finding and editing all five, and missing one was a silent bug. Now it exists once.</p>
+      </div>
+      <div class="pattern-card">
+        <div class="pattern-label"><b>Decorator</b><span class="tag">OCP &middot; SRP</span><span class="desc">Adds behavior by wrapping an object, not editing it. Today's new kata builds one of these on a repository.</span></div>
+        <div class="split-label before">Without it</div>
+        <pre class="code">class EmailNotifier:
+    def send(self, to, message):
+        for attempt in range(3):
+            try:
+                smtp.send(to, message)
+                return
+            except SmtpError:
+                if attempt == 2: raise
+                time.sleep(0.5)
+
+<span class="c"># every notifier class repeats this same retry loop</span></pre>
+        <div class="split-label after">With Decorator</div>
+        <pre class="code">class RetryingNotifier:
+    def __init__(self, notifier, attempts=3):
+        self.notifier = notifier
+        self.attempts = attempts
+
+    def send(self, to, message):
+        for attempt in range(self.attempts):
+            try:
+                return self.notifier.send(to, message)
+            except SmtpError:
+                if attempt == self.attempts - 1: raise
+                time.sleep(0.5)
+
+notifier = RetryingNotifier(EmailNotifier())</pre>
+        <p style="margin:10px 14px 12px; font-size:0.8rem; line-height:1.45; color:var(--ink-soft);"><b style="color:var(--ink);">What improved:</b> the retry loop was copy-pasted into every notifier before. Now it wraps any of them once, and <code>EmailNotifier</code> goes back to just sending email.</p>
+      </div>
+      <div class="pattern-card" style="grid-column:1 / -1;">
+        <div class="pattern-label"><b>Observer</b><span class="tag">SRP &middot; DIP</span><span class="desc">The subject doesn't know or care what reacts to it &mdash; only that something might want to. Full implementation below, not just the usage.</span></div>
+        <div class="split-label before">Without it</div>
+        <pre class="code">class OrderService:
+    def place_order(self, order):
+        save_order(order)
+        send_confirmation_email(order)
+        update_analytics(order)
+        notify_warehouse(order)
+
+<span class="c"># "text the courier too" means editing this method,
+# and OrderService now knows about four other teams</span></pre>
+        <div class="split-label after">With Observer &mdash; the whole implementation</div>
+        <pre class="code">class OrderEvents:
+    def __init__(self):
+        self._subscribers = []
+
+    def on_placed(self, callback):
+        self._subscribers.append(callback)
+
+    def emit(self, order):
+        for callback in self._subscribers:
+            callback(order)
+
+<span class="c"># wiring: each team subscribes itself, on startup</span>
+order_events = OrderEvents()
+order_events.on_placed(send_confirmation_email)
+order_events.on_placed(update_analytics)
+order_events.on_placed(notify_warehouse)
+
+<span class="c"># the subject: doesn't import or know about any of them</span>
+class OrderService:
+    def __init__(self, events):
+        self.events = events
+
+    def place_order(self, order):
+        save_order(order)
+        self.events.emit(order)</pre>
+        <p style="margin:10px 14px 12px; font-size:0.8rem; line-height:1.45; color:var(--ink-soft);"><b style="color:var(--ink);">What improved:</b> <code>place_order()</code> used to grow a line for every team that cared about a new order. Now it emits one event &mdash; subscribing is each team's job, not <code>OrderService</code>'s. Note <code>events</code> arrives through the constructor, not a global &mdash; DIP again, doing the same job it does everywhere else today.</p>
+      </div>
+    </div>
+
+    <h3 style="font-family:'Archivo',sans-serif; font-size:1.05rem; margin:28px 0 6px;">Quick reps &mdash; one kata per pattern</h3>
+    <p class="section-sub" style="margin-top:0;">5&ndash;10 minutes each, solo or in pairs. Each one is the same move as its pattern above, on a fresh starter &mdash; not a repeat of the example you just read.</p>
+    <div class="kata-grid">
+      <div class="kata">
+        <div class="kata-head">
+          <div class="kata-title">Strategy &mdash; ShippingCostCalculator</div>
+          <div class="badges"><span class="badge time">8 min</span><span class="badge level-2">Quick rep</span></div>
+        </div>
+        <div class="task"><b>Task</b>Replace the <code>elif</code> chain with a <code>ShippingStrategy</code> hierarchy, the same shape as <code>DiscountStrategy</code>.</div>
+        <div class="code-block">
+          <div class="code-head neutral"><span>shipping_cost.py</span><span>starter</span></div>
+          <pre class="code">def calculate_shipping(weight_kg, carrier):
+    if carrier == "ups":
+        return weight_kg * 4.5
+    elif carrier == "fedex":
+        return weight_kg * 4.8
+    elif carrier == "usps":
+        return weight_kg * 3.9
+    raise ValueError(carrier)</pre>
+        </div>
+        <div class="done-when"><b>Done when</b><ul>
+          <li>Adding "dhl" means adding a class &mdash; <code>calculate_shipping</code>'s replacement never changes</li>
+        </ul></div>
+      </div>
+      <div class="kata">
+        <div class="kata-head">
+          <div class="kata-title">Factory Method &mdash; database connections</div>
+          <div class="badges"><span class="badge time">7 min</span><span class="badge level-2">Quick rep</span></div>
+        </div>
+        <div class="task"><b>Task</b>This exact <code>if</code>/<code>elif</code> also lives in two startup scripts. Extract a <code>ConnectionFactory</code> so it exists once.</div>
+        <div class="code-block">
+          <div class="code-head neutral"><span>db_connection.py</span><span>starter</span></div>
+          <pre class="code">def get_database_connection(env):
+    if env == "production":
+        return PostgresConnection(host="prod.db.internal")
+    elif env == "staging":
+        return PostgresConnection(host="staging.db.internal")
+    elif env == "local":
+        return SqliteConnection(path="local.db")
+    raise ValueError(env)</pre>
+        </div>
+        <div class="done-when"><b>Done when</b><ul>
+          <li>Every call site asks the factory for a connection &mdash; none of them decide the class</li>
+        </ul></div>
+      </div>
+      <div class="kata">
+        <div class="kata-head">
+          <div class="kata-title">Decorator &mdash; CachingPriceLookup</div>
+          <div class="badges"><span class="badge time">8 min</span><span class="badge level-2">Quick rep</span></div>
+        </div>
+        <div class="task"><b>Task</b><code>get_price()</code> hits the network every call, even for the same SKU twice in a row. Write a decorator that caches, without touching <code>PriceLookup</code>.</div>
+        <div class="code-block">
+          <div class="code-head neutral"><span>price_lookup.py</span><span>starter</span></div>
+          <pre class="code">class PriceLookup:
+    def get_price(self, sku):
+        return pricing_api.fetch(sku)  <span class="c"># slow, every time</span></pre>
+        </div>
+        <div class="done-when"><b>Done when</b><ul>
+          <li>A second call for the same SKU never reaches <code>pricing_api</code></li>
+        </ul></div>
+      </div>
+      <div class="kata">
+        <div class="kata-head">
+          <div class="kata-title">Observer &mdash; InventoryService</div>
+          <div class="badges"><span class="badge time">8 min</span><span class="badge level-2">Quick rep</span></div>
+        </div>
+        <div class="task"><b>Task</b>Give <code>restock()</code> the same <code>OrderEvents</code>-shaped treatment you just read, with an <code>on_restocked</code> event.</div>
+        <div class="code-block">
+          <div class="code-head neutral"><span>inventory_service.py</span><span>starter</span></div>
+          <pre class="code">class InventoryService:
+    def restock(self, item, qty):
+        item.stock += qty
+        send_restock_email(item)       <span class="c"># marketing</span>
+        update_reorder_forecast(item)  <span class="c"># ops</span></pre>
+        </div>
+        <div class="done-when"><b>Done when</b><ul>
+          <li><code>restock()</code> only updates state and emits &mdash; subscribing is each team's job</li>
+        </ul></div>
+      </div>
+    </div>
   </section>
 
   <section>
-    <div class="section-head"><span class="tag">0:30&ndash;1:10 &middot; Live demo</span><h2>One god class, refactored on screen</h2></div>
+    <div class="section-head"><span class="tag">1:30&ndash;2:10 &middot; Live demo</span><h2>One god class, refactored on screen</h2></div>
     <p class="section-sub">Live-code the transformation rather than pasting the finished version. This one class manages to violate three of the five principles at once &mdash; find them before revealing the talking points.</p>
 
     <div class="code-block">
@@ -340,8 +747,8 @@ class OrderProcessor:
   </section>
 
   <section>
-    <div class="section-head"><span class="tag">1:10&ndash;1:45 &middot; Hands-on</span><h2>Invert the dependency</h2></div>
-    <p class="section-sub">Work in pairs. <code>InventoryAlert</code> below builds its own dependencies instead of receiving them &mdash; the same DIP violation as the god class, in miniature.</p>
+    <div class="section-head"><span class="tag">2:10&ndash;3:05 &middot; Hands-on</span><h2>Invert the dependency, then wrap it</h2></div>
+    <p class="section-sub">Two core katas, in order &mdash; the second only works because of what the first one built. Work in pairs.</p>
 
     <div class="kata">
       <div class="kata-head">
@@ -375,10 +782,47 @@ class OrderProcessor:
 
     <div class="kata">
       <div class="kata-head">
+        <div class="kata-title">RepositoryDecorators &mdash; wrap it, don't edit it</div>
+        <div class="badges"><span class="badge time">20 min</span><span class="badge level-1">Pairs</span></div>
+      </div>
+      <div class="task"><b>Task</b><code>PostgresRepository.save()</code> below does three unrelated jobs: persist, time-and-log, and retry. Pull logging and retry out into decorators that wrap <em>any</em> object with a <code>.save(order_id, total)</code> method &mdash; so <code>PostgresRepository</code> goes back to doing exactly one thing.</div>
+      <div class="code-block">
+        <div class="code-head neutral"><span>order_repository.py</span><span>starter</span></div>
+        <pre class="code">class PostgresRepository:
+    def save(self, order_id, total):
+        start = time.time()
+        for attempt in range(3):
+            try:
+                db.execute(
+                    "INSERT INTO orders (id, total) VALUES (%s, %s)",
+                    order_id, total,
+                )
+                log.info(f"saved order {order_id} in {time.time() - start:.2f}s")
+                return
+            except ConnectionError:
+                if attempt == 2:
+                    raise
+                time.sleep(0.5)</pre>
+      </div>
+      <div class="callout" style="margin:14px 0 0;"><b>Why this kata only works because of the last one &mdash;</b> <code>OrderProcessor.process()</code> already receives <code>repository</code> instead of constructing it. Decorator needs exactly that seam to attach to: without DIP, there's nowhere to slide a wrapper in.</div>
+      <ul class="q-list">
+        <li>What does <code>PostgresRepository.save()</code> have to do with logging or retries, conceptually? Name its one real job.</li>
+        <li>If <code>OrderProcessor</code> from today's demo receives a decorated repository instead of a plain one, how many lines of <code>OrderProcessor</code> change?</li>
+        <li>Which decorator would you want to skip in a test &mdash; and can you, without touching <code>PostgresRepository</code>?</li>
+      </ul>
+      <div class="done-when"><b>Done when</b><ul>
+        <li><code>PostgresRepository.save()</code> only persists &mdash; no timing, no logging, no retry</li>
+        <li>Logging and retry each exist as their own class that wraps any repository-shaped object, not just <code>PostgresRepository</code></li>
+        <li>You can compose them in either order without editing any of the three classes</li>
+      </ul></div>
+    </div>
+
+    <div class="kata">
+      <div class="kata-head">
         <div class="kata-title">SubscriptionManager &mdash; reduce the responsibilities</div>
         <div class="badges"><span class="badge time">~15 min</span><span class="badge level-3">Stretch</span></div>
       </div>
-      <div class="task"><b>Task</b>Finished the DIP kata early? <code>renew()</code> below validates, prices, charges, updates state, and emails &mdash; four reasons to change in one method. Split it so <code>renew()</code> only orchestrates, and every extracted piece has exactly one reason to change.</div>
+      <div class="task"><b>Task</b>Finished both core katas early? <code>renew()</code> below validates, prices, charges, updates state, and emails &mdash; four reasons to change in one method. Split it so <code>renew()</code> only orchestrates, and every extracted piece has exactly one reason to change.</div>
       <div class="code-block">
         <div class="code-head neutral"><span>subscription_manager.py</span><span>starter</span></div>
         <pre class="code">class SubscriptionManager:
@@ -415,7 +859,7 @@ class OrderProcessor:
   </section>
 
   <section>
-    <div class="section-head"><span class="tag">1:45&ndash;2:00 &middot; Review</span><h2>When is SOLID too much?</h2></div>
+    <div class="section-head"><span class="tag">3:05&ndash;3:20 &middot; Review</span><h2>When is SOLID too much?</h2></div>
     <div class="debrief-grid">
       <div class="debrief-card"><b>Ask the room</b><p>Where have you seen SOLID applied so eagerly that a 10-line script became five files? What was actually gained?</p></div>
       <div class="debrief-card"><b>Ask tech leads</b><p>What's your team's real signal for "this needs an interface" &mdash; is it written down, or does it live in one person's head?</p></div>
@@ -436,7 +880,8 @@ class OrderProcessor:
     <div class="prep">
       <b>Before the session</b>
       <ul>
-        <li>Load <code>order_processor.py</code> (before-version), <code>inventory_alert.py</code>, and <code>subscription_manager.py</code> (stretch) into your live-coding environment</li>
+        <li><b>This session now runs 3:20, well past a standard 2:00 slot &mdash; it's no longer realistic as a single sitting.</b> The four "quick rep" katas are the honest place to cut first: they're independent of each other and of everything else today, so drop all four (saves ~35 min) or hand them out as async practice between sessions. Next, the O/L/I fixes and the patterns grid are both fine as a read-it-yourself handout instead of a live walkthrough (saves ~25 min). <code>RepositoryDecorators</code> in the hands-on block is the last thing to cut if you still need time back (it depends on the DIP kata being done, so cutting it doesn't strand anything downstream). Trimming all of the above gets you back to roughly 2:20; getting to a true 2:00 means picking two design patterns to present instead of four.</li>
+        <li>Load <code>order_processor.py</code> (before-version), <code>inventory_alert.py</code>, <code>order_repository.py</code>, and <code>subscription_manager.py</code> (stretch) into your live-coding environment</li>
         <li>Prepare 1&ndash;2 real examples from your own codebase to swap in for extra buy-in, especially for the "when is this too much" discussion</li>
         <li>The over-engineering discussion lands best if you bring a real, slightly-embarrassing example of over-applying SOLID from your own past &mdash; that vulnerability buys a far more honest conversation than a hypothetical</li>
         <li>The "how many lines would you touch" question in the kata tends to generate the most useful tangents &mdash; let it run if it's productive</li>
@@ -461,6 +906,44 @@ alert = InventoryAlert(10, SlackNotifier(webhook_url="..."), SystemClock())
 
 <span class="c"># test — no network, no real clock</span>
 alert = InventoryAlert(10, FakeNotifier(), FixedClock("2026-01-01"))</pre>
+    </div>
+
+    <div class="answer">
+      <b>Answer key &mdash; RepositoryDecorators</b>
+      <pre class="code" style="border-radius:8px;">class PostgresRepository:
+    def save(self, order_id, total):
+        db.execute(
+            "INSERT INTO orders (id, total) VALUES (%s, %s)",
+            order_id, total,
+        )
+
+class LoggingRepository:
+    def __init__(self, repository):
+        self.repository = repository
+
+    def save(self, order_id, total):
+        start = time.time()
+        self.repository.save(order_id, total)
+        log.info(f"saved order {order_id} in {time.time() - start:.2f}s")
+
+class RetryingRepository:
+    def __init__(self, repository, attempts=3):
+        self.repository = repository
+        self.attempts = attempts
+
+    def save(self, order_id, total):
+        for attempt in range(self.attempts):
+            try:
+                return self.repository.save(order_id, total)
+            except ConnectionError:
+                if attempt == self.attempts - 1:
+                    raise
+                time.sleep(0.5)
+
+<span class="c"># compose in either order &mdash; neither class knows about the other</span>
+repository = LoggingRepository(RetryingRepository(PostgresRepository()))
+processor = OrderProcessor(repository, notifier)</pre>
+      <p style="margin:10px 0 0; font-size:0.85rem; color:var(--ink-soft);"><code>OrderProcessor</code> doesn't change at all &mdash; it still just calls <code>repository.save(order_id, total)</code>. That's only possible because <code>process()</code> already receives <code>repository</code> instead of constructing it; Decorator is DIP's seam, used a second time.</p>
     </div>
 
     <div class="answer">
@@ -494,10 +977,93 @@ class SubscriptionManager:
         self.email_service.send_renewal_notice(subscription, plan, price)</pre>
       <p style="margin:10px 0 0; font-size:0.85rem; color:var(--ink-soft);">A third plan is a new entry in <code>PRICES</code> and <code>VALID_PLANS</code> &mdash; not a new <code>elif</code> in <code>renew()</code>. That's the OCP payoff of splitting pricing out on its own.</p>
     </div>
+
+    <div class="answer">
+      <b>Answer key &mdash; Strategy quick rep (ShippingCostCalculator)</b>
+      <pre class="code" style="border-radius:8px;">class ShippingStrategy:
+    def cost(self, weight_kg): raise NotImplementedError
+
+class UpsShipping(ShippingStrategy):
+    def cost(self, weight_kg): return weight_kg * 4.5
+
+class FedexShipping(ShippingStrategy):
+    def cost(self, weight_kg): return weight_kg * 4.8
+
+class UspsShipping(ShippingStrategy):
+    def cost(self, weight_kg): return weight_kg * 3.9
+
+<span class="c"># adding "dhl" is one new class &mdash; no existing code changes</span>
+cost = strategy.cost(weight_kg)</pre>
+      <p style="margin:10px 0 0; font-size:0.85rem; color:var(--ink-soft);">Same shape as <code>DiscountStrategy</code> in the live demo &mdash; that repetition is the point. Once you've built one <code>Strategy</code> hierarchy, every future elif-on-a-type is the same five-minute move.</p>
+    </div>
+
+    <div class="answer">
+      <b>Answer key &mdash; Factory Method quick rep (database connections)</b>
+      <pre class="code" style="border-radius:8px;">class ConnectionFactory:
+    def create(self, env):
+        if env == "production":
+            return PostgresConnection(host="prod.db.internal")
+        if env == "staging":
+            return PostgresConnection(host="staging.db.internal")
+        if env == "local":
+            return SqliteConnection(path="local.db")
+        raise ValueError(env)
+
+<span class="c"># every script asks the factory &mdash; including the two other</span>
+<span class="c"># startup scripts that used to carry this same if/elif</span>
+connection = ConnectionFactory().create(env)</pre>
+      <p style="margin:10px 0 0; font-size:0.85rem; color:var(--ink-soft);">The <code>if</code>/<code>elif</code> itself didn't disappear &mdash; it moved to exactly one place. That's the whole fix: not "no branching," but "branching that lives once."</p>
+    </div>
+
+    <div class="answer">
+      <b>Answer key &mdash; Decorator quick rep (CachingPriceLookup)</b>
+      <pre class="code" style="border-radius:8px;">class CachingPriceLookup:
+    def __init__(self, price_lookup):
+        self.price_lookup = price_lookup
+        self._cache = {}
+
+    def get_price(self, sku):
+        if sku not in self._cache:
+            self._cache[sku] = self.price_lookup.get_price(sku)
+        return self._cache[sku]
+
+<span class="c"># a second call for the same SKU never reaches pricing_api</span>
+prices = CachingPriceLookup(PriceLookup())</pre>
+      <p style="margin:10px 0 0; font-size:0.85rem; color:var(--ink-soft);"><code>PriceLookup</code> never learns it's being cached &mdash; <code>CachingPriceLookup</code> just has to be shaped like one. Same seam as <code>RepositoryDecorators</code>, on a different object.</p>
+    </div>
+
+    <div class="answer">
+      <b>Answer key &mdash; Observer quick rep (InventoryService)</b>
+      <pre class="code" style="border-radius:8px;">class InventoryEvents:
+    def __init__(self):
+        self._subscribers = []
+
+    def on_restocked(self, callback):
+        self._subscribers.append(callback)
+
+    def emit(self, item):
+        for callback in self._subscribers:
+            callback(item)
+
+<span class="c"># wiring: each team subscribes itself, on startup</span>
+inventory_events = InventoryEvents()
+inventory_events.on_restocked(send_restock_email)
+inventory_events.on_restocked(update_reorder_forecast)
+
+<span class="c"># the subject: doesn't import or know about either team</span>
+class InventoryService:
+    def __init__(self, events):
+        self.events = events
+
+    def restock(self, item, qty):
+        item.stock += qty
+        self.events.emit(item)</pre>
+      <p style="margin:10px 0 0; font-size:0.85rem; color:var(--ink-soft);">Structurally identical to <code>OrderEvents</code> &mdash; a subscriber list, an <code>on_X</code> to join it, an <code>emit</code> to walk it. Once this shape is familiar, spotting where else it applies is the actual skill.</p>
+    </div>
   </section>
 
   <footer>
-    <span><a href="https://claude.ai/code/artifact/6910c9d4-7a9c-4351-9f28-ec2ca98648f0">Prev &mdash; Day 02</a> &middot; Day 03 / 10 &middot; Clean Code &middot; SOLID &amp; Object Design</span>
+    <span><a href="https://claude.ai/code/artifact/6910c9d4-7a9c-4351-9f28-ec2ca98648f0">Prev &mdash; Day 02</a> &middot; Day 03 / 10 &middot; Clean Code &middot; OOP and Design Patterns</span>
     <span>Next &mdash; <a href="https://claude.ai/artifact/LfPjEy3QzevaL9ysYymXKy">Day 04: Refactoring Technique &amp; the Smell Catalog</a></span>
   </footer>
 
