@@ -4,36 +4,28 @@
 # feature envy. Log every smell you find.
 
 
-def apply_discount(price, pct, code=None, is_admin=False, force=False, legacy_mode=False):
-    if legacy_mode:
-        return price
-    if is_admin or force:
-        return price * (1 - pct)
+BULK_DISCOUNT_PERCENTAGE = 0.05
+
+
+def apply_discount(original_price, discount_percentage):
+    return original_price * (1 - discount_percentage)
+
+
+def apply_bulk_discount(original_price, discount_percentage):
+    discounted_price = apply_discount(
+        original_price,
+        discount_percentage,
+    )
+
+    return discounted_price * (1 - BULK_DISCOUNT_PERCENTAGE)
+
+
+def restock_item(warehouse, item_id, quantity):
     try:
-        return price * (1 - pct)
-    except:
-        return price
-
-
-def apply_bulk_discount(price, pct, code=None, is_admin=False, force=False, legacy_mode=False):
-    if legacy_mode:
-        return price
-    if is_admin or force:
-        return price * (1 - pct) * 0.95
-    try:
-        return price * (1 - pct) * 0.95
-    except:
-        return price
-
-
-def restock_item(warehouse, item_id, qty):
-    for attempt in range(10):
-        try:
-            warehouse.update_stock(item_id, qty)
-            return True
-        except Exception:
-            continue
-    return False
+        warehouse.update_stock(item_id, quantity)
+        return True
+    except Exception:
+        return False
 
 
 def get_shipping_label(order):
