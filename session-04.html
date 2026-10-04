@@ -1,4 +1,4 @@
-<title>Stay Green</title>
+<title>Any Instance Will Do</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
 <style>
   :root{
@@ -80,29 +80,22 @@
   .role p{ margin:0; font-size:0.84rem; line-height:1.5; color:var(--ink-soft); }
 
   /* cheat sheet */
-  .cheat-grid{ display:grid; grid-template-columns:repeat(2,1fr); gap:20px; margin-bottom:22px; }
-  @media (max-width:680px){ .cheat-grid{ grid-template-columns:1fr; } }
+  .cheat-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:20px; margin-bottom:22px; }
+  @media (max-width:760px){ .cheat-grid{ grid-template-columns:1fr; } }
   .cheat{ background:var(--surface); border:1px solid var(--line); border-radius:10px; padding:16px 18px; }
   .cheat h3{ font-family:"Archivo", sans-serif; font-size:0.88rem; font-weight:600; margin:0 0 10px; color:var(--accent); }
   .cheat ul{ margin:0; padding-left:1.05em; font-size:0.87rem; line-height:1.55; color:var(--ink-soft); }
   .cheat li{ margin-bottom:6px; }
   .cheat li::marker{ color:var(--accent); }
+  .cheat.b h3{ color:var(--accent-2); }
+  .cheat.b li::marker{ color:var(--accent-2); }
+  .cheat.c h3{ color:var(--amber); }
+  .cheat.c li::marker{ color:var(--amber); }
 
   /* diagrams */
   .diagram-figure{ margin:18px 0; background:var(--surface); border:1px solid var(--line); border-radius:12px; padding:22px 22px 18px; box-shadow:var(--shadow); }
   .diagram-figure svg{ display:block; width:100%; height:auto; color:var(--ink); }
   .diagram-figure figcaption{ margin-top:14px; font-size:0.86rem; color:var(--ink-soft); line-height:1.55; }
-
-  /* technique rows */
-  .techniques{ display:flex; flex-direction:column; }
-  .technique-row{ padding:16px 0; border-bottom:1px dashed var(--line); }
-  .technique-row:last-child{ border-bottom:none; }
-  .technique-row b.name{ display:block; font-family:"Archivo", sans-serif; font-weight:700; font-size:1rem; color:var(--ink); margin-bottom:3px; }
-  .technique-row p{ margin:0 0 10px; font-size:0.9rem; line-height:1.5; color:var(--ink-soft); max-width:65ch; }
-  .technique-pair{ display:flex; align-items:center; gap:10px; flex-wrap:wrap; font-family:"IBM Plex Mono", monospace; font-size:0.8rem; background:var(--surface); border:1px solid var(--line); border-radius:8px; padding:10px 14px; }
-  .technique-pair .bad{ color:var(--bad); }
-  .technique-pair .arrow{ color:var(--ink-faint); }
-  .technique-pair .good{ color:var(--accent); font-weight:600; }
 
   /* code panels */
   .code-block{ border-radius:10px; overflow:hidden; margin:14px 0; box-shadow:var(--shadow); }
@@ -110,7 +103,6 @@
   .code-head.neutral{ background:#223236; color:#DCEAEA; }
   .code-head.before{ background:var(--bad); color:#fff; }
   .code-head.after{ background:var(--accent); color:#fff; }
-  .code-head.step{ background:var(--accent-2); color:#fff; }
   pre.code{
     margin:0; background:var(--code-bg); color:var(--code-ink); padding:16px 18px;
     font-family:"IBM Plex Mono", monospace; font-size:0.82rem; line-height:1.65; overflow-x:auto;
@@ -125,11 +117,32 @@
   .demo-notes li{ margin-bottom:5px; }
   .demo-notes li::marker{ font-family:"IBM Plex Mono", monospace; color:var(--accent); font-weight:600; }
 
-  .checkpoint{ display:flex; align-items:center; gap:8px; font-family:"IBM Plex Mono", monospace; font-size:0.78rem; color:var(--accent); margin:8px 0 18px; }
-  .checkpoint .dot{ width:9px; height:9px; border-radius:50%; background:var(--accent); flex:none; }
-
   .callout{ background:var(--surface); border:1px solid var(--line); border-radius:10px; padding:14px 18px; margin-bottom:14px; font-size:0.92rem; color:var(--ink-soft); }
   .callout b{ color:var(--ink); }
+  .callout.bad{ background:var(--bad-soft); }
+  .callout.bad b{ color:var(--bad); }
+
+  /* stat strip inside narrative */
+  .stat-row{ display:flex; gap:14px; flex-wrap:wrap; margin:16px 0; }
+  .stat-chip{ background:var(--surface); border:1px solid var(--line); border-radius:10px; padding:12px 16px; flex:1; min-width:150px; }
+  .stat-chip b{ display:block; font-family:"IBM Plex Mono", monospace; font-size:1.3rem; font-weight:600; color:var(--ink); }
+  .stat-chip span{ font-family:"IBM Plex Mono", monospace; font-size:0.68rem; letter-spacing:0.05em; text-transform:uppercase; color:var(--ink-faint); }
+  .stat-chip.flag b{ color:var(--bad); }
+
+  /* worksheet table */
+  .plan-table{ width:100%; border-collapse:collapse; margin:14px 0; font-size:0.9rem; }
+  .plan-table th{ text-align:left; font-family:"IBM Plex Mono", monospace; font-size:0.66rem; letter-spacing:0.06em; text-transform:uppercase; color:var(--ink-faint); padding:8px 12px; border-bottom:1px solid var(--line-strong); }
+  .plan-table td{ padding:10px 12px; border-bottom:1px solid var(--line); color:var(--ink-soft); vertical-align:top; }
+  .plan-table td.name{ color:var(--ink); font-weight:600; font-family:"IBM Plex Mono", monospace; font-size:0.82rem; white-space:nowrap; }
+  .plan-table tr.blank td{ color:var(--ink-faint); font-style:italic; }
+
+  /* timeline */
+  .timeline{ display:flex; flex-direction:column; margin:16px 0; }
+  .tl-row{ display:flex; gap:14px; padding:10px 0; border-bottom:1px dashed var(--line); }
+  .tl-row:last-child{ border-bottom:none; }
+  .tl-t{ flex:none; width:64px; font-family:"IBM Plex Mono", monospace; font-size:0.78rem; color:var(--bad); font-weight:600; padding-top:2px; }
+  .tl-body p{ margin:0; font-size:0.92rem; color:var(--ink); line-height:1.5; }
+  .tl-body b{ font-family:"Archivo", sans-serif; }
 
   /* kata / exercise cards */
   .kata{ background:var(--surface); border:1px solid var(--line); border-radius:12px; padding:22px 24px; margin-bottom:20px; box-shadow:var(--shadow); }
@@ -176,28 +189,31 @@
 
   <div class="crumb"><a href="https://claude.ai/code/artifact/d82a43b8-603a-4a49-a9d8-bee201a2d318">Clean Code to Scale</a><span>/</span><a href="https://claude.ai/artifact/CW4Swn9ZbEmNUX6cj5pm8F">Day 03</a><span>/</span><span>Day 04 of 10</span></div>
 
-  <div class="eyebrow">Session material &middot; Module: Refactoring</div>
-  <h1>Refactoring Technique &amp; the Smell Catalog</h1>
-  <p class="lede">Facilitator and participant material for Day 4 &mdash; the first Refactoring session. Every "before/after" you've watched since Day 1 was really a sequence of small, reversible steps. Today you learn the sequence itself, not just the destination.</p>
+  <div class="eyebrow">Session material &middot; Module: Scalable Systems</div>
+  <h1>Scalability Fundamentals</h1>
+  <p class="lede">Facilitator and participant material for Day 4 &mdash; the first Scalable Systems session, and the first time this course asks "what happens under load" instead of "is this readable." Same order-processing service as every prior day, pushed through a flash sale in three layers: the web and API tier first, then the background jobs behind it, then the database underneath both. This is a deep session &mdash; see the facilitator notes for what to run live versus hand out.</p>
 
   <div class="meta-strip">
-    <div class="meta"><b>2:00</b><span>Duration</span></div>
+    <div class="meta"><b>3:00</b><span>Duration</span></div>
     <div class="meta"><b>04 / 10</b><span>Session</span></div>
     <div class="meta"><b>Python</b><span>Code samples</span></div>
-    <div class="meta"><b>Pairs</b><span>Red-green timer</span></div>
+    <div class="meta"><b>Pairs</b><span>Capacity plan</span></div>
   </div>
 
   <section>
     <div class="section-head"><span class="tag">Objectives</span><h2>What today is for</h2></div>
-    <div class="cheat-grid" style="margin-bottom:0; grid-template-columns:repeat(3,1fr);">
+    <div class="cheat-grid" style="margin-bottom:0; grid-template-columns:repeat(2,1fr);">
       <div class="cheat"><ul>
-        <li>Apply Extract Method, Inline, and Replace Conditional with Polymorphism correctly</li>
+        <li>Make a web/API tier horizontally scalable: stateless instances, a deliberate session strategy, and no hot-row lock that turns 1,000 requests into a queue</li>
       </ul></div>
       <div class="cheat"><ul>
-        <li>Keep every intermediate step green under a test suite</li>
+        <li>Quantify where adding instances stops helping (Amdahl's Law and the USL), and justify a capacity plan's safety margin with queueing theory</li>
       </ul></div>
       <div class="cheat"><ul>
-        <li>Match a smell from the Day 2 checklist to its standard refactoring</li>
+        <li>Move slow or bursty work behind a queue, scale it with partitions and consumer groups, and name its failure modes &mdash; ordering, duplicates, lag, poison messages &mdash; and how Kafka handles them</li>
+      </ul></div>
+      <div class="cheat"><ul>
+        <li>Choose a database scaling path &mdash; replicas, multi-master, partitioning &mdash; and state what each one gives up under CAP</li>
       </ul></div>
     </div>
   </section>
@@ -205,258 +221,853 @@
   <section>
     <div class="section-head"><span class="tag">Room</span><h2>Why this session, for you specifically</h2></div>
     <div class="roles">
-      <div class="role"><b>Junior &ndash; Mid Engineers</b><p>This is the technique behind every before/after you've watched since Day 1 &mdash; not a leap of faith, a sequence of tiny, reversible steps.</p></div>
-      <div class="role"><b>Senior Eng &amp; Tech Leads</b><p>Today's rule &mdash; no commit changes behavior and structure at once &mdash; is the cheapest review policy you'll ever adopt. Watch how hard it is to actually follow.</p></div>
-      <div class="role"><b>QEs</b><p>Every step here is guarded by a test that must stay green. If it goes red, the step was too big &mdash; a testable definition of "too big."</p></div>
-      <div class="role"><b>AI Engineers</b><p>An agent asked to "refactor this" will often restructure and change behavior in one diff. Today gives you the exact question to ask: did the tests stay green the whole way?</p></div>
+      <div class="role"><b>Junior &ndash; Mid Engineers</b><p>The first session that asks what happens under load instead of whether the code is readable &mdash; a new lens on skills you already have.</p></div>
+      <div class="role"><b>Senior Eng &amp; Tech Leads</b><p>Amdahl's Law answers "will 2x the servers give us 2x the throughput?" before anyone spends the money. Today's deliverable turns that into a template you can reuse.</p></div>
+      <div class="role"><b>QEs</b><p>Load testing only means something once "scaled" has a number attached to it &mdash; and queueing theory tells you which utilization to actually test at.</p></div>
+      <div class="role"><b>AI Engineers</b><p>An agent told to "make this faster" will often reach for a cache or a bigger box without asking if the service can even be replicated. Today gives you the question to ask first.</p></div>
     </div>
   </section>
 
   <section>
-    <div class="section-head"><span class="tag">0:00&ndash;0:30 &middot; Concept</span><h2>The workflow, and three named moves</h2></div>
-    <p class="section-sub">Refactoring means changing structure without changing behavior. The discipline that keeps that true is smaller than it sounds.</p>
+    <div class="section-head"><span class="tag">Part 1 &middot; 0:00&ndash;0:55</span><h2>Scaling web and API requests</h2></div>
+    <p class="section-sub">Request-serving is the part of a system that scales out most naturally &mdash; if three things are true: the instances hold no state of their own, you've decided on purpose where a user's session lives, and a thousand requests never end up queued behind a single row.</p>
+
+    <h3 style="font-family:'Archivo',sans-serif; font-size:1.05rem; margin:28px 0 6px;">Three levers, one precondition</h3>
+    <p class="section-sub" style="margin-top:0;">Vertical, horizontal, and functional scaling solve the same problem with different tradeoffs. Only one of them is free to reach for &mdash; and it has a precondition the other two don't.</p>
 
     <figure class="diagram-figure">
-      <svg viewBox="0 0 700 210" role="img" aria-label="A loop: tests green, one small structural edit, run tests, then either green (keep the edit) or red (undo it) — both outcomes return to tests green before the next step.">
+      <svg viewBox="0 0 780 380" role="img" aria-label="A client sends a request to a load balancer, which routes it to any of three identical, stateless service instances. Each instance reads and writes through a shared cache, which falls through to a shared database on a miss. The instances hold no state of their own — any of them can answer any request.">
         <defs>
-          <marker id="d4-flow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+          <marker id="d6-flow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
             <path d="M0,0 L10,5 L0,10 Z" fill="currentColor"/>
           </marker>
         </defs>
 
-        <rect x="20" y="75" width="150" height="55" rx="8" fill="var(--accent-soft)" stroke="var(--accent)" stroke-width="2"/>
-        <text x="95" y="99" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="11" font-weight="600" fill="currentColor">Tests green</text>
-        <text x="95" y="114" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="9" fill="var(--ink-faint)">known-good state</text>
+        <rect x="20" y="160" width="110" height="60" rx="8" fill="var(--surface)" stroke="currentColor" stroke-width="1.5"/>
+        <text x="75" y="195" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="11" fill="currentColor">Client</text>
 
-        <rect x="275" y="75" width="150" height="55" rx="8" fill="var(--surface)" stroke="currentColor" stroke-width="1.5"/>
-        <text x="350" y="99" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="11" fill="currentColor">One small</text>
-        <text x="350" y="114" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="11" fill="currentColor">structural edit</text>
+        <rect x="190" y="160" width="130" height="60" rx="8" fill="var(--amber-soft)" stroke="var(--amber)" stroke-width="2"/>
+        <text x="255" y="186" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="10.5" fill="currentColor">Load</text>
+        <text x="255" y="202" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="10.5" fill="currentColor">Balancer</text>
 
-        <rect x="530" y="75" width="150" height="55" rx="8" fill="var(--surface)" stroke="currentColor" stroke-width="1.5"/>
-        <text x="605" y="99" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="11" fill="currentColor">Run tests</text>
-        <text x="605" y="114" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="9" fill="var(--ink-faint)">green or red?</text>
+        <rect x="380" y="55" width="150" height="55" rx="8" fill="var(--accent-soft)" stroke="var(--accent)" stroke-width="1.5"/>
+        <rect x="380" y="163" width="150" height="55" rx="8" fill="var(--accent-soft)" stroke="var(--accent)" stroke-width="1.5"/>
+        <rect x="380" y="271" width="150" height="55" rx="8" fill="var(--accent-soft)" stroke="var(--accent)" stroke-width="1.5"/>
+        <text x="455" y="87" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="10.5" fill="currentColor">instance A</text>
+        <text x="455" y="195" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="10.5" fill="currentColor">instance B</text>
+        <text x="455" y="303" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="10.5" fill="currentColor">instance C</text>
 
-        <line x1="170" y1="102" x2="270" y2="102" stroke="currentColor" stroke-width="1.5" marker-end="url(#d4-flow)"/>
-        <line x1="425" y1="102" x2="525" y2="102" stroke="currentColor" stroke-width="1.5" marker-end="url(#d4-flow)"/>
+        <rect x="610" y="90" width="150" height="55" rx="8" fill="var(--surface)" stroke="currentColor" stroke-width="1.5"/>
+        <text x="685" y="122" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="10.5" fill="currentColor">Cache</text>
 
-        <path d="M605,130 C605,180 95,180 95,130" fill="none" stroke="var(--accent)" stroke-width="2" marker-end="url(#d4-flow)"/>
-        <text x="350" y="168" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="10" fill="var(--accent)">green &rarr; keep it &middot; red &rarr; undo it</text>
-        <text x="350" y="182" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="10" fill="var(--ink-faint)">either way, the next step starts from known-good</text>
+        <rect x="610" y="235" width="150" height="55" rx="8" fill="var(--surface)" stroke="currentColor" stroke-width="1.5"/>
+        <text x="685" y="267" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="10.5" fill="currentColor">Database</text>
+
+        <line x1="130" y1="190" x2="185" y2="190" stroke="currentColor" stroke-width="1.5" marker-end="url(#d6-flow)"/>
+        <text x="157" y="180" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="9" fill="var(--ink-faint)">request</text>
+
+        <line x1="320" y1="180" x2="375" y2="95" stroke="currentColor" stroke-width="1.3" marker-end="url(#d6-flow)"/>
+        <line x1="320" y1="190" x2="375" y2="190" stroke="currentColor" stroke-width="1.3" marker-end="url(#d6-flow)"/>
+        <line x1="320" y1="200" x2="375" y2="285" stroke="currentColor" stroke-width="1.3" marker-end="url(#d6-flow)"/>
+        <text x="335" y="145" font-family="IBM Plex Mono, monospace" font-size="9" fill="var(--amber)">any instance</text>
+        <text x="335" y="157" font-family="IBM Plex Mono, monospace" font-size="9" fill="var(--amber)">will do</text>
+
+        <line x1="530" y1="185" x2="605" y2="130" stroke="currentColor" stroke-width="1.3" marker-end="url(#d6-flow)"/>
+        <text x="560" y="145" font-family="IBM Plex Mono, monospace" font-size="9" fill="var(--ink-faint)">read / write</text>
+
+        <line x1="685" y1="145" x2="685" y2="230" stroke="currentColor" stroke-width="1.3" marker-end="url(#d6-flow)"/>
+        <text x="695" y="192" font-family="IBM Plex Mono, monospace" font-size="9" fill="var(--ink-faint)">miss &rarr; fetch</text>
+
+        <text x="455" y="345" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="9.5" letter-spacing="0.5" fill="var(--accent)">STATELESS &mdash; NO INSTANCE KNOWS ABOUT ANOTHER</text>
       </svg>
-      <figcaption>The whole discipline is this loop. A step small enough to fit it is small enough, full stop &mdash; if you can't tell whether a failure came from your last edit, the edit was too big.</figcaption>
+      <figcaption>Every instance is identical and holds nothing of its own &mdash; any state that must survive between requests lives in the cache or the database instead. That's what makes "any instance will do" true, and it's the one precondition horizontal scaling can't skip.</figcaption>
     </figure>
 
-    <div class="techniques">
-      <div class="technique-row">
-        <b class="name">Extract Method</b>
-        <p>Pull a chunk of logic into its own well-named function. Reduces one function to one level of abstraction &mdash; the Day 1 principle, applied as a repeatable move.</p>
-        <div class="technique-pair"><span class="bad">total = 0<br>for i in items: total += i.price * i.qty</span><span class="arrow">&rarr;</span><span class="good">total = calculate_subtotal(items)</span></div>
+    <div class="cheat-grid">
+      <div class="cheat">
+        <h3>Vertical &mdash; scale up</h3>
+        <ul>
+          <li>A bigger machine. No code changes, simplest lever to pull</li>
+          <li>Hard ceiling: there's always a biggest instance size</li>
+          <li>One box is one point of failure</li>
+        </ul>
       </div>
-      <div class="technique-row">
-        <b class="name">Inline (Method or Variable)</b>
-        <p>The reverse move: when a name adds indirection but no clarity, remove it. Not every extraction earns its keep.</p>
-        <div class="technique-pair"><span class="bad">def get_count(): return len(self.items)<br>n = self.get_count()</span><span class="arrow">&rarr;</span><span class="good">n = len(self.items)</span></div>
+      <div class="cheat b">
+        <h3>Horizontal &mdash; scale out</h3>
+        <ul>
+          <li>More machines running the same code, behind a load balancer</li>
+          <li>Cheap and near-linear at first &mdash; but requires statelessness, and the payoff curves below</li>
+          <li>Redundancy comes free: lose one instance, the rest keep serving</li>
+        </ul>
       </div>
-      <div class="technique-row">
-        <b class="name">Replace Conditional with Polymorphism</b>
-        <p>An <code>if</code>/<code>elif</code> chain on a type code becomes one class per case &mdash; the same move Day 3's <code>DiscountStrategy</code> made, named as a refactoring in its own right.</p>
-        <div class="technique-pair"><span class="bad">if kind == "loyalty": total *= 0.9<br>elif kind == "seasonal": total *= 0.85</span><span class="arrow">&rarr;</span><span class="good">total = discount.apply(total)</span></div>
+      <div class="cheat c">
+        <h3>Functional &mdash; split by responsibility</h3>
+        <ul>
+          <li>Decompose a monolith so each piece scales to its own load profile</li>
+          <li>Isolates failure &mdash; one overloaded piece doesn't take down the rest</li>
+          <li>Trades function calls for network calls &mdash; Day 7's whole subject</li>
+        </ul>
       </div>
     </div>
-  </section>
 
-  <section>
-    <div class="section-head"><span class="tag">0:30&ndash;1:00 &middot; Live demo</span><h2>Three refactorings, one function, in order</h2></div>
-    <p class="section-sub">Live-code each step separately &mdash; run the (imagined) test suite after every one and say so out loud before moving on. Skipping that out loud is the easiest habit to lose under time pressure.</p>
+
+
+    <h3 style="font-family:'Archivo',sans-serif; font-size:1.05rem; margin:32px 0 6px;">Stateless vs. stateful</h3>
+    <p class="section-sub" style="margin-top:0;">The precondition is statelessness: <b>an instance remembers nothing about a user between two requests.</b> That doesn't mean the system has no state &mdash; it means the state lives somewhere other than the web tier.</p>
+
+    <table class="plan-table">
+      <tr><th></th><th>Stateful instance</th><th>Stateless instance</th></tr>
+      <tr><td class="name">Where a user's data lives</td><td>In this process's memory &mdash; a cart dict, a session object</td><td>In a shared store (Redis, the database) or inside the request itself</td></tr>
+      <tr><td class="name">Which instance can answer</td><td>Only the one holding the data</td><td>Any of them</td></tr>
+      <tr><td class="name">An instance dies</td><td>Every user on it loses their session and cart</td><td>Nothing is lost; the load balancer routes around it</td></tr>
+      <tr><td class="name">Autoscale or deploy</td><td>Users get logged out; instances can't be removed freely</td><td>Instances are disposable; scaling is invisible to users</td></tr>
+    </table>
+
+    <h3 style="font-family:'Archivo',sans-serif; font-size:1.05rem; margin:32px 0 6px;">Session handling: three ways to remember a user</h3>
+    <p class="section-sub" style="margin-top:0;">Login state and shopping carts have to live somewhere. There are three common answers, and the choice is a real tradeoff, not a best practice.</p>
+
+    <table class="plan-table">
+      <tr><th>Approach</th><th>How it works</th><th>Strength</th><th>Tradeoff</th></tr>
+      <tr><td class="name">Sticky sessions</td><td>The load balancer pins each user to one instance (a cookie, or a hash of their IP). Session data stays in that instance's memory</td><td>No code change; works with an app that's already stateful</td><td>The instance is still the source of truth &mdash; see the issues below</td></tr>
+      <tr><td class="name">Shared session store</td><td>Instances keep nothing; each request looks the session up in Redis (or similar) by a session ID in a cookie</td><td>Any instance serves any request; instances are disposable</td><td>One extra network hop per request, and the store is now critical &mdash; it needs its own replication and failover</td></tr>
+      <tr><td class="name">Client-held token</td><td>The session lives in the request: a signed token (e.g. JWT) the client sends every time, verified without a lookup</td><td>No server-side session storage at all</td><td>Hard to revoke before expiry; size limits; anything sensitive must be encrypted, not just signed</td></tr>
+    </table>
 
     <div class="code-block">
-      <div class="code-head before"><span>invoice.py &mdash; before</span><span>all three smells, tangled together</span></div>
-      <pre class="code">def _get_item_count(order):
-    return len(order.items)
+      <div class="code-head neutral"><span>nginx.conf</span><span>sticky sessions in two lines</span></div>
+      <pre class="code">upstream checkout {
+    ip_hash;                     <span class="c"># same client IP -> same instance, every time</span>
+    server app-a:8000;
+    server app-b:8000;
+    server app-c:8000;
+}</pre>
+    </div>
 
-def generate_invoice_summary(order):
-    total = 0
-    for item in order.items:
-        total += item.price * item.qty
+    <div class="demo-notes">
+      <b>Why sticky sessions are a bandage, not a fix</b>
+      <ol>
+        <li><b>Uneven load.</b> A handful of heavy users pinned to the same instance can saturate it while the others idle &mdash; and the load balancer is no longer allowed to rebalance them.</li>
+        <li><b>An instance dies, its sessions die with it.</b> Every pinned user is logged out or loses their cart, in the middle of the sale.</li>
+        <li><b>Deploys and autoscaling fight it.</b> Removing an instance means draining it for as long as its sessions live, or logging those users out.</li>
+        <li><b>IP hashing misleads.</b> Thousands of people behind one corporate NAT all hash to the same instance.</li>
+        <li><b>It hides the bug.</b> A stateful app behind sticky routing looks fine in testing and in normal traffic &mdash; right up until an instance is replaced under load.</li>
+      </ol>
+    </div>
 
-    if order.discount_type == "loyalty":
-        total *= 0.9
-    elif order.discount_type == "seasonal":
-        total *= 0.85
-    elif order.discount_type == "employee":
-        total *= 0.7
+    <h3 style="font-family:'Archivo',sans-serif; font-size:1.05rem; margin:32px 0 6px;">Demo: a flash sale finds the empty cart</h3>
+    <p class="section-sub" style="margin-top:0;">Walk through this as a narrative, live &mdash; the numbers first, then the code that explains them.</p>
 
-    count = _get_item_count(order)
-    return f"{count} items, total ${total:.2f}"</pre>
+    <div class="stat-row">
+      <div class="stat-chip"><b>800 req/s</b><span>Comfortable baseline</span></div>
+      <div class="stat-chip flag"><b>6,000 req/s</b><span>Flash sale peak</span></div>
+      <div class="stat-chip flag"><b>100%</b><span>CPU, single instance</span></div>
+    </div>
+
+    <div class="callout"><b>The obvious fix &mdash;</b> add eight more instances of the same size behind a load balancer. Nine instances at ~800 req/s each covers 6,000 req/s with room to spare. It doesn't work: customers start seeing empty carts mid-checkout.</div>
+
+    <div class="code-block">
+      <div class="code-head before"><span>checkout_service.py &mdash; stateful</span><span>breaks the moment a 2nd instance exists</span></div>
+      <pre class="code"><span class="a"># carts lives in this process's memory only</span>
+carts = {}
+
+def add_to_cart(session_id, item):
+    carts.setdefault(session_id, []).append(item)
+
+def get_cart(session_id):
+    return carts.get(session_id, [])</pre>
+    </div>
+
+    <div class="demo-notes">
+      <b>Why nine instances made it worse, not better</b>
+      <ol>
+        <li>Request 1 (add to cart) lands on instance A. <code>carts</code> in A's memory now has this customer's item.</li>
+        <li>Request 2 (view cart) lands on instance C, chosen by the load balancer with no idea request 1 ever happened. C's <code>carts</code> is empty for this customer.</li>
+        <li>The bug was always there &mdash; one instance just always answered both requests, so it never showed.</li>
+      </ol>
     </div>
 
     <div class="code-block">
-      <div class="code-head neutral"><span>test_invoice.py</span><span>the safety net every checkpoint below refers to</span></div>
-      <pre class="code">def test_generate_invoice_summary():
-    order = Order(
-        items=[Item(price=10, qty=1), Item(price=5, qty=2)],
-        discount_type="loyalty",
-    )
-    assert generate_invoice_summary(order) == "2 items, total $18.00"</pre>
+      <div class="code-head after"><span>checkout_service.py &mdash; stateless</span><span>cart lives in Redis, not in the process</span></div>
+      <pre class="code">def add_to_cart(session_id, item):
+    redis.rpush(f"cart:{session_id}", item)
+
+def get_cart(session_id):
+    return redis.lrange(f"cart:{session_id}", 0, -1)</pre>
     </div>
-
-    <div class="code-block">
-      <div class="code-head step"><span>Step 1 &mdash; Extract Method</span><span>pull out the subtotal loop</span></div>
-      <pre class="code">def calculate_subtotal(items):
-    return sum(item.price * item.qty for item in items)
-
-def generate_invoice_summary(order):
-    total = calculate_subtotal(order.items)
-    <span class="c"># discount block and _get_item_count call unchanged below</span>
-    ...</pre>
-    </div>
-    <div class="checkpoint"><span class="dot"></span>tests green &mdash; commit</div>
-
-    <div class="code-block">
-      <div class="code-head step"><span>Step 2 &mdash; Inline</span><span><code>_get_item_count</code> adds nothing</span></div>
-      <pre class="code"><span class="a"># _get_item_count is called once and explains nothing len(order.items) doesn't</span>
-def generate_invoice_summary(order):
-    total = calculate_subtotal(order.items)
-    <span class="c"># discount block unchanged below</span>
-    ...
-    return f"{len(order.items)} items, total ${total:.2f}"</pre>
-    </div>
-    <div class="checkpoint"><span class="dot"></span>tests green &mdash; commit</div>
-
-    <div class="code-block">
-      <div class="code-head neutral"><span>generate_invoice_summary &mdash; entering Step 3</span><span>the if/elif is still here, untouched by Steps 1&ndash;2</span></div>
-      <pre class="code">def generate_invoice_summary(order):
-    total = calculate_subtotal(order.items)
-
-    if order.discount_type == "loyalty":
-        total *= 0.9
-    elif order.discount_type == "seasonal":
-        total *= 0.85
-    elif order.discount_type == "employee":
-        total *= 0.7
-
-    return f"{len(order.items)} items, total ${total:.2f}"</pre>
-    </div>
-
-    <div class="code-block">
-      <div class="code-head step"><span>Step 3 &mdash; Replace Conditional with Polymorphism</span><span>the same <code>DiscountStrategy</code> classes from Day 3</span></div>
-      <pre class="code"><span class="c"># one class per branch the if/elif used to have &mdash; identical to Day 3's OrderProcessor demo</span>
-class DiscountStrategy:
-    def apply(self, total): raise NotImplementedError
-
-class LoyaltyDiscount(DiscountStrategy):
-    def apply(self, total): return total * 0.9
-
-class SeasonalDiscount(DiscountStrategy):
-    def apply(self, total): return total * 0.85
-
-class EmployeeDiscount(DiscountStrategy):
-    def apply(self, total): return total * 0.7
-
-<span class="a"># the if/elif chain is gone; discount is now injected, not looked up</span>
-def generate_invoice_summary(order, discount):
-    total = calculate_subtotal(order.items)
-    total = discount.apply(total)
-    return f"{len(order.items)} items, total ${total:.2f}"</pre>
-    </div>
-
-    <div class="code-block">
-      <div class="code-head neutral"><span>test_invoice.py &mdash; updated</span><span>the call shape changed, the assertion didn't</span></div>
-      <pre class="code">def test_generate_invoice_summary():
-    order = Order(items=[Item(price=10, qty=1), Item(price=5, qty=2)])
-    <span class="a"># the test changes on purpose, visibly, in the same step as the signature</span>
-    assert generate_invoice_summary(order, LoyaltyDiscount()) == "2 items, total $18.00"</pre>
-    </div>
-    <div class="checkpoint"><span class="dot"></span>tests green &mdash; commit</div>
-
-    <div class="code-block">
-      <div class="code-head after"><span>invoice.py &mdash; after</span><span>all three steps, in one piece</span></div>
-      <pre class="code"><span class="c"># DiscountStrategy, LoyaltyDiscount, etc. &mdash; from Day 3, unchanged</span>
-from order_discounts import DiscountStrategy
-
-def calculate_subtotal(items):
-    return sum(item.price * item.qty for item in items)
-
-def generate_invoice_summary(order, discount):
-    total = calculate_subtotal(order.items)
-    total = discount.apply(total)
-    return f"{len(order.items)} items, total ${total:.2f}"</pre>
-    </div>
-    <p class="section-sub" style="margin-top:-6px;">Nothing here was written in one sitting &mdash; it's the same three checkpoints above, just seen without the seams. <code>_get_item_count</code> is gone, not hidden; the discount <code>if</code>/<code>elif</code> is gone too. <code>test_invoice.py &mdash; updated</code> above is also this version's final test, unchanged since Step 3.</p>
 
     <div class="demo-notes">
       <b>Talking points</b>
       <ol>
-        <li>Each step touched one smell. None of them touched what the function returns for the same input &mdash; that's the definition of refactoring, checked three separate times instead of once at the end.</li>
-        <li>Step 3 changed the function's signature &mdash; even "one small step" sometimes ripples to callers, including the test itself. That's still fine: the test changed visibly, in the same commit, to match a deliberate interface change &mdash; not silently, after the fact, to cover up a behavior change.</li>
-        <li>If you'd done all three at once and something broke, you'd be debugging three changes simultaneously. Done separately, a break points at exactly one thing.</li>
+        <li>Same two functions, same call sites &mdash; only where the state lives changed. That's usually true: statelessness is a persistence decision, not a rewrite.</li>
+        <li>Now any of the nine instances can answer either request, because none of them are the source of truth &mdash; Redis is.</li>
+        <li>One more lever, cheap and easy to miss: the product-price lookup this whole flow depends on was hitting the database on every single cart operation. A cache in front of it (same Cache box in the diagram) cuts database load without adding a single instance.</li>
+        <li>Sticky sessions would have hidden this bug: each customer keeps hitting the instance that holds their cart, so it works &mdash; until that instance is replaced mid-sale and every pinned customer's cart vanishes at once.</li>
+      </ol>
+    </div>
+
+
+
+    <h3 style="font-family:'Archivo',sans-serif; font-size:1.05rem; margin:32px 0 6px;">1,000 requests, one row</h3>
+    <p class="section-sub" style="margin-top:0;">Stateless instances can multiply freely &mdash; until they all need to change the same thing. A flash sale on one product means one <code>stock</code> value, and every buyer has to decrement it.</p>
+
+    <div class="code-block">
+      <div class="code-head before"><span>buy.py &mdash; before</span><span>the row lock is held across a slow call</span></div>
+      <pre class="code">def buy(product_id, user_id):
+    with db.transaction():
+        row = db.query_one(
+            "SELECT stock, price FROM products WHERE id = %s FOR UPDATE",
+            product_id,
+        )                                          <span class="a"># row lock taken here...</span>
+        if row.stock < 1:
+            raise SoldOut()
+
+        payment_api.charge(user_id, row.price)     <span class="a"># ...and held through a ~200 ms network call</span>
+
+        db.execute("UPDATE products SET stock = stock - 1 WHERE id = %s", product_id)
+        db.execute("INSERT INTO orders (user_id, product_id) VALUES (%s, %s)", user_id, product_id)</pre>
+    </div>
+
+    <p class="section-sub">The lock exists for a good reason &mdash; two buyers must not both take the last unit. But a lock turns "many requests at once" into "one request at a time." For this row, the whole fleet runs <b>serially</b>, and the rate it can run at has nothing to do with how many instances you have:</p>
+
+    <table class="plan-table">
+      <tr><th>Row lock held for</th><th>Max updates per second, that one row</th><th>1,000 requests drain in</th></tr>
+      <tr><td class="name">200 ms (payment call inside the transaction)</td><td>5</td><td>200 s</td></tr>
+      <tr><td class="name">20 ms</td><td>50</td><td>20 s</td></tr>
+      <tr><td class="name">2 ms</td><td>500</td><td>2 s</td></tr>
+      <tr><td class="name">0.2 ms (one atomic statement; illustrative)</td><td>5,000</td><td>0.2 s</td></tr>
+    </table>
+    <p class="section-sub">Throughput on a hot row is <code>1 / lock-hold-time</code>. Nine instances, ninety instances &mdash; the same five buyers per second get through. Worse, all the others are not idle; they are waiting, and waiting is not free:</p>
+
+    <div class="timeline">
+      <div class="tl-row"><div class="tl-t">0 s</div><div class="tl-body"><p><b>The sale opens.</b> 1,000 buy requests land across 9 instances. One gets the row lock; 999 wait &mdash; and each waiter is holding an application thread and a database connection while it does.</p></div></div>
+      <div class="tl-row"><div class="tl-t">2 s</div><div class="tl-body"><p><b>The connection pool fills</b> (say it holds 100). Now requests that have nothing to do with the sale &mdash; browsing, login, the cart &mdash; can't get a connection either. The whole site slows down, not just the buy button.</p></div></div>
+      <div class="tl-row"><div class="tl-t">5 s</div><div class="tl-body"><p><b>Timeouts trigger retries.</b> Clients and the load balancer give up and try again &mdash; but the abandoned transactions are still running server-side, queued on the same lock. Every retry adds a waiter instead of removing one.</p></div></div>
+      <div class="tl-row"><div class="tl-t">10 s</div><div class="tl-body"><p><b>Health checks start failing</b> (they touch the database too). The load balancer pulls "unhealthy" instances out of rotation, so the survivors take more of the load and fail faster.</p></div></div>
+      <div class="tl-row"><div class="tl-t">15 s</div><div class="tl-body"><p><b>The failure leaves the building.</b> Every service that calls checkout is now blocked on a call that won't return &mdash; the same cascade Day 7 dissects, started by one hot row.</p></div></div>
+    </div>
+
+    <div class="code-block">
+      <div class="code-head after"><span>buy.py &mdash; after</span><span>atomic update, slow work outside the lock, bounded wait</span></div>
+      <pre class="code"><span class="c"># at pool setup, once per connection:  SET lock_timeout = '300ms'  -- wait briefly, then fail fast</span>
+
+def buy(product_id, user_id):
+    reserved = db.execute(
+        "UPDATE products SET stock = stock - 1 WHERE id = %s AND stock > 0",
+        product_id,
+    )                                              <span class="a"># check + decrement in ONE statement</span>
+    if reserved == 0:
+        raise SoldOut()
+
+    try:
+        payment_api.charge(user_id, price)         <span class="a"># slow call, no DB lock held</span>
+    except PaymentFailed:
+        db.execute("UPDATE products SET stock = stock + 1 WHERE id = %s", product_id)
+        raise                                      <span class="a"># give the unit back</span>
+
+    db.execute("INSERT INTO orders (user_id, product_id) VALUES (%s, %s)", user_id, product_id)</pre>
+    </div>
+
+    <p class="section-sub">That fix is the first of several. Reach for them roughly in this order:</p>
+
+    <table class="plan-table">
+      <tr><th>Move</th><th>What it does</th><th>Watch out for</th></tr>
+      <tr><td class="name">1. Shrink the critical section</td><td>Hold the lock for one statement; slow calls (payments, emails) happen outside it</td><td>A failure after the reserve needs a compensating step, as above</td></tr>
+      <tr><td class="name">2. Atomic conditional update</td><td><code>SET stock = stock - 1 WHERE stock &gt; 0</code> &mdash; no read-modify-write window</td><td>Still serial per row; it's just fast enough to stop mattering</td></tr>
+      <tr><td class="name">3. Bound the wait</td><td><code>lock_timeout</code>, a small connection pool per endpoint, fail fast and shed load</td><td>Don't auto-retry blindly &mdash; a retry storm re-creates the pile-up</td></tr>
+      <tr><td class="name">4. Optimistic concurrency</td><td>A version column; no lock while "thinking", retry only on conflict</td><td>Great when conflicts are rare. With 1,000 contenders almost everyone conflicts and retries &mdash; worse than the lock</td></tr>
+      <tr><td class="name">5. Split the hot value</td><td>Ten <code>stock</code> buckets, each buyer picks one at random &mdash; contention drops 10&times;</td><td>Reads must sum the buckets; the last few units need care</td></tr>
+      <tr><td class="name">6. Take it off the database's path</td><td>An atomic counter in Redis (<code>DECR</code>), reconciled to the database asynchronously &mdash; or put the purchase on a queue (Part 2)</td><td>Two systems that must eventually agree</td></tr>
+    </table>
+
+    <h3 style="font-family:'Archivo',sans-serif; font-size:1.05rem; margin:32px 0 6px;">Before the math: does 2&times; the machines give 2&times; the work?</h3>
+    <p class="section-sub" style="margin-top:0;">Every lever above gets judged by one question: if I add resources, how much more work gets done? Horizontal scaling's pitch is the best possible answer &mdash; double the machines, double the throughput. The ratio has a name, <b>speedup</b>: how many times more work per second N machines do than one machine. Perfect scaling means speedup = N.</p>
+    <p class="section-sub">Your checkout fleet is close to that best case. Every request is independent &mdash; instance B never needs to know what instance A is doing &mdash; so doubling the instances really does roughly double requests per second. It holds right up until the instances all lean on something they share &mdash; like the hot row you just saw. That shared thing is the entire story of this section, and it breaks the straight line in two different ways:</p>
+
+    <div class="cheat-grid" style="grid-template-columns:repeat(2,1fr);">
+      <div class="cheat">
+        <h3>1. Work that can't be split</h3>
+        <ul>
+          <li>Some step has to happen one-at-a-time, in order, on one machine &mdash; a lock, a final summary write, a single primary database</li>
+          <li>Engineers call that the <b>serial</b> part. Extra machines can't help with it, no matter how many you add</li>
+        </ul>
+      </div>
+      <div class="cheat b">
+        <h3>2. Instances having to talk</h3>
+        <ul>
+          <li>Instances that share state have to coordinate &mdash; invalidate each other's caches, agree on a lock, replicate a write</li>
+          <li>That chatter costs time, and it grows with every instance you add</li>
+        </ul>
+      </div>
+    </div>
+
+    <p class="section-sub">Start with the first one, in real code. A nightly job recalculates every customer's loyalty tier, then writes the results to one summary table. On a single machine it takes 100 minutes:</p>
+
+    <div class="code-block">
+      <div class="code-head neutral"><span>loyalty_job.py &mdash; one machine</span><span>100 minutes, start to finish</span></div>
+      <pre class="code">def recalculate_loyalty_tiers(customers):
+    tiers = {}
+
+    <span class="c"># part 1: per-customer work &mdash; every customer is independent of every other</span>
+    for customer in customers:
+        tiers[customer.id] = compute_tier(customer.orders)   <span class="c"># ~95 min, all customers</span>
+
+    <span class="c"># part 2: the summary write &mdash; one table, one lock, one writer at a time</span>
+    with summary_table.lock():
+        summary_table.write_all(tiers)                       <span class="c"># ~5 min</span>
+        summary_table.write_totals(tiers)                    <span class="c"># needs every tier first</span></pre>
+    </div>
+
+    <p class="section-sub">Part 1 is the easy kind of work to share out: customer 7's tier never depends on customer 8's, so ten machines can each take a tenth of the customers. Part 2 can't be shared out: the totals need every tier first, and the table lets only one writer in at a time. Now split the job across N machines:</p>
+
+    <div class="code-block">
+      <div class="code-head after"><span>loyalty_job.py &mdash; N machines</span><span>part 1 shrinks, part 2 doesn't</span></div>
+      <pre class="code">def tier_chunk(chunk):                                       <span class="c"># runs on every machine at once</span>
+    return {c.id: compute_tier(c.orders) for c in chunk}
+
+def recalculate_loyalty_tiers(customers, machines):
+    chunks = split(customers, parts=len(machines))
+    partials = run_on_each(machines, tier_chunk, chunks)     <span class="c"># ~95 / N min</span>
+    tiers = merge(partials)
+
+    with summary_table.lock():                               <span class="c"># still one writer</span>
+        summary_table.write_all(tiers)                       <span class="c"># still ~5 min</span>
+        summary_table.write_totals(tiers)</pre>
+    </div>
+
+    <div class="callout"><b>Total time = 95 / N + 5 minutes.</b> With 4 machines that's 23.75 + 5 = 28.75 minutes; with 20, 4.75 + 5 = 9.75; with 1,000, 0.095 + 5 = about 5.1. The 5 never moves &mdash; only the 95 shrinks. That 5 out of 100 is what "5% serial" means, and it's the number behind every row below. Here's what it costs in capacity you pay for:</div>
+
+    <table class="plan-table">
+      <tr><th>Instances (N)</th><th>Ideal speedup</th><th>With 5% serial work</th><th>Share of what you paid for</th></tr>
+      <tr><td class="name">2</td><td>2&times;</td><td>1.9&times;</td><td>95%</td></tr>
+      <tr><td class="name">4</td><td>4&times;</td><td>3.5&times;</td><td>87%</td></tr>
+      <tr><td class="name">8</td><td>8&times;</td><td>5.9&times;</td><td>74%</td></tr>
+      <tr><td class="name">16</td><td>16&times;</td><td>9.1&times;</td><td>57%</td></tr>
+      <tr><td class="name">32</td><td>32&times;</td><td>12.6&times;</td><td>39%</td></tr>
+    </table>
+    <p class="section-sub">Nothing is broken in that table &mdash; each added machine just buys a little less than the last one. The same thing happens to a fleet serving live requests, but it's harder to see there: you can't put a stopwatch on "the serial part" of live traffic. In checkout, it's the lock on the hot row: the part of the work only one request can be inside at a time. A batch job lets us time every piece, which is why we use it as the stand-in &mdash; and it sets up Part 2, where the job gets real.</p>
+
+    <h3 style="font-family:'Archivo',sans-serif; font-size:1.05rem; margin:32px 0 6px;">The math behind the ceiling</h3>
+    <p class="section-sub" style="margin-top:0;">The table above is <b>Amdahl&rsquo;s Law</b> at work; here it is drawn out as a curve, next to a second, less forgiving one. "Add more instances" always has diminishing returns &mdash; and past a point, it can make things worse, not better.</p>
+
+    <figure class="diagram-figure">
+      <svg viewBox="0 0 700 340" role="img" aria-label="A chart of speedup versus number of instances. Amdahl's Law rises and flattens toward an asymptote of 20x, the ceiling set by the 5 percent of work that can't be parallelized. The Universal Scalability Law, which also accounts for coordination overhead between instances, rises more slowly, peaks around 24 instances at roughly 10.5x, and then declines — adding more instances past that point actively makes throughput worse.">
+        <defs>
+          <marker id="d6-pt" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6">
+            <circle cx="5" cy="5" r="4" fill="var(--accent-2)"/>
+          </marker>
+        </defs>
+
+        <line x1="70" y1="290" x2="660" y2="290" stroke="currentColor" stroke-width="1.2"/>
+        <line x1="70" y1="20" x2="70" y2="290" stroke="currentColor" stroke-width="1.2"/>
+        <text x="365" y="322" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="10" letter-spacing="0.5" fill="var(--ink-faint)">INSTANCES (N)</text>
+        <text x="30" y="155" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="10" letter-spacing="0.5" fill="var(--ink-faint)" transform="rotate(-90 30 155)">SPEEDUP</text>
+
+        <line x1="70" y1="222.5" x2="660" y2="222.5" stroke="currentColor" stroke-width="0.75" opacity="0.15"/>
+        <line x1="70" y1="155" x2="660" y2="155" stroke="currentColor" stroke-width="0.75" opacity="0.15"/>
+        <line x1="70" y1="87.5" x2="660" y2="87.5" stroke="currentColor" stroke-width="0.75" opacity="0.15"/>
+        <text x="60" y="293" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="9.5" fill="var(--ink-faint)">0</text>
+        <text x="60" y="226" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="9.5" fill="var(--ink-faint)">5</text>
+        <text x="60" y="158.5" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="9.5" fill="var(--ink-faint)">10</text>
+        <text x="60" y="91" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="9.5" fill="var(--ink-faint)">15</text>
+        <text x="60" y="24" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="9.5" fill="var(--ink-faint)">20</text>
+
+        <text x="70" y="305" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="9.5" fill="var(--ink-faint)">0</text>
+        <text x="217.5" y="305" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="9.5" fill="var(--ink-faint)">8</text>
+        <text x="365" y="305" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="9.5" fill="var(--ink-faint)">16</text>
+        <text x="512.5" y="305" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="9.5" fill="var(--ink-faint)">24</text>
+        <text x="660" y="305" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="9.5" fill="var(--ink-faint)">32</text>
+
+        <line x1="70" y1="20" x2="660" y2="20" stroke="var(--accent)" stroke-width="1" stroke-dasharray="3 4" opacity="0.6"/>
+        <text x="600" y="15" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="9.5" fill="var(--accent)">asymptote: 1/s = 20</text>
+
+        <line x1="90" y1="45" x2="118" y2="45" stroke="var(--accent)" stroke-width="3"/>
+        <text x="126" y="49" font-family="IBM Plex Mono, monospace" font-size="10" fill="var(--accent)">Amdahl's Law (5% serial)</text>
+        <line x1="90" y1="68" x2="118" y2="68" stroke="var(--accent-2)" stroke-width="3"/>
+        <text x="126" y="72" font-family="IBM Plex Mono, monospace" font-size="10" fill="var(--accent-2)">Universal Scalability Law (USL)</text>
+
+        <polyline points="88.4,276.5 106.9,264.3 143.75,251.3 217.5,210.0 291.25,185.5 365,166.6 438.75,151.5 512.5,139.3 586.25,129.2 660,120.4"
+          fill="none" stroke="var(--accent)" stroke-width="2.5"/>
+        <text x="520" y="132" font-family="IBM Plex Mono, monospace" font-size="10" fill="var(--accent)">Amdahl (5% serial)</text>
+
+        <polyline points="88.4,276.5 106.9,263.6 143.75,239.9 217.5,201.7 291.25,175.8 365,159.8 438.75,151.5 512.5,148.4 586.25,148.7 660,151.0"
+          fill="none" stroke="var(--accent-2)" stroke-width="2.5"/>
+        <circle cx="512.5" cy="148.4" r="4.5" fill="var(--accent-2)"/>
+        <text x="470" y="180" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="10" fill="var(--accent-2)">USL: peaks ~N=24,</text>
+        <text x="470" y="194" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="10" fill="var(--accent-2)">then declines</text>
+      </svg>
+      <figcaption><b>Amdahl's Law</b> says speedup is capped by whatever fraction of the work can't be parallelized &mdash; with just 5% serial work, no amount of hardware ever exceeds 20&times;. The <b>Universal Scalability Law</b> adds a second, uglier term: the cost of instances coordinating with each other (cache invalidation, lock contention, chatty replication). Past a certain N, that coordination cost grows faster than the work being parallelized &mdash; and adding instances makes the system slower, not faster. Both curves are real; the USL is the one production systems actually live on.</figcaption>
+    </figure>
+
+    <div class="callout"><b>Worked example, continued &mdash; the nightly loyalty-points job.</b> The job from the code above takes 100 minutes on one machine, and 5 of those minutes are the serial summary write &mdash; so <code>s = 5/100 = 0.05</code>, the same 5% plotted above. Amdahl's formula, <code>speedup(N) = 1 / (s + (1&minus;s)/N)</code>, turns that into a schedule:
+      <table class="plan-table" style="margin-top:10px;">
+        <tr><th>Machines (N)</th><th>Speedup</th><th>Job time</th></tr>
+        <tr><td class="name">1</td><td>1.0&times;</td><td>100 min</td></tr>
+        <tr><td class="name">4</td><td>3.5&times;</td><td>28.7 min</td></tr>
+        <tr><td class="name">20</td><td>10.3&times;</td><td>9.75 min</td></tr>
+        <tr><td class="name">100</td><td>16.8&times;</td><td>5.95 min</td></tr>
+        <tr><td class="name">&infin; (the ceiling)</td><td>20&times;</td><td>5 min &mdash; never less</td></tr>
+      </table>
+      No matter how many machines run this job, it can never finish faster than 5 minutes &mdash; the time the serial 5% takes on its own. That's what the asymptote in the chart actually means: a floor, not a suggestion. Going from 20 to 100 machines buys 3.65 fewer minutes; going from 1 to 20 bought 90.
+    </div>
+
+
+  </section>
+
+  <section>
+    <div class="section-head"><span class="tag">Part 2 &middot; 0:55&ndash;1:30</span><h2>Scaling backend jobs with queues</h2></div>
+    <p class="section-sub">The loyalty job above had a hole in it: <code>run_on_each(machines, tier_chunk, chunks)</code> just worked. In a real system something has to hand each chunk to a machine, notice when a machine dies, and make sure no chunk is processed twice or forgotten. That something is a queue &mdash; and it isn't only for batch jobs. It's the standard answer for any work that doesn't need to finish before the customer gets a response.</p>
+
+    <h3 style="font-family:'Archivo',sans-serif; font-size:1.05rem; margin:28px 0 6px;">Why put a queue in the middle</h3>
+
+    <div class="code-block">
+      <div class="code-head before"><span>checkout.py &mdash; before</span><span>the customer waits for every step</span></div>
+      <pre class="code">def place_order(order):
+    save_order(order)
+    send_receipt_email(order)        <span class="c"># ~300 ms, third party</span>
+    update_loyalty_points(order)     <span class="c"># ~150 ms</span>
+    notify_warehouse(order)          <span class="c"># ~400 ms</span>
+    return "ok"                      <span class="a"># ~850 ms later &mdash; and a failure in any step fails the order</span></pre>
+    </div>
+
+    <div class="code-block">
+      <div class="code-head after"><span>checkout.py &mdash; after</span><span>publish one message, return</span></div>
+      <pre class="code">def place_order(order):
+    save_order(order)
+    queue.publish("order-placed", {"order_id": order.id})    <span class="c"># ~2 ms</span>
+    return "ok"
+
+<span class="c"># on any number of worker machines, running separately</span>
+def loyalty_worker():
+    for message in queue.consume("order-placed"):
+        update_loyalty_points(message["order_id"])</pre>
+    </div>
+
+    <div class="cheat-grid">
+      <div class="cheat">
+        <h3>Decouples timing</h3>
+        <ul>
+          <li>The request returns when the work is <em>accepted</em>, not when it's finished</li>
+          <li>A slow email provider no longer slows checkout</li>
+        </ul>
+      </div>
+      <div class="cheat b">
+        <h3>Absorbs spikes</h3>
+        <ul>
+          <li>A burst of orders becomes a backlog, drained at whatever rate workers can sustain</li>
+          <li>Workers run at a steady load instead of the traffic's peak</li>
+        </ul>
+      </div>
+      <div class="cheat c">
+        <h3>Fails and scales independently</h3>
+        <ul>
+          <li>A crashed worker doesn't fail the order; its message goes to another worker</li>
+          <li>Add workers without touching the web tier</li>
+        </ul>
+      </div>
+    </div>
+    <p class="section-sub">Day 3's Observer pattern was this same idea inside one process: the publisher doesn't know who reacts. A queue is Observer across processes &mdash; with durability, and with the new problems that come with it.</p>
+
+    <div class="callout"><b>A queue absorbs spikes, not sustained overload.</b> If 6,000 messages arrive per second and workers finish 800, the backlog grows by 5,200 every second &mdash; over three million messages after ten minutes. The queue didn't remove the waiting; it only moved it somewhere safer. You still have to add consumers, shed load at the producer, or accept a delay that keeps growing.</div>
+
+    <h3 style="font-family:'Archivo',sans-serif; font-size:1.05rem; margin:32px 0 6px;">Scaling the consumers: competing consumers</h3>
+    <p class="section-sub" style="margin-top:0;">The first move is the obvious one: run more workers on the same queue. Each message goes to exactly one of them, so throughput grows with the worker count &mdash; the same stateless, any-instance-will-do property from Part 1, applied to jobs. It stops being enough for two reasons: a single queue is still a single machine with a single head, and the moment order matters (two updates to the same customer, in order), several workers pulling from one line can no longer be trusted to preserve it.</p>
+
+    <h3 style="font-family:'Archivo',sans-serif; font-size:1.05rem; margin:32px 0 6px;">Scaling the queue itself: partitions</h3>
+    <p class="section-sub" style="margin-top:0;">To scale the queue, split it. Instead of one line there are <b>P</b> independent lines (partitions), possibly on different machines. A producer chooses the partition for each message by hashing a <b>key</b> &mdash; the same hash-the-key idea Part 3 uses to split a database &mdash; so every message with the same key lands in the same partition, in order. Each partition is read by one consumer at a time. Throughput now scales with P, and ordering survives, but only <em>within</em> a partition.</p>
+
+    <h3 style="font-family:'Archivo',sans-serif; font-size:1.05rem; margin:32px 0 6px;">How Kafka does it: a partitioned log</h3>
+
+    <figure class="diagram-figure">
+      <svg viewBox="0 0 790 320" role="img" aria-label="A producer publishes order events keyed by customer ID. The key is hashed to choose one of three partitions of the topic order-events, P0, P1 and P2. Each partition is an append-only log of numbered messages; the older messages are already processed and the newest are waiting, which is consumer lag. A consumer group called loyalty-workers has two consumers: consumer 1 reads partitions P0 and P1, consumer 2 reads partition P2. Each partition is read by exactly one consumer in the group.">
+        <defs>
+          <marker id="d4k-flow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+            <path d="M0,0 L10,5 L0,10 Z" fill="currentColor"/>
+          </marker>
+        </defs>
+
+        <rect x="15" y="120" width="125" height="70" rx="8" fill="var(--surface)" stroke="currentColor" stroke-width="1.5"/>
+        <text x="77" y="150" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="11" fill="currentColor">Producer</text>
+        <text x="77" y="168" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="9" fill="var(--ink-faint)">key = customer_id</text>
+
+        <text x="172" y="106" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="9" fill="var(--amber)">hash(key)</text>
+        <text x="172" y="118" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="9" fill="var(--amber)">picks one</text>
+
+        <text x="360" y="32" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="10" letter-spacing="0.5" fill="var(--accent)">TOPIC: order-events</text>
+
+        <rect x="205" y="45" width="310" height="52" rx="8" fill="var(--surface)" stroke="currentColor" stroke-width="1.2"/>
+        <rect x="205" y="130" width="310" height="52" rx="8" fill="var(--surface)" stroke="currentColor" stroke-width="1.2"/>
+        <rect x="205" y="215" width="310" height="52" rx="8" fill="var(--surface)" stroke="currentColor" stroke-width="1.2"/>
+        <text x="217" y="76" font-family="IBM Plex Mono, monospace" font-size="11" font-weight="600" fill="currentColor">P0</text>
+        <text x="217" y="161" font-family="IBM Plex Mono, monospace" font-size="11" font-weight="600" fill="currentColor">P1</text>
+        <text x="217" y="246" font-family="IBM Plex Mono, monospace" font-size="11" font-weight="600" fill="currentColor">P2</text>
+
+        <g font-family="IBM Plex Mono, monospace" font-size="9.5" text-anchor="middle" fill="currentColor">
+          <rect x="248" y="58" width="38" height="26" rx="4" fill="var(--accent-soft)" stroke="var(--accent)"/><text x="267" y="75">0</text>
+          <rect x="291" y="58" width="38" height="26" rx="4" fill="var(--accent-soft)" stroke="var(--accent)"/><text x="310" y="75">1</text>
+          <rect x="334" y="58" width="38" height="26" rx="4" fill="var(--accent-soft)" stroke="var(--accent)"/><text x="353" y="75">2</text>
+          <rect x="377" y="58" width="38" height="26" rx="4" fill="var(--accent-soft)" stroke="var(--accent)"/><text x="396" y="75">3</text>
+          <rect x="420" y="58" width="38" height="26" rx="4" fill="var(--amber-soft)" stroke="var(--amber)"/><text x="439" y="75">4</text>
+          <rect x="463" y="58" width="38" height="26" rx="4" fill="var(--amber-soft)" stroke="var(--amber)"/><text x="482" y="75">5</text>
+
+          <rect x="248" y="143" width="38" height="26" rx="4" fill="var(--accent-soft)" stroke="var(--accent)"/><text x="267" y="160">0</text>
+          <rect x="291" y="143" width="38" height="26" rx="4" fill="var(--accent-soft)" stroke="var(--accent)"/><text x="310" y="160">1</text>
+          <rect x="334" y="143" width="38" height="26" rx="4" fill="var(--accent-soft)" stroke="var(--accent)"/><text x="353" y="160">2</text>
+          <rect x="377" y="143" width="38" height="26" rx="4" fill="var(--accent-soft)" stroke="var(--accent)"/><text x="396" y="160">3</text>
+          <rect x="420" y="143" width="38" height="26" rx="4" fill="var(--accent-soft)" stroke="var(--accent)"/><text x="439" y="160">4</text>
+          <rect x="463" y="143" width="38" height="26" rx="4" fill="var(--amber-soft)" stroke="var(--amber)"/><text x="482" y="160">5</text>
+
+          <rect x="248" y="228" width="38" height="26" rx="4" fill="var(--accent-soft)" stroke="var(--accent)"/><text x="267" y="245">0</text>
+          <rect x="291" y="228" width="38" height="26" rx="4" fill="var(--accent-soft)" stroke="var(--accent)"/><text x="310" y="245">1</text>
+          <rect x="334" y="228" width="38" height="26" rx="4" fill="var(--accent-soft)" stroke="var(--accent)"/><text x="353" y="245">2</text>
+          <rect x="377" y="228" width="38" height="26" rx="4" fill="var(--accent-soft)" stroke="var(--accent)"/><text x="396" y="245">3</text>
+        </g>
+
+        <line x1="140" y1="145" x2="200" y2="72" stroke="currentColor" stroke-width="1.2" marker-end="url(#d4k-flow)"/>
+        <line x1="140" y1="155" x2="200" y2="156" stroke="currentColor" stroke-width="1.2" marker-end="url(#d4k-flow)"/>
+        <line x1="140" y1="165" x2="200" y2="238" stroke="currentColor" stroke-width="1.2" marker-end="url(#d4k-flow)"/>
+
+        <rect x="572" y="52" width="205" height="226" rx="10" fill="none" stroke="var(--accent-2)" stroke-width="1.3" stroke-dasharray="4 4"/>
+        <text x="674" y="44" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="9.5" letter-spacing="0.5" fill="var(--accent-2)">GROUP: loyalty-workers</text>
+
+        <rect x="595" y="84" width="160" height="62" rx="8" fill="var(--accent-2-soft)" stroke="var(--accent-2)" stroke-width="1.5"/>
+        <text x="675" y="110" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="11" fill="currentColor">consumer 1</text>
+        <text x="675" y="127" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="9" fill="var(--ink-faint)">reads P0 and P1</text>
+
+        <rect x="595" y="190" width="160" height="62" rx="8" fill="var(--accent-2-soft)" stroke="var(--accent-2)" stroke-width="1.5"/>
+        <text x="675" y="216" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="11" fill="currentColor">consumer 2</text>
+        <text x="675" y="233" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="9" fill="var(--ink-faint)">reads P2</text>
+
+        <line x1="515" y1="71" x2="590" y2="104" stroke="currentColor" stroke-width="1.2" marker-end="url(#d4k-flow)"/>
+        <line x1="515" y1="156" x2="590" y2="126" stroke="currentColor" stroke-width="1.2" marker-end="url(#d4k-flow)"/>
+        <line x1="515" y1="241" x2="590" y2="221" stroke="currentColor" stroke-width="1.2" marker-end="url(#d4k-flow)"/>
+
+        <rect x="205" y="290" width="14" height="14" rx="3" fill="var(--accent-soft)" stroke="var(--accent)"/>
+        <text x="226" y="301" font-family="IBM Plex Mono, monospace" font-size="9.5" fill="var(--ink-faint)">processed (offset committed)</text>
+        <rect x="395" y="290" width="14" height="14" rx="3" fill="var(--amber-soft)" stroke="var(--amber)"/>
+        <text x="416" y="301" font-family="IBM Plex Mono, monospace" font-size="9.5" fill="var(--ink-faint)">waiting &mdash; the consumer lag</text>
+      </svg>
+      <figcaption>A topic is a set of append-only logs. Every message gets an <b>offset</b> within its partition; a consumer's progress is just the offset it has committed. Each partition is read by exactly one consumer in a group &mdash; so a third consumer would get one partition of its own, and a <em>fourth</em> would sit idle. The number of partitions is the ceiling on parallelism.</figcaption>
+    </figure>
+
+    <div class="cheat-grid">
+      <div class="cheat">
+        <h3>A log, not a queue</h3>
+        <ul>
+          <li>Messages are appended and <b>retained</b> (by time or size), not deleted when read</li>
+          <li>A consumer just remembers its offset &mdash; it can rewind and replay</li>
+          <li>Several consumer groups read the same topic independently (loyalty, analytics, search)</li>
+        </ul>
+      </div>
+      <div class="cheat b">
+        <h3>Order and parallelism</h3>
+        <ul>
+          <li>Key &rarr; hash &rarr; partition: same key, same partition, in order</li>
+          <li>Order is guaranteed only inside a partition, never across them</li>
+          <li>Partitions in a topic = max consumers working in parallel in a group</li>
+        </ul>
+      </div>
+      <div class="cheat c">
+        <h3>Staying up</h3>
+        <ul>
+          <li>Each partition is replicated; one replica leads, the rest follow</li>
+          <li><code>acks=all</code> waits for the in-sync replicas before confirming a write</li>
+          <li>A group coordinator reassigns partitions when a consumer joins or dies (a <b>rebalance</b>)</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="code-block">
+      <div class="code-head neutral"><span>loyalty_worker.py</span><span>a Kafka consumer that survives being redelivered</span></div>
+      <pre class="code"><span class="c"># producer side: the key decides the partition</span>
+producer.produce(
+    "order-events",
+    key=str(order.customer_id),         <span class="c"># same customer -> same partition -> in order</span>
+    value=json.dumps(event),
+)                                       <span class="c"># producer configured with acks=all</span>
+
+<span class="c"># consumer side</span>
+consumer = Consumer({
+    "group.id": "loyalty-workers",
+    "enable.auto.commit": False,        <span class="a"># we decide when a message counts as done</span>
+})
+consumer.subscribe(["order-events"])
+
+while True:
+    msg = consumer.poll(1.0)
+    if msg is None:
+        continue
+    event = json.loads(msg.value())
+
+    if not already_processed(event["event_id"]):    <span class="a"># redelivery is normal; be idempotent</span>
+        update_loyalty_points(event)
+        mark_processed(event["event_id"])
+
+    consumer.commit(msg)                <span class="a"># commit AFTER the work: a crash before this replays, never loses</span></pre>
+    </div>
+
+    <h3 style="font-family:'Archivo',sans-serif; font-size:1.05rem; margin:32px 0 6px;">What goes wrong, and how it's handled</h3>
+    <p class="section-sub" style="margin-top:0;">Every one of these comes from the same place: the queue sits between two processes that can each fail independently.</p>
+
+    <table class="plan-table">
+      <tr><th>Issue</th><th>Why it happens</th><th>General handling</th><th>In Kafka</th></tr>
+      <tr><td class="name">Out-of-order processing</td><td>Partitions are independent lines</td><td>Put everything that must stay ordered under one key</td><td>Order holds per partition; choose the key (<code>customer_id</code>) so related events share one</td></tr>
+      <tr><td class="name">Duplicate delivery</td><td>A consumer crashes after doing the work but before acknowledging it, so the message is redelivered</td><td>Make the consumer idempotent (de-duplicate on an event ID)</td><td>Commit offsets after processing = at-least-once. "Exactly-once" is at-least-once plus an idempotent consumer, or Kafka transactions inside Kafka</td></tr>
+      <tr><td class="name">Poison message</td><td>One message always fails; retrying it forever blocks everything behind it</td><td>Bounded retries, then park it in a dead-letter queue and move on</td><td>No built-in DLQ &mdash; the consumer publishes the failure to a <code>.dlq</code> topic and commits past it</td></tr>
+      <tr><td class="name">Backlog (consumer lag)</td><td>Producers outpace consumers</td><td>Scale consumers, alert on lag, shed load at the producer</td><td>Lag = log-end offset minus committed offset. Scale the group up &mdash; but never beyond the partition count</td></tr>
+      <tr><td class="name">Hot partition</td><td>Skewed keys: one huge customer produces most of the traffic</td><td>A better key, or salt the key for that customer</td><td>One partition (one consumer) stays saturated while the rest idle &mdash; the Part 1 hot row, again</td></tr>
+      <tr><td class="name">Rebalance pauses</td><td>A consumer joins or leaves, so partitions are reassigned and processing stops briefly</td><td>Keep per-message work short; avoid flapping consumers</td><td>Cooperative rebalancing and static group membership reduce the pause</td></tr>
+      <tr><td class="name">Can't add partitions freely</td><td>Key &rarr; partition depends on the partition count, the same trap as <code>hash % N</code></td><td>Over-provision partitions early</td><td>Adding partitions later changes where keys land, breaking per-key ordering for existing keys</td></tr>
+    </table>
+
+    <div class="demo-notes">
+      <b>Talking points</b>
+      <ol>
+        <li>The batch job from Part 1 becomes: publish one message per chunk, let a consumer group drain them. The serial summary step is now the fan-in &mdash; it still can't be split, so the ceiling hasn't moved.</li>
+        <li>Duplicates aren't a Kafka bug to be fixed; they're the price of not losing messages. The only real question is whether the consumer can tolerate seeing one twice.</li>
+        <li>"More consumers" and "more partitions" are different knobs. Consumers beyond the partition count do nothing; partitions beyond what you can later reshuffle hurt.</li>
+        <li>Kafka isn't the only answer &mdash; SQS or RabbitMQ delete a message once it's acknowledged and don't retain a replayable log. Pick the log when you need replay or several independent readers.</li>
       </ol>
     </div>
   </section>
 
   <section>
-    <div class="section-head"><span class="tag">1:00&ndash;1:48 &middot; Hands-on</span><h2>Refactoring kata, against a red-green timer</h2></div>
-    <p class="section-sub">Work in pairs. Every 8 minutes the facilitator calls "show me green" &mdash; if you're red at that mark, undo back to your last green commit and take a smaller step next time.</p>
+    <div class="section-head"><span class="tag">Part 3 &middot; 1:30&ndash;2:15</span><h2>Scaling the database</h2></div>
+    <p class="section-sub">Web instances and workers are copies of code, so they multiply freely. The database holds the one thing that can't be copy-pasted: the data. There are three escalating moves &mdash; copy it, let every copy accept writes, or split it &mdash; and the CAP theorem describes what each one gives up when the network misbehaves.</p>
+
+    <h3 style="font-family:'Archivo',sans-serif; font-size:1.05rem; margin:28px 0 6px;">Step 1: primary and replicas (master&ndash;slave)</h3>
+    <p class="section-sub" style="margin-top:0;">One node, the <b>primary</b>, accepts every write and streams its changes to one or more <b>replicas</b>; reads can be spread across all of them. (Older docs call these master and slave.) It's the cheapest way to scale a read-heavy service &mdash; no schema change &mdash; and it adds failover: if the primary dies, a replica can be promoted. What it cannot do is scale <em>writes</em>: there is still exactly one writer.</p>
+
+    <table class="plan-table">
+      <tr><th>Replication mode</th><th>Write is confirmed when&hellip;</th><th>Strength</th><th>Tradeoff</th></tr>
+      <tr><td class="name">Asynchronous</td><td>the primary has it</td><td>Fast writes; a slow replica never blocks anyone</td><td>Replicas lag; a primary crash can lose the last few writes that hadn't been shipped</td></tr>
+      <tr><td class="name">Synchronous</td><td>the replica has it too</td><td>No acknowledged write is lost on failover</td><td>Every write pays the replica's latency, and a down replica can stall writes</td></tr>
+      <tr><td class="name">Semi-synchronous</td><td>at least one replica has it</td><td>A middle path used by many production setups</td><td>Still slower than async; still bounded by the slowest of the chosen replicas</td></tr>
+    </table>
+    <p class="section-sub">Failover has its own hazard: if the old primary is only <em>unreachable</em>, not dead, and a replica is promoted anyway, you now have two nodes that each believe they are the writer &mdash; "split brain." Real systems need a fencing step so the old primary can't keep accepting writes. And the everyday cost of asynchronous replicas is the one the team hit three weeks after adding them:</p>
+
+    <div class="code-block">
+      <div class="code-head before"><span>orders.py &mdash; before</span><span>every read hits a random replica</span></div>
+      <pre class="code">def get_order_confirmation(order_id):
+    return db.read_replica().get_order(order_id)</pre>
+    </div>
+
+    <div class="demo-notes">
+      <b>What actually happened</b>
+      <ol>
+        <li>Customer updates their shipping address at checkout &mdash; a write, sent straight to the primary.</li>
+        <li>The confirmation page loads a split second later and reads the order back &mdash; routed to whichever replica the load balancer picks.</li>
+        <li>Replication lag is normally a few tens of milliseconds. This time it was enough: the replica answered with the address as it stood <em>before</em> the write. The customer saw their old address and assumed the site had reverted it.</li>
+      </ol>
+    </div>
+
+    <div class="code-block">
+      <div class="code-head after"><span>orders.py &mdash; after</span><span>a read that follows its own write goes to the primary</span></div>
+      <pre class="code">def get_order_confirmation(order_id, session):
+    if session.wrote_recently(order_id):
+        return db.primary().get_order(order_id)
+    return db.read_replica().get_order(order_id)</pre>
+    </div>
+
+    <div class="demo-notes">
+      <b>Talking points</b>
+      <ol>
+        <li>This isn't a network partition &mdash; nothing was unreachable (that's the CAP case, at the end of this part). It's replication lag: a normal, constant, small delay that becomes visible exactly when a user reads back what they just wrote.</li>
+        <li>The fix is narrow on purpose: only reads that follow their own recent write go to the primary. Sending every read to the primary would erase the whole reason for adding replicas.</li>
+        <li>This is the cost side of the read-replica lever &mdash; real, but specific and fixable, not a reason to avoid replicas altogether.</li>
+      </ol>
+    </div>
+
+
+    <h3 style="font-family:'Archivo',sans-serif; font-size:1.05rem; margin:32px 0 6px;">Step 2: multi-master &mdash; every node takes writes</h3>
+    <p class="section-sub" style="margin-top:0;">If one writer is the bottleneck, let several nodes accept writes &mdash; typically one per region, so a customer in Cairo writes to a nearby node and a customer in Dublin to another, each replicating to the other. Write latency drops, and a region going down no longer stops writes everywhere. The price arrives the moment two nodes change the same row before they have heard about each other's change:</p>
+
+    <div class="timeline">
+      <div class="tl-row"><div class="tl-t">T+0 ms</div><div class="tl-body"><p><b>Cairo node:</b> customer 8842 changes their shipping address to "12 Nile St." and the write is acknowledged locally.</p></div></div>
+      <div class="tl-row"><div class="tl-t">T+80 ms</div><div class="tl-body"><p><b>Dublin node:</b> the same customer, from their phone, changes it to "4 Quay Rd." Dublin hasn't received Cairo's change yet, so it acknowledges this one too.</p></div></div>
+      <div class="tl-row"><div class="tl-t">T+200 ms</div><div class="tl-body"><p><b>Replication catches up.</b> Each node now receives the other's write. Both have a valid history; the two histories disagree, and neither node did anything wrong.</p></div></div>
+    </div>
+
+    <p class="section-sub">Someone has to decide what the row says &mdash; and the options all cost something:</p>
+
+    <table class="plan-table">
+      <tr><th>Conflict strategy</th><th>How it works</th><th>Tradeoff</th></tr>
+      <tr><td class="name">Last write wins</td><td>Keep the version with the later timestamp</td><td>Simple, and silently discards one customer's write. Clocks on different machines disagree, so "later" can be wrong</td></tr>
+      <tr><td class="name">Merge</td><td>Combine both: version vectors detect the conflict; mergeable types (sets, counters) are combined automatically (CRDTs)</td><td>Correct when a merge has meaning; most business fields (an address) don't have one</td></tr>
+      <tr><td class="name">Home region per row</td><td>Each row has one owner node; others forward writes to it</td><td>No conflicts at all, but writes to a remote row pay the distance, and fail if the owner is unreachable</td></tr>
+      <tr><td class="name">Avoid by design</td><td>Non-overlapping ID ranges or UUIDs, so two nodes never create the same key</td><td>Prevents key collisions only, not two edits to one row</td></tr>
+    </table>
+
+    <div class="code-block">
+      <div class="code-head before"><span>replication.py &mdash; last write wins</span><span>whose clock is right?</span></div>
+      <pre class="code">def apply_remote_write(local_row, incoming):
+    if incoming.updated_at &gt; local_row.updated_at:     <span class="a"># compares two different machines' clocks</span>
+        local_row.update(incoming)                      <span class="a"># the losing write is gone, with no error anywhere</span></pre>
+    </div>
+
+    <div class="callout bad"><b>Some operations don't survive this at all.</b> Remember <code>stock = stock - 1</code> from Part 1? On two masters, both nodes read "1 left", both decrement and both confirm &mdash; the last unit is now sold twice, and no timestamp rule can fix it. Counters and inventory need a single owner for the contested value, or a data type designed to merge.</div>
+
+    <h3 style="font-family:'Archivo',sans-serif; font-size:1.05rem; margin:32px 0 6px;">Step 3: partitioning (sharding) &mdash; split the data</h3>
+    <p class="section-sub" style="margin-top:0;">Replicas copy all the data, and multi-master copies the conflicts. To scale writes <em>and</em> storage without conflicts, give each node only part of the data &mdash; and each row exactly one home. Splitting a database naively is its own trap.</p>
+
+    <div class="callout"><b>Partitioning, in one paragraph.</b> <em>Partitioning</em> means splitting a dataset into pieces; <em>sharding</em> is the version where the pieces live on separate database servers. (Splitting by columns or by feature is vertical partitioning; here we mean splitting rows.) Concretely, sharding is splitting one dataset across multiple database instances, each holding a subset of the rows &mdash; instead of one <code>orders</code> table on one machine, four smaller <code>orders</code> tables on four machines, each one a full, independent database in its own right. Every write and read has to be routed to the one shard that actually holds that row, which is a job the application (or a routing layer in front of it) now has to do that it never had to do with a single database. The hard part was never the splitting &mdash; it's deciding, consistently, which row goes to which shard. That's what the rest of this section is about.</div>
+
+    <h3 style="font-family:'Archivo',sans-serif; font-size:1.05rem; margin:28px 0 6px;">Mod hashing: simple, until N changes</h3>
+    <p class="section-sub" style="margin-top:0;">The obvious way to pick a shard: hash the key into a number, then take that number modulo the shard count. <code>hash("order_8842")</code> might come out to some large number; with 4 shards, <code>that_number % 4</code> gives a value from 0 to 3 &mdash; the shard index. It's fast, needs no lookup table, and spreads keys evenly as long as the hash function is decent.</p>
+    <p class="section-sub">The catch is sitting right inside the formula: <code>N</code> &mdash; the shard count &mdash; is one of the inputs. Change N, and the formula's output changes for almost every key, not just the new one. Here's the same 8 keys, mod 4 versus mod 5:</p>
+
+    <table class="plan-table">
+      <tr><th>hash(key)</th><th>shard @ N=4</th><th>shard @ N=5</th><th>moved?</th></tr>
+      <tr><td class="name">10</td><td>2</td><td>0</td><td>yes</td></tr>
+      <tr><td class="name">11</td><td>3</td><td>1</td><td>yes</td></tr>
+      <tr><td class="name">12</td><td>0</td><td>2</td><td>yes</td></tr>
+      <tr><td class="name">13</td><td>1</td><td>3</td><td>yes</td></tr>
+      <tr><td class="name">14</td><td>2</td><td>4</td><td>yes</td></tr>
+      <tr><td class="name">15</td><td>3</td><td>0</td><td>yes</td></tr>
+      <tr><td class="name">16</td><td>0</td><td>1</td><td>yes</td></tr>
+      <tr><td class="name">17</td><td>1</td><td>2</td><td>yes</td></tr>
+    </table>
+    <p class="section-sub">Every key in this sample moved shard. At real scale that means the moment you add capacity, nearly the entire dataset has to be copied to new shards before the system is even usable again &mdash; the opposite of what "add a shard" was supposed to buy you.</p>
+
+    <h3 style="font-family:'Archivo',sans-serif; font-size:1.05rem; margin:28px 0 6px;">Consistent hashing: same idea, one change</h3>
+    <p class="section-sub" style="margin-top:0;">Forget shard counts for a second and just picture a clock. Instead of 12 numbers, this clock has thousands, but the idea is the same &mdash; and instead of hours, it holds <em>shards</em>. Hash each shard's name and that's where it sits on the clock face:</p>
+
+    <div class="stat-row">
+      <div class="stat-chip"><b>shard A</b><span>sits at 2 o'clock</span></div>
+      <div class="stat-chip"><b>shard B</b><span>sits at 5 o'clock</span></div>
+      <div class="stat-chip"><b>shard C</b><span>sits at 8 o'clock</span></div>
+      <div class="stat-chip"><b>shard D</b><span>sits at 11 o'clock</span></div>
+    </div>
+
+    <p class="section-sub">Now hash a key the exact same way &mdash; <code>order_8842</code> lands on 3 o'clock. The rule for finding its shard is almost embarrassingly simple: <b>walk clockwise until you hit one.</b> From 3 o'clock, the next shard around is B at 5 o'clock. Done &mdash; <code>order_8842</code> lives on B. No modulo, no shard count anywhere in that rule.</p>
+
+    <p class="section-sub">Here's the payoff. Add a 5th shard, E, at 9 o'clock &mdash; right between C (8 o'clock) and D (11 o'clock). <code>order_8842</code> at 3 o'clock doesn't care: it still walks straight to B at 5. Nothing about A, B, C, or D moved, because their positions were never computed <em>from</em> each other. The only keys that notice are the ones sitting between 8 and 9 o'clock &mdash; they used to walk all the way to D at 11, and now they stop early, at E. Everyone else's walk is identical to before E existed.</p>
+    <p class="section-sub">That's the whole mechanism. The diagram below draws the same rule on a real ring, with real keys, so you can see exactly which one moves and why the rest don't.</p>
+
+    <figure class="diagram-figure">
+      <svg viewBox="-40 0 440 400" role="img" aria-label="A consistent-hashing ring with four shards, A through D, and three keys already assigned to them. A fifth shard, E, is added between C and D. Only the one key that fell between C and E is remapped from D to E; the other keys keep their original shard.">
+        <circle cx="200" cy="200" r="150" fill="none" stroke="currentColor" stroke-width="1.5"/>
+
+        <circle cx="251.3" cy="59.0" r="8" fill="var(--accent)"/>
+        <text x="263" y="52" font-family="IBM Plex Mono, monospace" font-size="11" fill="currentColor">shard A</text>
+        <circle cx="341" cy="251.3" r="8" fill="var(--accent)"/>
+        <text x="353" y="268" font-family="IBM Plex Mono, monospace" font-size="11" fill="currentColor">shard B</text>
+        <circle cx="148.7" cy="341" r="8" fill="var(--accent)"/>
+        <text x="136" y="362" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="11" fill="currentColor">shard C</text>
+        <circle cx="70" cy="125" r="8" fill="var(--accent)"/>
+        <text x="58" y="116" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="11" fill="currentColor">shard D</text>
+
+        <circle cx="59" cy="251.3" r="9" fill="var(--amber)"/>
+        <text x="46" y="270" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="11" font-weight="600" fill="var(--amber)">shard E (new)</text>
+
+        <circle cx="330" cy="125" r="5" fill="var(--accent)"/>
+        <text x="340" y="120" font-family="IBM Plex Mono, monospace" font-size="10" fill="var(--ink-faint)">K1</text>
+        <circle cx="275" cy="330" r="5" fill="var(--accent)"/>
+        <text x="285" y="345" font-family="IBM Plex Mono, monospace" font-size="10" fill="var(--ink-faint)">K2</text>
+        <circle cx="148.7" cy="59.0" r="5" fill="var(--accent)"/>
+        <text x="138" y="50" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="10" fill="var(--ink-faint)">K3</text>
+
+        <circle cx="103.6" cy="314.9" r="5.5" fill="var(--amber)"/>
+        <text x="92" y="330" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="10" font-weight="600" fill="var(--amber)">K4 &rarr; moved</text>
+      </svg>
+      <figcaption>Adding shard E only remaps the keys between it and its counter-clockwise neighbor &mdash; K4 moves from D to E, and K1, K2, and K3 never had to move at all. A naive <code>hash(key) % N</code> scheme would have reshuffled almost every key the moment N changed; consistent hashing is what makes adding a shard a routine operation instead of an outage.</figcaption>
+    </figure>
+
+    <p class="section-sub">Consistent hashing solves one specific problem &mdash; rebalancing. It's one of four common ways to decide which shard a row lives on in the first place. Same <code>orders</code> table, split by <code>customer_id</code>, four different answers for where customer 8842 lives:</p>
+
+    <table class="plan-table">
+      <tr><th>Strategy</th><th>Where customer 8842 lives</th><th>Strength</th><th>Tradeoff</th></tr>
+      <tr><td class="name">Range-based</td><td>IDs 8000&ndash;8999 &rarr; Shard C</td><td>Range scans ("customers 8000&ndash;8999") stay on one shard</td><td>New signups get sequential IDs &mdash; the newest shard absorbs all new write traffic</td></tr>
+      <tr><td class="name">Hash (mod N)</td><td><code>hash(8842) % 4</code> &rarr; Shard B</td><td>Even load, no hotspot</td><td>Adding a 5th shard reshuffles roughly 80% of all keys overnight</td></tr>
+      <tr><td class="name">Consistent hashing</td><td>Placed on the ring above, owned by the nearest shard clockwise</td><td>Even load, and adding a shard remaps only ~1/N of keys</td><td>Range scans are gone entirely; needs "virtual nodes" per shard or load stays uneven</td></tr>
+      <tr><td class="name">Directory-based</td><td>Looked up in a shard-map service &rarr; Shard D</td><td>Total flexibility &mdash; rebalance any single key on its own</td><td>The directory is a new bottleneck and single point of failure unless it's scaled too</td></tr>
+    </table>
+    <p class="section-sub">None of these is strictly better. The right one depends on whether your queries need ranges, how skewed the key distribution already is, and how much operational complexity the team can carry.</p>
+
+
+
+    <h3 style="font-family:'Archivo',sans-serif; font-size:1.05rem; margin:32px 0 6px;">Putting it together: partitioning plus replicas</h3>
+    <p class="section-sub" style="margin-top:0;">These moves compose rather than compete. A production database is typically <b>partitioned</b> so writes and storage spread across shards, and each shard is a <b>primary with replicas</b> so reads scale and failover works. What partitioning costs in return: queries and transactions that span shards get slower and harder, a skewed key can still make one shard hot, and changing the shard layout later is an operation, not a config tweak.</p>
+
+    <h3 style="font-family:'Archivo',sans-serif; font-size:1.05rem; margin:32px 0 6px;">The CAP theorem: what each design gives up</h3>
+    <p class="section-sub" style="margin-top:0;">Any distributed data store has three properties you'd like: <b>Consistency</b> (every read sees the latest write), <b>Availability</b> (every request to a working node gets an answer), and <b>Partition tolerance</b> (it keeps operating when messages between nodes are lost). Partitions are not optional &mdash; networks fail whether you plan for them or not &mdash; so the theorem's real content is narrower: <em>when a partition happens, you must choose between consistency and availability.</em> Refuse some requests, or answer with data that may be stale or divergent.</p>
+
+    <table class="plan-table">
+      <tr><th>Design</th><th>When the network splits&hellip;</th><th>Leans toward</th></tr>
+      <tr><td class="name">Single primary; all reads from the primary</td><td>The cut-off side can't reach the primary and refuses both reads and writes</td><td>Consistency</td></tr>
+      <tr><td class="name">Primary with async replicas serving reads</td><td>Replicas keep answering, possibly stale; writes still need the primary</td><td>Availability for reads, consistency for writes</td></tr>
+      <tr><td class="name">Multi-master</td><td>Both sides keep accepting writes, then diverge and must reconcile later</td><td>Availability &mdash; and the conflicts above</td></tr>
+      <tr><td class="name">Partitioned (each shard primary + replicas)</td><td>The shards on the far side of the split are unreachable; the rest keep working</td><td>Consistency per key, with a bounded blast radius</td></tr>
+    </table>
+
+    <div class="callout"><b>Two clarifications.</b> "Consistency" in CAP means every reader sees the latest write; it is not the same word as the C in ACID transactions. And CAP says nothing about the other 99.9% of the time, when there is no partition and the real trade is latency against consistency &mdash; the PACELC refinement, which Day 7 returns to when the nodes are services instead of database replicas.</div>
+
+    <div class="demo-notes">
+      <b>Talking points</b>
+      <ol>
+        <li>Every step above buys something by spending something: replicas spend freshness, multi-master spends agreement, partitioning spends query simplicity. CAP is the same ledger, drawn for the moment the network breaks.</li>
+        <li>"Which one should we use?" is the wrong first question. Ask what your service does if a user reads stale data, and what it does if it refuses a write &mdash; the business already has an opinion, and it picks the row of the table.</li>
+        <li>Notice that no design here avoids the problem; each just relocates it. That is why the capacity plan in the next block starts by asking where your service's shared resource is.</li>
+      </ol>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-head"><span class="tag">2:15&ndash;2:45 &middot; Hands-on</span><h2>Capacity-plan a real service</h2></div>
+    <p class="section-sub">Work through the worked example below first, then do the same math for a service you actually own.</p>
 
     <div class="kata">
       <div class="kata-head">
-        <div class="kata-title">Apply all three techniques to <code>describe_shipment</code></div>
-        <div class="badges"><span class="badge time">48 min</span><span class="badge level-1">Pairs</span></div>
+        <div class="kata-title">Fill out your own capacity plan</div>
+        <div class="badges"><span class="badge time">30 min</span><span class="badge level-1">Pairs</span></div>
       </div>
-      <div class="task"><b>Task</b>Before you refactor anything, write your own test that pins down <code>describe_shipment</code>'s current behavior for at least one realistic shipment. Only once that test passes against the untouched function do you start refactoring &mdash; then apply Extract Method, Inline, and Replace Conditional with Polymorphism one at a time, running your test after every single edit.</div>
-      <div class="code-block">
-        <div class="code-head neutral"><span>shipment.py</span><span>starter</span></div>
-        <pre class="code">def _is_express(s):
-    return s.method == "express"
+      <div class="task"><b>Task</b>Using real numbers where you have them &mdash; best estimates where you don't &mdash; work out how many instances your service needs, with explicit redundancy, and whether statelessness is even true yet &mdash; then name the one shared resource (a hot row, a single primary) that would cap it first, and the work that could leave the request path.</div>
 
-def describe_shipment(shipment):
-    weight_fee = 0
-    for pkg in shipment.packages:
-        weight_fee += pkg.weight_kg * 0.5
+      <table class="plan-table">
+        <tr><th>Line item</th><th>Worked example (checkout)</th><th>Yours</th></tr>
+        <tr><td class="name">Current peak traffic</td><td>800 req/s</td><td class="blank">&hellip;</td></tr>
+        <tr><td class="name">Expected traffic (6 mo)</td><td>2,400 req/s (3&times; growth)</td><td class="blank">&hellip;</td></tr>
+        <tr><td class="name">Capacity per instance</td><td>750 req/s at 70% CPU</td><td class="blank">&hellip;</td></tr>
+        <tr><td class="name">Instances needed</td><td>2,400 &divide; 750 = 3.2 &rarr; 4</td><td class="blank">&hellip;</td></tr>
+        <tr><td class="name">Redundancy headroom</td><td>+1 for failover = 5 total</td><td class="blank">&hellip;</td></tr>
+        <tr><td class="name">Actually stateless?</td><td>Yes &mdash; after the Redis fix</td><td class="blank">&hellip;</td></tr>
+        <tr><td class="name">Hottest shared resource</td><td>One product row: ~5 buys/s while a payment call sits inside the lock; ~5,000/s after the atomic update</td><td class="blank">&hellip;</td></tr>
+        <tr><td class="name">Work that can leave the request path</td><td>Receipt email, loyalty update, warehouse notify &rarr; a queue (Part 2)</td><td class="blank">&hellip;</td></tr>
+      </table>
 
-    if shipment.carrier == "ups":
-        surcharge = weight_fee * 0.1
-    elif shipment.carrier == "fedex":
-        surcharge = weight_fee * 0.08
-    elif shipment.carrier == "dhl":
-        surcharge = weight_fee * 0.12
-    else:
-        surcharge = 0
+      <div class="callout"><b>Why 70%, not 95%?</b> Queueing delay scales roughly with &rho;/(1&minus;&rho;), where &rho; is utilization. At 70% that factor is 2.3&times;; at 90% it's 9&times;; at 95% it's 19&times;. The closer a service runs to fully utilized, the more a small traffic bump turns into a large latency spike &mdash; the safety margin above isn't caution for its own sake, it's what keeps the queue from blowing up.</div>
 
-    express = _is_express(shipment)
-    total = weight_fee + surcharge
-    return f"{'EXPRESS ' if express else ''}shipment via {shipment.carrier}: ${total:.2f}"</pre>
-      </div>
-      <div class="callout"><b>No <code>test_shipment.py</code> handed out this time &mdash;</b> that's the point. Pick a shipment (e.g. one <code>ups</code> package, 10kg, standard), run <code>describe_shipment</code> against it once by hand, and write down what it actually returns as your assertion. That's a characterization test &mdash; the exact skill Day 5 spends a whole session on.</div>
       <ul class="q-list">
-        <li>How many test cases did you need before you trusted the refactor &mdash; one, or more than one? What made you stop adding more?</li>
-        <li>Which refactoring did you do first, and why that one before the others?</li>
-        <li>Was there a moment the test went red? What did you do &mdash; push through, or undo and take a smaller step?</li>
-        <li>Now that the discipline is in your hands, how would you explain "small step" to someone who keeps taking big ones?</li>
+        <li>What's your service's actual bottleneck &mdash; CPU, memory, or a downstream dependency? A capacity plan without a named bottleneck is a guess wearing a spreadsheet.</li>
+        <li>If your service isn't stateless today, what's the smallest piece of state you'd need to externalize first?</li>
+        <li>Where would a cache buy the most headroom cheaply, before reaching for another instance?</li>
+        <li>Which of the three layers &mdash; the web tier, the background jobs, the database &mdash; hits its ceiling first, and what is the cheapest move that raises it?</li>
+        <li>Is your data layer sharded, replicated, or a single instance? If a single instance is the actual bottleneck, more app-server instances won't touch it.</li>
       </ul>
       <div class="done-when"><b>Done when</b><ul>
-        <li>You wrote at least one test against the untouched function, and it passed, before you changed any code</li>
-        <li>All three named refactorings have been applied</li>
-        <li>You can point to at least one moment you were red, and what you did about it</li>
-        <li><code>describe_shipment</code> reads as an orchestrator, not a wall of logic</li>
+        <li>You have real or best-estimate numbers for every row above</li>
+        <li>Your instance count includes explicit redundancy, not just a bare minimum</li>
+        <li>You know whether your service is actually stateless &mdash; and if not, what blocks it</li>
+        <li>You have named the one shared resource that caps the service first, and one piece of work a queue could take off the request path</li>
       </ul></div>
     </div>
   </section>
 
   <section>
-    <div class="section-head"><span class="tag">1:48&ndash;2:00 &middot; Review</span><h2>What broke, and why</h2></div>
+    <div class="section-head"><span class="tag">2:45&ndash;3:00 &middot; Review</span><h2>Group critique</h2></div>
     <div class="debrief-grid">
-      <div class="debrief-card"><b>Ask the room</b><p>What's the smallest step you took today? What's the biggest one that still stayed green?</p></div>
-      <div class="debrief-card"><b>Ask tech leads</b><p>If "no commit changes behavior and structure in the same step" became a real review rule tomorrow, what would it break in your team's workflow?</p></div>
-      <div class="debrief-card"><b>Ask QEs</b><p>Today's safety net was one test function. What's missing from your team's real suite that would make this discipline possible on your actual code?</p></div>
-      <div class="debrief-card"><b>Ask AI engineers</b><p>Would you trust an agent to run tests after each of today's three refactorings, or only at the end? What's the practical difference?</p></div>
+      <div class="debrief-card"><b>Ask the room</b><p>What surprised you about your own numbers &mdash; did you already know your service's real capacity, or did you have to guess?</p></div>
+      <div class="debrief-card"><b>Ask tech leads</b><p>Has anyone ever proposed "just add more servers" for a problem that Amdahl's Law or the USL says won't fix? How would you make that case in the room, in the moment?</p></div>
+      <div class="debrief-card"><b>Ask QEs</b><p>What load test would actually validate the plan someone just wrote &mdash; and does that test exist today?</p></div>
+      <div class="debrief-card"><b>Ask AI engineers</b><p>If you asked an agent to "make this service handle more load," what's the first question it should ask before touching any code?</p></div>
     </div>
     <p class="section-sub" style="margin-bottom:10px;">Before the room breaks, each person commits to one:</p>
     <div class="checklist">
-      <div class="check-row"><span class="box"></span>Next time you refactor, commit after every green step &mdash; even the ones that feel too small to commit</div>
-      <div class="check-row"><span class="box"></span>Find one place Replace Conditional with Polymorphism would pay off, using Day 3's <code>DiscountStrategy</code> as the template</div>
-      <div class="check-row"><span class="box"></span>Name one method in your codebase that's called once and adds no clarity &mdash; inline it</div>
-      <div class="check-row"><span class="box"></span>Bring your team's realest "file nobody wants to touch" to Day 5, where this discipline meets code with no tests at all</div>
+      <div class="check-row"><span class="box"></span>Save your capacity plan somewhere your team can see it &mdash; before the next traffic spike, not after</div>
+      <div class="check-row"><span class="box"></span>Find the one piece of state that would block horizontal scaling, and name where it should live instead</div>
+      <div class="check-row"><span class="box"></span>Find the hottest row or key in your database, and write down how long its lock is held</div>
+      <div class="check-row"><span class="box"></span>Find one slow call inside a request that could be a queued message instead</div>
+      <div class="check-row"><span class="box"></span>Run, or schedule, the load test that would actually validate today's numbers</div>
+      <div class="check-row"><span class="box"></span>Bring your plan's biggest open question back for Day 7, where one scaled service becomes a system of them</div>
     </div>
   </section>
 
@@ -465,45 +1076,27 @@ def describe_shipment(shipment):
     <div class="prep">
       <b>Before the session</b>
       <ul>
-        <li>Load <code>invoice.py</code> plus <code>test_invoice.py</code> (demo) and <code>shipment.py</code> (kata) into your environment beforehand &mdash; don't hand out a test for the kata, pairs write their own</li>
-        <li>Write and run your own reference test for <code>describe_shipment</code> before the session, privately &mdash; confirms the function is genuinely testable and gives you something to sanity-check a stuck pair's assertion against</li>
-        <li>Decide the timer interval in advance (8 minutes worked well) and announce it before pairs start. The goal is rhythm, not stress</li>
-        <li>Watch for pairs doing all three refactorings in one giant edit before running the test once &mdash; that's the exact failure mode this session exists to interrupt. Redirect them mid-exercise if you see it</li>
+        <li>Bring real traffic or capacity numbers for at least one team service if you can &mdash; "here are our actual numbers" lands harder than the worked example alone</li>
+        <li>The worked example's math is deliberately simple arithmetic (800 &rarr; 2,400 req/s, 750 req/s/instance, +1 redundancy) &mdash; resist making it more sophisticated than the room needs</li>
+        <li><b>This session now runs 3:00, well past a standard 2:00 slot &mdash; it's three sessions in one.</b> Cut in this order: the Part 3 multi-master and CAP material becomes a read-ahead handout (~15 min); the Kafka internals and the issues table go to a handout (~15 min); the consistent-hashing walkthrough shrinks to its one-paragraph idea (~10 min); the capacity-plan kata becomes take-home (~30 min). That gets you to roughly 2:00 without losing the through-line: stateless web tier, the hot-row lock, the queue, the replica.</li>
+        <li>Have the stateful-cart code ready to trace live, pointing at exactly which request lands on which instance and why it fails &mdash; and the hot-row <code>buy()</code> ready to run against a real local database if you can, so the room watches 50 concurrent calls queue behind one lock</li>
+        <li>Some pairs won't have real numbers for their own service &mdash; let them use rough estimates or reuse the worked example, and steer their discussion toward the methodology instead</li>
+        <li>The Amdahl/USL chart is the one place this session gets genuinely theoretical &mdash; spend time on the qualitative point (coordination overhead can make more instances actively worse), not on deriving the formulas. Nobody needs to leave able to compute &kappa; and &sigma; by hand</li>
+        <li>Kafka comes up here for its design, not its operations: partitions, consumer groups, offsets, and why a duplicate delivery is normal. Skip broker tuning, ZooKeeper/KRaft, and exactly-once transactions unless the room asks</li>
+        <li>CAP is introduced here and returns on Day 7 with PACELC &mdash; keep this pass to the partition choice and the table, and let Day 7 do the refinement</li>
+        <li>The consistent-hashing ring only needs to land one idea: adding a shard remaps a fraction of keys, not all of them. Skip the deeper "how do you pick a hash function" rabbit hole unless the room pulls you into it</li>
       </ul>
     </div>
 
     <div class="answer">
-      <b>Answer key &mdash; describe_shipment</b>
-      <pre class="code" style="border-radius:8px;">class CarrierSurcharge:
-    def apply(self, weight_fee): raise NotImplementedError
-
-class UpsSurcharge(CarrierSurcharge):
-    def apply(self, weight_fee): return weight_fee * 0.1
-
-class FedexSurcharge(CarrierSurcharge):
-    def apply(self, weight_fee): return weight_fee * 0.08
-
-class DhlSurcharge(CarrierSurcharge):
-    def apply(self, weight_fee): return weight_fee * 0.12
-
-class NoSurcharge(CarrierSurcharge):
-    def apply(self, weight_fee): return 0
-
-def calculate_weight_fee(packages):
-    return sum(pkg.weight_kg * 0.5 for pkg in packages)
-
-def describe_shipment(shipment, surcharge):
-    weight_fee = calculate_weight_fee(shipment.packages)
-    total = weight_fee + surcharge.apply(weight_fee)
-    prefix = "EXPRESS " if shipment.method == "express" else ""
-    return f"{prefix}shipment via {shipment.carrier}: ${total:.2f}"</pre>
-      <p style="margin:10px 0 0; font-size:0.85rem; color:var(--ink-soft);">Reference test, written before the session &mdash; against the original, unrefactored function: <code>describe_shipment(Shipment(carrier="ups", packages=[Package(weight_kg=10)], method="standard"))</code> returns <code>"shipment via ups: $5.50"</code>. After the refactor, the same shipment goes through <code>describe_shipment(shipment, UpsSurcharge())</code> and returns the same string.</p>
+      <b>Reference &mdash; the worked example, restated</b>
+      <p style="margin:0; font-size:0.9rem; color:var(--ink-soft); line-height:1.6;">Checkout handles 800 req/s comfortably today. A flash sale in six months is expected to push that to 2,400 req/s. Load testing shows one instance holds 750 req/s before CPU crosses 70%. <code>2400 / 750 = 3.2</code>, rounded up to 4 instances for the load itself, plus 1 more so the system survives a single instance failing &mdash; 5 total. None of this matters until the cart's state moves out of process memory and into Redis, which is why that fix comes first in the demo, not last.</p>
     </div>
   </section>
 
   <footer>
-    <span><a href="https://claude.ai/artifact/CW4Swn9ZbEmNUX6cj5pm8F">Prev &mdash; Day 03</a> &middot; Day 04 / 10 &middot; Refactoring &middot; Refactoring Technique &amp; the Smell Catalog</span>
-    <span>Next &mdash; Day 05: Refactoring Legacy Code Under Test</span>
+    <span><a href="https://claude.ai/artifact/CW4Swn9ZbEmNUX6cj5pm8F">Prev &mdash; Day 03</a> &middot; Day 04 / 10 &middot; Scalable Systems &middot; Scalability Fundamentals</span>
+    <span>Next &mdash; <a href="https://claude.ai/artifact/LfPjEy3QzevaL9ysYymXKy">Day 05: Refactoring Technique &amp; the Smell Catalog</a></span>
   </footer>
 
 </div>

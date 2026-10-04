@@ -1,4 +1,4 @@
-# Day 4 — the DiscountStrategy classes generate_invoice_summary imports,
+# Day 5 — the DiscountStrategy classes generate_invoice_summary imports,
 # identical to Day 3's OrderProcessor demo. One class per branch the
 # if/elif used to have.
 

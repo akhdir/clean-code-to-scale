@@ -1314,7 +1314,7 @@ quickRepKata(
 
   s.addShape(pptx.ShapeType.line, { x: 0.7, y: 5.7, w: 11.9, h: 0, line: { color: "234750", width: 1 } });
   s.addText("NEXT — DAY 04", { x: 0.7, y: 5.95, w: 6, h: 0.3, isTextBox: true, margin: 0, fontFace: CODE, fontSize: 11, color: AMBER_LIGHT, charSpacing: 1 });
-  s.addText("Refactoring Technique & the Smell Catalog", { x: 0.7, y: 6.25, w: 10, h: 0.5, isTextBox: true, margin: 0, fontFace: HEAD, bold: true, fontSize: 22, color: WHITE });
+  s.addText("Scalability Fundamentals", { x: 0.7, y: 6.25, w: 10, h: 0.5, isTextBox: true, margin: 0, fontFace: HEAD, bold: true, fontSize: 22, color: WHITE });
   footer(s, "Clean Code to Scale", 33, true);
 }
 

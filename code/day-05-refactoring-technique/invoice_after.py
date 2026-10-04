@@ -1,4 +1,4 @@
-# Day 4 — Live demo "after": all three steps (Extract Method, Inline,
+# Day 5 — Live demo "after": all three steps (Extract Method, Inline,
 # Replace Conditional with Polymorphism), in one piece.
 # DiscountStrategy, LoyaltyDiscount, etc. — from Day 3, unchanged.
 

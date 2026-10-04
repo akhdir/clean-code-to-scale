@@ -1,4 +1,4 @@
-# Day 4 — the safety net every red-green checkpoint in the demo refers to.
+# Day 5 — the safety net every red-green checkpoint in the demo refers to.
 
 
 def test_generate_invoice_summary():

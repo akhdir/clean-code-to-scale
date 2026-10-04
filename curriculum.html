@@ -500,6 +500,32 @@
         <div class="day-rail"><div class="day-num">04</div><div class="day-line"></div></div>
         <div class="day-card">
           <div class="day-card-head">
+            <div class="day-title">Scalability Fundamentals</div>
+            <div class="badges"><span class="badge time">3:00</span><span class="badge topic">Scalable Systems</span></div>
+          </div>
+          <p class="focus">The vocabulary and levers behind "it works, but does it scale?" &mdash; taken layer by layer: the web tier, the background jobs, the database.</p>
+          <ul class="objectives">
+            <li>Make a web/API tier horizontally scalable: stateless instances, a deliberate session strategy, and no hot-row lock</li>
+            <li>Move slow or bursty work behind a queue, scale it with partitions, and name its failure modes &mdash; including how Kafka handles them</li>
+            <li>Choose a database scaling path &mdash; replicas, multi-master, partitioning &mdash; and state what each gives up under CAP</li>
+          </ul>
+          <div class="blocks"><span style="width:30%;background:var(--accent);"></span><span style="width:20%;background:var(--accent-2);"></span><span style="width:25%;background:#B08325;"></span><span style="width:17%;background:var(--ink-faint);"></span><span style="width:8%;background:var(--line-strong);"></span></div>
+          <div class="block-list">
+            <span class="k"><span class="dot concept"></span><b>0:00&ndash;0:55</b> scaling web/API requests: statelessness, sessions, the hot-row lock</span>
+            <span class="k"><span class="dot demo"></span><b>0:55&ndash;1:30</b> scaling backend jobs: queues, partitions, Kafka</span>
+            <span class="k"><span class="dot hands"></span><b>1:30&ndash;2:15</b> database scalability: replicas, multi-master, partitioning, CAP</span>
+            <span class="k"><span class="dot hands"></span><b>2:15&ndash;2:45</b> capacity-plan a service from real traffic numbers</span>
+            <span class="k"><span class="dot review"></span><b>2:45&ndash;3:00</b> group critique</span>
+          </div>
+          <div class="deliverable"><b>Output</b>A one-page capacity plan for a service you're responsible for.</div>
+        </div>
+      </div>
+
+      <!-- Day 5 -->
+      <div class="day">
+        <div class="day-rail"><div class="day-num">05</div><div class="day-line"></div></div>
+        <div class="day-card">
+          <div class="day-card-head">
             <div class="day-title">Refactoring Technique &amp; the Smell Catalog</div>
             <div class="badges"><span class="badge time">2:00</span><span class="badge topic">Refactoring</span></div>
           </div>
@@ -520,9 +546,9 @@
         </div>
       </div>
 
-      <!-- Day 5 -->
+      <!-- Day 6 -->
       <div class="day">
-        <div class="day-rail"><div class="day-num">05</div><div class="day-line"></div></div>
+        <div class="day-rail"><div class="day-num">06</div><div class="day-line"></div></div>
         <div class="day-card">
           <div class="day-card-head">
             <div class="day-title">Refactoring Legacy Code Under Test</div>
@@ -542,31 +568,6 @@
             <span class="k"><span class="dot review"></span><b>1:45&ndash;2:00</b> compare approaches across pairs</span>
           </div>
           <div class="deliverable"><b>Bring</b>Your team's actual candidate for "the file nobody wants to touch."</div>
-        </div>
-      </div>
-
-      <!-- Day 6 -->
-      <div class="day">
-        <div class="day-rail"><div class="day-num">06</div><div class="day-line"></div></div>
-        <div class="day-card">
-          <div class="day-card-head">
-            <div class="day-title">Scalability Fundamentals</div>
-            <div class="badges"><span class="badge time">2:00</span><span class="badge topic">Scalable Systems</span></div>
-          </div>
-          <p class="focus">The vocabulary and levers behind "it works, but does it scale?"</p>
-          <ul class="objectives">
-            <li>Distinguish vertical, horizontal, and functional scaling with real cost tradeoffs</li>
-            <li>Design a stateless service boundary that can be safely replicated</li>
-            <li>Place a cache and a load balancer correctly in a request path</li>
-          </ul>
-          <div class="blocks"><span style="width:30%;background:var(--accent);"></span><span style="width:35%;background:var(--accent-2);"></span><span style="width:25%;background:#B08325;"></span><span style="width:10%;background:var(--ink-faint);"></span></div>
-          <div class="block-list">
-            <span class="k"><span class="dot concept"></span><b>0:00&ndash;0:35</b> scaling levers &amp; their costs</span>
-            <span class="k"><span class="dot demo"></span><b>0:35&ndash;1:10</b> walking through a system that hit its ceiling</span>
-            <span class="k"><span class="dot hands"></span><b>1:10&ndash;1:40</b> capacity-plan a service from real traffic numbers</span>
-            <span class="k"><span class="dot review"></span><b>1:40&ndash;2:00</b> group critique</span>
-          </div>
-          <div class="deliverable"><b>Output</b>A one-page capacity plan for a service you're responsible for.</div>
         </div>
       </div>
 
@@ -679,7 +680,7 @@
     <div class="note-grid">
       <div class="note">
         <h3>Cadence</h3>
-        <p>Ten consecutive working days at 2 hours/day fits well as a morning or end-of-day slot. Compressing to 2 sessions/day (4h) across 5 days works too &mdash; keep same-module sessions (e.g. 4&amp;5, 9&amp;10) on the same or adjacent days so context doesn't go cold.</p>
+        <p>Ten consecutive working days at 2 hours/day fits well as a morning or end-of-day slot. Compressing to 2 sessions/day (4h) across 5 days works too &mdash; keep same-module sessions (e.g. 5&amp;6, 9&amp;10) on the same or adjacent days so context doesn't go cold.</p>
       </div>
       <div class="note">
         <h3>Group size &amp; format</h3>

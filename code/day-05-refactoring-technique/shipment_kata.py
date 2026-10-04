@@ -1,4 +1,4 @@
-# Day 4 — Refactoring kata (48 min), against a red-green timer.
+# Day 5 — Refactoring kata (48 min), against a red-green timer.
 # Before refactoring anything, write your own test that pins down
 # describe_shipment's current behavior for at least one realistic
 # shipment. Only once that test passes against the untouched function

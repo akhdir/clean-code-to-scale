@@ -1,4 +1,4 @@
-# Day 4 — Live demo "before": all three smells, tangled together.
+# Day 5 — Live demo "before": all three smells, tangled together.
 
 
 def _get_item_count(order):
