@@ -1,4 +1,4 @@
-# Day 4 — Refactoring kata: answer key.
+# Day 5 — Refactoring kata: answer key.
 # Reference test, written before the session, against the original,
 # unrefactored function:
 #   describe_shipment(Shipment(carrier="ups", packages=[Package(weight_kg=10)],
