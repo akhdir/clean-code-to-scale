@@ -1,4 +1,4 @@
-<title>Pick Two</title>
+<title>One Deploy or Many</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
 <style>
   :root{
@@ -122,14 +122,41 @@
   .callout.bad{ background:var(--bad-soft); }
   .callout.bad b{ color:var(--bad); }
 
+  /* stat strip inside narrative */
+  .stat-row{ display:flex; gap:14px; flex-wrap:wrap; margin:16px 0; }
+  .stat-chip{ background:var(--surface); border:1px solid var(--line); border-radius:10px; padding:12px 16px; flex:1; min-width:150px; }
+  .stat-chip b{ display:block; font-family:"IBM Plex Mono", monospace; font-size:1.3rem; font-weight:600; color:var(--ink); }
+  .stat-chip span{ font-family:"IBM Plex Mono", monospace; font-size:0.68rem; letter-spacing:0.05em; text-transform:uppercase; color:var(--ink-faint); }
+  .stat-chip.flag b{ color:var(--bad); }
+
+  /* worksheet table */
+  .plan-table{ width:100%; border-collapse:collapse; margin:14px 0; font-size:0.9rem; }
+  .plan-table th{ text-align:left; font-family:"IBM Plex Mono", monospace; font-size:0.66rem; letter-spacing:0.06em; text-transform:uppercase; color:var(--ink-faint); padding:8px 12px; border-bottom:1px solid var(--line-strong); }
+  .plan-table td{ padding:10px 12px; border-bottom:1px solid var(--line); color:var(--ink-soft); vertical-align:top; }
+  .plan-table td.name{ color:var(--ink); font-weight:600; font-family:"IBM Plex Mono", monospace; font-size:0.82rem; white-space:nowrap; }
+  .plan-table tr.blank td{ color:var(--ink-faint); font-style:italic; }
+
   /* timeline */
   .timeline{ display:flex; flex-direction:column; margin:16px 0; }
   .tl-row{ display:flex; gap:14px; padding:10px 0; border-bottom:1px dashed var(--line); }
   .tl-row:last-child{ border-bottom:none; }
   .tl-t{ flex:none; width:64px; font-family:"IBM Plex Mono", monospace; font-size:0.78rem; color:var(--bad); font-weight:600; padding-top:2px; }
-  .tl-t.ok{ color:var(--accent); }
   .tl-body p{ margin:0; font-size:0.92rem; color:var(--ink); line-height:1.5; }
   .tl-body b{ font-family:"Archivo", sans-serif; }
+
+  /* inline exercises */
+  .exercise{ background:var(--amber-soft); border:1px solid var(--line); border-left:4px solid var(--amber); border-radius:10px; padding:16px 20px 14px; margin:24px 0; }
+  .exercise .ex-label{ display:block; font-family:"IBM Plex Mono", monospace; font-size:0.66rem; letter-spacing:0.08em; text-transform:uppercase; color:var(--amber); font-weight:600; margin-bottom:6px; }
+  .exercise h4{ font-family:"Archivo", sans-serif; font-size:1rem; font-weight:700; margin:0 0 8px; color:var(--ink); }
+  .exercise p{ margin:0 0 10px; font-size:0.92rem; line-height:1.55; color:var(--ink); }
+  .exercise ol, .exercise ul{ margin:0 0 10px; padding-left:1.2em; font-size:0.92rem; line-height:1.55; color:var(--ink); }
+  .exercise li{ margin-bottom:5px; }
+  .exercise .code-block{ margin:10px 0; }
+  .exercise details{ margin-top:8px; border-top:1px dashed var(--line-strong); padding-top:10px; }
+  .exercise summary{ cursor:pointer; font-family:"IBM Plex Mono", monospace; font-size:0.74rem; letter-spacing:0.05em; text-transform:uppercase; color:var(--accent); font-weight:600; }
+  .exercise .ans{ margin-top:10px; font-size:0.9rem; line-height:1.55; color:var(--ink-soft); }
+  .exercise .ans p, .exercise .ans li{ color:var(--ink-soft); font-size:0.9rem; }
+  .exercise .ans b{ color:var(--ink); }
 
   /* kata / exercise cards */
   .kata{ background:var(--surface); border:1px solid var(--line); border-radius:12px; padding:22px 24px; margin-bottom:20px; box-shadow:var(--shadow); }
@@ -174,30 +201,33 @@
 
 <div class="wrap">
 
-  <div class="crumb"><a href="https://claude.ai/code/artifact/d82a43b8-603a-4a49-a9d8-bee201a2d318">Clean Code to Scale</a><span>/</span><span>Day 07 of 10</span></div>
+  <div class="crumb"><a href="https://claude.ai/code/artifact/d82a43b8-603a-4a49-a9d8-bee201a2d318">Clean Code to Scale</a><span>/</span><a href="https://claude.ai/artifact/AVpR8sCRHwCB22sEec7Mvi">Day 04</a><span>/</span><span>Day 07 of 8</span></div>
 
-  <div class="eyebrow">Session material &middot; Module: Scalable Systems</div>
-  <h1>Distributed Systems &amp; Resilience</h1>
-  <p class="lede">Facilitator and participant material for Day 7. Day 4 replicated one service. Today, that service talks to others across a network &mdash; and a network can always fail halfway through, which "correct code" alone has never protected anyone from.</p>
+  <div class="eyebrow">Session material &middot; Module: Architecture</div>
+  <h1>Microservices vs Monolith</h1>
+  <p class="lede">Facilitator and participant material for Day 7. Day 4 showed what happens when many machines work together: calls get slow, fail, repeat, and return old data. Today we ask the question that comes next: should the code be one program or many? We use the same order system and decide what to split, what to keep together, and how to move safely in either direction.</p>
 
   <div class="meta-strip">
-    <div class="meta"><b>2:00</b><span>Duration</span></div>
-    <div class="meta"><b>07 / 10</b><span>Session</span></div>
+    <div class="meta"><b>2:30</b><span>Duration</span></div>
+    <div class="meta"><b>07 / 08</b><span>Session</span></div>
     <div class="meta"><b>Python</b><span>Code samples</span></div>
-    <div class="meta"><b>Pairs</b><span>Incident retro</span></div>
+    <div class="meta"><b>Pairs</b><span>Boundaries + 3 quizzes</span></div>
   </div>
 
   <section>
     <div class="section-head"><span class="tag">Objectives</span><h2>What today is for</h2></div>
-    <div class="cheat-grid" style="margin-bottom:0;">
+    <div class="cheat-grid" style="margin-bottom:0; grid-template-columns:repeat(2,1fr);">
       <div class="cheat"><ul>
-        <li>Choose between synchronous calls and async messaging with reasons, not habit</li>
+        <li>Explain what a monolith, a modular monolith and microservices are, and what each one gives you and costs you</li>
       </ul></div>
       <div class="cheat"><ul>
-        <li>Reason about CAP and consistency tradeoffs across a real service boundary</li>
+        <li>Say what changes when a function call becomes a network call, using the problems from Day 4</li>
       </ul></div>
       <div class="cheat"><ul>
-        <li>Add retries, timeouts, and circuit breakers where they actually help &mdash; and know where they don't</li>
+        <li>Draw service boundaries around data and change, and spot a distributed monolith before you build one</li>
+      </ul></div>
+      <div class="cheat"><ul>
+        <li>Keep data correct across services with events, sagas and the outbox, and move out of a monolith in small safe steps</li>
       </ul></div>
     </div>
   </section>
@@ -205,234 +235,615 @@
   <section>
     <div class="section-head"><span class="tag">Room</span><h2>Why this session, for you specifically</h2></div>
     <div class="roles">
-      <div class="role"><b>Junior &ndash; Mid Engineers</b><p>The first time a single logical operation can genuinely fail halfway through. That's a category of bug "correct code" doesn't protect against.</p></div>
-      <div class="role"><b>Senior Eng &amp; Tech Leads</b><p>CAP tradeoffs are architecture decisions your team already makes implicitly every time it picks a datastore or a retry policy. Today makes them explicit.</p></div>
-      <div class="role"><b>QEs</b><p>A distributed failure only reproduces under partition or latency conditions a normal test suite doesn't create. Today gives you the vocabulary to name what to inject.</p></div>
-      <div class="role"><b>AI Engineers</b><p>An agent told to "add a retry" will wrap any call in a loop, including ones where retrying makes an outage worse. Today gives you the checklist to catch that.</p></div>
+      <div class="role"><b>Junior &ndash; Mid Engineers</b><p>You will work inside one of these designs from your first day. Today you learn why the code is split the way it is, and how to ask for a better boundary.</p></div>
+      <div class="role"><b>Senior Eng &amp; Tech Leads</b><p>"Should we split this?" lands on your desk. You leave with a checklist and the words to say yes or no, with reasons.</p></div>
+      <div class="role"><b>QEs</b><p>More services mean more contracts that can break and more places a bug can hide. You learn what to test at each boundary.</p></div>
+      <div class="role"><b>AI Engineers</b><p>An agent asked to "add a service" will happily create one. Today gives you the questions to ask first, and the rule that a service owns its data.</p></div>
     </div>
   </section>
 
   <section>
-    <div class="section-head"><span class="tag">0:00&ndash;0:35 &middot; Concept</span><h2>CAP, messaging, and how failure spreads</h2></div>
-    <p class="section-sub">"Consistency, availability, partition tolerance &mdash; pick two" is the famous phrasing, and it's a slight oversimplification worth correcting properly before using it.</p>
-
-    <figure class="diagram-figure">
-      <svg viewBox="0 0 780 300" role="img" aria-label="OrderService tries to call InventoryService across a network partition. Blocked by the partition, OrderService must choose: refuse the request and stay consistent, or answer anyway using stale inventory data and stay available. Both are valid engineering choices; picking neither on purpose is the actual failure mode.">
-        <defs>
-          <marker id="d7-flow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
-            <path d="M0,0 L10,5 L0,10 Z" fill="currentColor"/>
-          </marker>
-        </defs>
-
-        <rect x="30" y="30" width="170" height="60" rx="8" fill="var(--accent-soft)" stroke="var(--accent)" stroke-width="1.5"/>
-        <text x="115" y="65" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="11" fill="currentColor">OrderService</text>
-
-        <rect x="580" y="30" width="170" height="60" rx="8" fill="var(--surface)" stroke="currentColor" stroke-width="1.5"/>
-        <text x="665" y="65" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="11" fill="currentColor">InventoryService</text>
-
-        <line x1="200" y1="60" x2="575" y2="60" stroke="var(--bad)" stroke-width="2" stroke-dasharray="2 6"/>
-        <text x="390" y="45" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="10" letter-spacing="0.5" fill="var(--bad)">NETWORK PARTITION</text>
-
-        <line x1="115" y1="90" x2="115" y2="150" stroke="currentColor" stroke-width="1.3" marker-end="url(#d7-flow)"/>
-        <text x="128" y="125" font-family="IBM Plex Mono, monospace" font-size="9.5" fill="var(--ink-faint)">must decide, now</text>
-
-        <rect x="15" y="160" width="290" height="110" rx="8" fill="var(--accent-soft)" stroke="var(--accent)" stroke-width="1.5"/>
-        <text x="160" y="185" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="10.5" font-weight="600" fill="currentColor">CHOOSE CONSISTENCY</text>
-        <text x="35" y="208" font-family="IBM Plex Mono, monospace" font-size="9.5" fill="currentColor">Refuse the order.</text>
-        <text x="35" y="225" font-family="IBM Plex Mono, monospace" font-size="9.5" fill="currentColor">Never oversell &mdash;</text>
-        <text x="35" y="242" font-family="IBM Plex Mono, monospace" font-size="9.5" fill="currentColor">but unavailable during</text>
-        <text x="35" y="259" font-family="IBM Plex Mono, monospace" font-size="9.5" fill="currentColor">the partition.</text>
-
-        <rect x="325" y="160" width="290" height="110" rx="8" fill="var(--amber-soft)" stroke="var(--amber)" stroke-width="1.5"/>
-        <text x="470" y="185" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="10.5" font-weight="600" fill="currentColor">CHOOSE AVAILABILITY</text>
-        <text x="345" y="208" font-family="IBM Plex Mono, monospace" font-size="9.5" fill="currentColor">Confirm using the last-</text>
-        <text x="345" y="225" font-family="IBM Plex Mono, monospace" font-size="9.5" fill="currentColor">known stock count.</text>
-        <text x="345" y="242" font-family="IBM Plex Mono, monospace" font-size="9.5" fill="currentColor">Always responds &mdash; might</text>
-        <text x="345" y="259" font-family="IBM Plex Mono, monospace" font-size="9.5" fill="currentColor">oversell.</text>
-      </svg>
-      <figcaption>Partition tolerance isn't really a choice &mdash; networks partition whether you plan for it or not. The real decision CAP describes is what OrderService does <em>during</em> one: both branches are legitimate engineering answers. The failure mode is never picking either on purpose.</figcaption>
-    </figure>
-
-    <div class="callout"><b>Beyond CAP &mdash; PACELC.</b> CAP only governs behavior <em>during</em> a partition. The rest of the time, a distributed system still trades Latency against Consistency: a strongly-consistent read across regions is slower than an eventually-consistent one, partition or not. If OrderService and InventoryService live in the same region, PACELC's <em>else</em> clause is the tradeoff you're living with every single request &mdash; not just the rare partition.</div>
-
-    <div class="cheat-grid">
-      <div class="cheat">
-        <h3>CAP &amp; consistency</h3>
-        <ul>
-          <li>Partitions happen; the real choice is Consistency vs. Availability <em>during</em> one</li>
-          <li>Strong consistency: every read sees the latest write, everywhere</li>
-          <li>Eventual consistency: reads may be briefly stale, but converge</li>
-          <li>PACELC: even with no partition, trade Latency against Consistency</li>
-        </ul>
-      </div>
-      <div class="cheat b">
-        <h3>Sync vs. async</h3>
-        <ul>
-          <li>Sync: simple mental model, but couples your availability to theirs</li>
-          <li>Async (queue/event): decouples timing, adds durability &mdash; and eventual consistency</li>
-          <li>Ask: does the caller need the result <em>now</em> to proceed, or can it happen eventually?</li>
-          <li>At-least-once delivery means the handler must be idempotent</li>
-        </ul>
-      </div>
-      <div class="cheat c">
-        <h3>Containing failure</h3>
-        <ul>
-          <li>Every synchronous call needs a timeout &mdash; a hang anywhere becomes a hang everywhere</li>
-          <li>Retries: only for transient, idempotent calls, with backoff and jitter</li>
-          <li>Circuit breaker: stop calling a failing dependency; fail fast, let it recover</li>
-          <li>Bulkheads: isolate resource pools so one slow dependency can't starve the rest</li>
-        </ul>
-      </div>
-    </div>
-  </section>
-
-  <section>
-    <div class="section-head"><span class="tag">0:35&ndash;1:10 &middot; Live demo</span><h2>Dissecting a cascading failure</h2></div>
-    <p class="section-sub">A single external dependency having a slow afternoon takes down the entire checkout flow. Walk the timeline first, then the code that let it happen.</p>
-
-    <div class="timeline">
-      <div class="tl-row"><div class="tl-t">10:02</div><div class="tl-body"><p><b>FraudCheckAPI</b> (external, third-party) starts responding in 30s instead of its usual 200ms &mdash; their incident, not ours.</p></div></div>
-      <div class="tl-row"><div class="tl-t">10:03</div><div class="tl-body"><p><b>PaymentService</b> calls it with no timeout. Every request thread waiting on a fraud check now blocks for the full 30s.</p></div></div>
-      <div class="tl-row"><div class="tl-t">10:06</div><div class="tl-body"><p>PaymentService's thread pool is fully occupied waiting. New requests to PaymentService &mdash; for anything, not just fraud checks &mdash; start queuing.</p></div></div>
-      <div class="tl-row"><div class="tl-t">10:08</div><div class="tl-body"><p><b>OrderService</b> calls PaymentService with no timeout either. Its threads now block waiting on a service that's blocked waiting on FraudCheckAPI.</p></div></div>
-      <div class="tl-row"><div class="tl-t">10:11</div><div class="tl-body"><p>Checkout is down, site-wide. The original problem was one external dependency having a bad ten minutes.</p></div></div>
-    </div>
-
-    <div class="code-block">
-      <div class="code-head before"><span>payment_service.py &mdash; before</span><span>no timeout, no breaker, no fallback</span></div>
-      <pre class="code">def confirm_payment(order):
-    fraud_result = fraud_check_api.check(order)
-    if fraud_result.flagged:
-        return reject(order)
-    return charge_payment(order)</pre>
-    </div>
-
-    <div class="code-block">
-      <div class="code-head after"><span>payment_service.py &mdash; after</span><span>timeout + circuit breaker + fallback</span></div>
-      <pre class="code">fraud_breaker = CircuitBreaker(
-    failure_threshold=5,
-    reset_after_seconds=30,
-)
-
-def confirm_payment(order):
-    try:
-        fraud_result = fraud_breaker.call(
-            lambda: fraud_check_api.check(order, timeout=2.0)
-        )
-    except (CircuitOpenError, TimeoutError):
-        <span class="c"># the dependency is having a bad day &mdash; don't have one too</span>
-        return flag_for_manual_review(order)
-
-    if fraud_result.flagged:
-        return reject(order)
-    return charge_payment(order)</pre>
-    </div>
-
+    <div class="section-head"><span class="tag">Opening &middot; 0:00&ndash;0:10</span><h2>A team of eight and fourteen services</h2></div>
+    <p class="section-sub">A team of eight has a working monolith. It is a bit slow to release, so they split it into fourteen services. Six months later:</p>
+    <ul>
+      <li>A release takes longer than before, because three services must go out together.</li>
+      <li>Showing one order needs nine calls, and one of them is always slow.</li>
+      <li>A bug crosses three repositories, and nobody can run the whole system on a laptop.</li>
+    </ul>
+    <p class="section-sub">This is not a story that says "microservices are bad". They solve real problems for the right team at the right size. The question is <b>when</b>, and <b>how much</b>. Three questions for today:</p>
+    <ol>
+      <li>What exactly do we gain, and what exactly do we pay?</li>
+      <li>Where do we draw the lines, so that a split helps instead of hurts?</li>
+      <li>How do the pieces work together, and how do we move without breaking things?</li>
+    </ol>
     <div class="demo-notes">
-      <b>Talking points</b>
+      <b>Opening (10 min)</b>
       <ol>
-        <li>The 2-second timeout is the whole fix for the cascade &mdash; it caps how long one bad dependency can hold a thread, no matter what the dependency does.</li>
-        <li>The circuit breaker is what stops <em>retrying</em> a dependency that's already down from making things worse &mdash; after 5 failures, it stops trying for 30 seconds and fails fast instead.</li>
-        <li><code>flag_for_manual_review</code> is a real fallback, not an error page &mdash; the business kept operating, just more slowly and more manually, for the orders that needed it.</li>
-        <li>This wasn't a synchronous-vs-async decision <em>we</em> get to relitigate here &mdash; fraud checks that gate a charge need an answer before the charge happens. The fix is containment, not switching to async.</li>
+        <li>Show of hands: who works in a monolith, who in microservices, who in something in between? Take two or three stories about the worst deploy or the worst bug, and refer back to them.</li>
+        <li>Say plainly that the answer is not "microservices" or "monolith". It is a set of trade-offs, and today is about reading them.</li>
+        <li>Connect to Day 4: the moment code runs on two machines, every call can be slow, fail, repeat, or return old data. Splitting a program turns many function calls into network calls.</li>
       </ol>
     </div>
   </section>
 
   <section>
-    <div class="section-head"><span class="tag">1:10&ndash;1:40 &middot; Hands-on</span><h2>Contain a flaky call chain</h2></div>
-    <p class="section-sub">Work in pairs. <code>get_shipping_estimate</code> below can hang checkout entirely over something that was never worth blocking on.</p>
+    <div class="section-head"><span class="tag">Part 1 &middot; 0:10&ndash;0:35</span><h2>What they are, and what changes</h2></div>
+    <p class="section-sub">Three words, in plain language:</p>
+    <table class="plan-table">
+      <tr><th>Word</th><th>What it means</th><th>Data</th></tr>
+      <tr><td class="name">Monolith</td><td>One program, deployed as one unit. Parts of it call each other as normal function calls</td><td>Usually one database</td></tr>
+      <tr><td class="name">Modular monolith</td><td>Still one deployable, but inside it the code is split into modules with clear walls and public APIs</td><td>One database, but each module owns its own tables</td></tr>
+      <tr><td class="name">Microservices</td><td>Many small programs, each deployed on its own, talking to each other over the network</td><td>Each service owns its data. Nobody else reads it</td></tr>
+    </table>
+
+    <figure class="diagram-figure" style="box-shadow:none; margin:14px 0;">
+      <svg viewBox="0 0 780 310" role="img" aria-label="On the left, a monolith: one box with four modules inside, Orders, Inventory, Payments and Notifications, calling each other directly, and one database below it. On the right, microservices: four separate services, Orders, Inventory, Payments and Notifications, each with its own database, connected by arrows that are network calls.">
+        <defs><marker id="m7a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 Z" fill="currentColor"/></marker></defs>
+        <text x="170" y="20" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="11" font-weight="600" fill="var(--accent)">MONOLITH: one deployable</text>
+        <text x="585" y="20" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="11" font-weight="600" fill="var(--accent-2)">MICROSERVICES: many deployables</text>
+        <rect x="20" y="34" width="300" height="190" rx="10" fill="none" stroke="var(--accent)" stroke-width="2"/>
+        <g font-family="IBM Plex Mono, monospace" font-size="11" text-anchor="middle" fill="currentColor">
+          <rect x="40" y="54" width="120" height="56" rx="6" fill="var(--accent-soft)" stroke="var(--accent)" stroke-width="1.5"/><text x="100" y="86">Orders</text>
+          <rect x="180" y="54" width="120" height="56" rx="6" fill="var(--accent-soft)" stroke="var(--accent)" stroke-width="1.5"/><text x="240" y="86">Inventory</text>
+          <rect x="40" y="140" width="120" height="56" rx="6" fill="var(--accent-soft)" stroke="var(--accent)" stroke-width="1.5"/><text x="100" y="172">Payments</text>
+          <rect x="180" y="140" width="120" height="56" rx="6" fill="var(--accent-soft)" stroke="var(--accent)" stroke-width="1.5"/><text x="240" y="172">Notifications</text>
+          <text x="170" y="127" font-size="9" fill="var(--ink-faint)">function calls, same process</text>
+          <rect x="95" y="256" width="150" height="40" rx="6" fill="var(--surface)" stroke="currentColor" stroke-width="1.5"/><text x="170" y="281">one database</text>
+        </g>
+        <line x1="170" y1="226" x2="170" y2="252" stroke="currentColor" stroke-width="1.4" marker-end="url(#m7a)"/>
+        <g font-family="IBM Plex Mono, monospace" font-size="11" text-anchor="middle" fill="currentColor">
+          <rect x="410" y="40" width="130" height="50" rx="6" fill="var(--accent-2-soft)" stroke="var(--accent-2)" stroke-width="1.5"/><text x="475" y="70">Orders</text>
+          <rect x="630" y="40" width="130" height="50" rx="6" fill="var(--accent-2-soft)" stroke="var(--accent-2)" stroke-width="1.5"/><text x="695" y="70">Inventory</text>
+          <rect x="410" y="170" width="130" height="50" rx="6" fill="var(--accent-2-soft)" stroke="var(--accent-2)" stroke-width="1.5"/><text x="475" y="200">Payments</text>
+          <rect x="630" y="170" width="130" height="50" rx="6" fill="var(--accent-2-soft)" stroke="var(--accent-2)" stroke-width="1.5"/><text x="695" y="200">Notifications</text>
+          <rect x="412" y="110" width="86" height="30" rx="5" fill="var(--surface)" stroke="currentColor" stroke-width="1.2"/><text x="455" y="130" font-size="9.5">orders DB</text>
+          <rect x="632" y="110" width="86" height="30" rx="5" fill="var(--surface)" stroke="currentColor" stroke-width="1.2"/><text x="675" y="130" font-size="9.5">stock DB</text>
+          <rect x="412" y="240" width="86" height="30" rx="5" fill="var(--surface)" stroke="currentColor" stroke-width="1.2"/><text x="455" y="260" font-size="9.5">payments DB</text>
+          <rect x="632" y="240" width="86" height="30" rx="5" fill="var(--surface)" stroke="currentColor" stroke-width="1.2"/><text x="675" y="260" font-size="9.5">notify DB</text>
+          <text x="585" y="56" font-size="9.5" fill="var(--bad)">network call</text>
+        </g>
+        <g stroke="var(--bad)" stroke-width="1.6" stroke-dasharray="5 4" fill="none"><line x1="542" y1="65" x2="628" y2="65" marker-end="url(#m7a)"/><line x1="520" y1="92" x2="520" y2="168" marker-end="url(#m7a)"/><line x1="740" y1="92" x2="740" y2="168" marker-end="url(#m7a)"/></g>
+        <g stroke="currentColor" stroke-width="1.2"><line x1="455" y1="90" x2="455" y2="110"/><line x1="675" y1="90" x2="675" y2="110"/><line x1="455" y1="220" x2="455" y2="240"/><line x1="675" y1="220" x2="675" y2="240"/></g>
+      </svg>
+      <figcaption>The difference is not only the number of boxes. In the monolith one database is shared and calls are in-process. In microservices each service owns its data, and every arrow between services is a network call that can be slow, fail, or arrive twice.</figcaption>
+    </figure>
+
+    <h3 style="font-family:'Archivo',sans-serif; font-size:1.05rem; margin:28px 0 6px;">What you gain and what you pay</h3>
+    <table class="plan-table">
+      <tr><th>You may gain&hellip;</th><th>&hellip;and you pay</th></tr>
+      <tr><td><b>Independent deploys.</b> A team ships its service without waiting for the others</td><td><b>Many deploys to manage.</b> Pipelines, versions, and the order in which things go out</td></tr>
+      <tr><td><b>Scale one part.</b> Search gets 20 machines for the sale, the rest stays small</td><td><b>Network calls.</b> Slower, and they fail in new ways (Day 4)</td></tr>
+      <tr><td><b>Isolated failure.</b> A broken notification service does not have to stop checkout</td><td><b>No shared transaction.</b> Data across services is only eventually consistent</td></tr>
+      <tr><td><b>Team ownership.</b> One team, one service, clear responsibility</td><td><b>Harder to see.</b> Logs, metrics and traces across many services, or nobody knows why it is slow</td></tr>
+      <tr><td><b>Technology choice.</b> The right database or language for each part</td><td><b>More to know and run.</b> Many stacks, and a harder test setup</td></tr>
+    </table>
+
+    <h3 style="font-family:'Archivo',sans-serif; font-size:1.05rem; margin:28px 0 6px;">A function call becomes a network call</h3>
+    <p class="section-sub" style="margin-top:0;">Every arrow between services is a call that used to be a line of code. Here is what changes, and each row is a problem you met on Day 4:</p>
+    <table class="plan-table">
+      <tr><th></th><th>Function call (in a monolith)</th><th>Network call (between services)</th></tr>
+      <tr><td class="name">Speed</td><td>Nanoseconds</td><td>Milliseconds, and sometimes much slower</td></tr>
+      <tr><td class="name">Failure</td><td>Rare. The whole program fails together</td><td>Often, and partly: the other side may be slow, down, or unreachable</td></tr>
+      <tr><td class="name">Repeats</td><td>Called once</td><td>A timeout and retry can run it twice, so it must be safe to repeat</td></tr>
+      <tr><td class="name">Transactions</td><td>One transaction covers it all</td><td>No shared transaction. Each service commits alone</td></tr>
+      <tr><td class="name">Versions</td><td>Compiled together, always match</td><td>Deployed apart, so old and new meet each other</td></tr>
+      <tr><td class="name">Data</td><td>A join</td><td>An API call, or a copy of the data</td></tr>
+      <tr><td class="name">Debugging</td><td>One stack trace</td><td>A trace across many services, if you built it</td></tr>
+    </table>
+
+    <h3 style="font-family:'Archivo',sans-serif; font-size:1.05rem; margin:28px 0 6px;">Three of these rows, in depth</h3>
+    <p class="section-sub" style="margin-top:0;">Transactions, data and debugging are the three that surprise teams the most. Here is each one, with what breaks and what to do.</p>
 
     <div class="kata">
       <div class="kata-head">
-        <div class="kata-title">Add a timeout, a bounded retry, and a circuit breaker</div>
-        <div class="badges"><span class="badge time">30 min</span><span class="badge level-1">Pairs</span></div>
+        <span class="kata-title">Transactions in microservices</span>
+        <div class="badges"><span class="badge time">Deep dive</span></div>
       </div>
-      <div class="task"><b>Task</b>Change <code>checkout</code> so a struggling <code>shipping_rate_api</code> never blocks the order. Add a timeout, a bounded retry with backoff (only if the call is safe to retry), a circuit breaker, and a flat-rate fallback for when the circuit is open.</div>
+      <p class="task"><b>In the monolith</b>Checkout was one transaction. Either everything happened or nothing did:</p>
       <div class="code-block">
-        <div class="code-head neutral"><span>shipping.py</span><span>starter</span></div>
-        <pre class="code">def get_shipping_estimate(order):
-    rate = shipping_rate_api.get_rate(order.destination, order.weight)
-    return rate
-
-def checkout(order):
-    estimate = get_shipping_estimate(order)
-    order.shipping_cost = estimate
-    return finalize_order(order)</pre>
+        <div class="code-head neutral"><span>checkout in the monolith</span><span>one database, one commit</span></div>
+        <pre class="code">with db.transaction():                          <span class="a"># all or nothing</span>
+    stock.reserve(sku, qty)
+    payments.charge(card, total)
+    orders.create(cart, total)                  <span class="a"># if anything raises, everything is rolled back</span></pre>
       </div>
+      <p class="task"><b>Across services</b>Stock, Payments and Orders each have their own database and commit alone. There is no <code>BEGIN</code> and <code>COMMIT</code> that covers all three. If a step fails, the steps before it have already happened:</p>
+      <table class="plan-table">
+        <tr><th>What fails</th><th>What you are left with</th></tr>
+        <tr><td class="name">The charge fails after stock was reserved</td><td>Stock held for nobody</td></tr>
+        <tr><td class="name">The order is not created after the card was charged</td><td>A customer who paid and has no order. This is the worst one</td></tr>
+        <tr><td class="name">The charge succeeds but the reply is lost</td><td>A retry that charges twice, unless the charge is safe to repeat</td></tr>
+      </table>
+      <p class="task" style="margin-top:14px;"><b>Your options</b></p>
+      <table class="plan-table">
+        <tr><th>Option</th><th>How it works</th><th>Trade-off</th></tr>
+        <tr><td class="name">Avoid the need</td><td>Keep things that must change together inside one service and one database</td><td>The best answer when you can. It is the main reason Orders and Inventory stayed together in our worked example</td></tr>
+        <tr><td class="name">Two-phase commit</td><td>A coordinator asks every service "can you commit?", then tells them all to commit</td><td>All or nothing, but slow, it holds locks, and it blocks if the coordinator dies. Rarely used between services</td></tr>
+        <tr><td class="name">Saga</td><td>A series of local transactions, each with an undo step (Part 4)</td><td>No locks held across services, but the system is only partly done for a while, and you write the undo code</td></tr>
+        <tr><td class="name">Outbox + idempotency</td><td>Save the event with the data, and make every step safe to repeat</td><td>Nothing is lost, and repeats are harmless. Works together with a saga</td></tr>
+      </table>
+      <div class="done-when">
+        <b>Rules that help</b>
+        <ul>
+          <li>Put the step that is hardest to undo <strong>last</strong>. Reserve stock first, charge the card last.</li>
+          <li>Give every reservation a <strong>time limit</strong> (hold stock for 10 minutes, then release it automatically), so a lost message cannot hold stock forever.</li>
+          <li>Send an <strong>idempotency key</strong> with every charge, so a retry does not charge twice.</li>
+          <li>Show <strong>"pending"</strong> honestly to the user, instead of pretending the whole thing is already done.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="kata">
+      <div class="kata-head">
+        <span class="kata-title">Data: joining vs API calls</span>
+        <div class="badges"><span class="badge time">Deep dive</span></div>
+      </div>
+      <p class="task"><b>In the monolith</b>Showing a customer's orders with their names is one query:</p>
+      <div class="code-block">
+        <div class="code-head neutral"><span>one query, one round trip</span><span>the database does the join</span></div>
+        <pre class="code">SELECT o.id, o.total, c.name
+FROM orders o JOIN customers c ON c.id = o.customer_id
+WHERE o.status = 'pending'</pre>
+      </div>
+      <p class="task"><b>Across services</b>Orders only has a <code>customer_id</code>. The names live in the Customers service, which has its own database, so there is no join. The first thing people write is a loop, and it is slow:</p>
+      <div class="code-block">
+        <div class="code-head before"><span>the N+1 trap</span><span>50 orders, 50 calls</span></div>
+        <pre class="code">for order in orders:
+    order.customer_name = customers.get(order.customer_id).name     <span class="a"># 50 orders x 20 ms = about 1 second, one after another</span></pre>
+      </div>
+      <div class="code-block">
+        <div class="code-head after"><span>one call for all of them</span><span>about 25 ms</span></div>
+        <pre class="code">names = customers.get_many({o.customer_id for o in orders})     <span class="a"># one request, many IDs</span>
+for order in orders:
+    order.customer_name = names[order.customer_id]</pre>
+      </div>
+      <p class="task" style="margin-top:14px;"><b>Your options</b></p>
+      <table class="plan-table">
+        <tr><th>Option</th><th>How it works</th><th>Trade-off</th></tr>
+        <tr><td class="name">Call per row</td><td>Ask the other service for each item</td><td>Simple, but slow (N+1), and you depend on that service being up</td></tr>
+        <tr><td class="name">Batch call</td><td>Ask once for many IDs</td><td>Fast enough for most screens. Still depends on the other service at read time</td></tr>
+        <tr><td class="name">Compose in a gateway</td><td>One place (an API gateway or a "backend for frontend") calls several services and joins the results in memory</td><td>The screen gets one call, but that layer now holds join logic and is another thing to run</td></tr>
+        <tr><td class="name">Local copy from events</td><td>Listen to <code>CustomerRenamed</code> and keep your own copy of the names</td><td>Fast and independent, but slightly old, and you must handle missed or repeated events</td></tr>
+        <tr><td class="name">Snapshot at write time</td><td>Store the customer name on the order itself</td><td>Best for facts that should not change after the order. Not for live data</td></tr>
+      </table>
+      <div class="done-when">
+        <b>What you lose for good</b>
+        <ul>
+          <li>Ad hoc joins across the whole company's data ("revenue by customer segment by product"). The data is now in many databases.</li>
+          <li>The usual answer is to send events from every service into one place built for questions like these: a data warehouse. That is the topic of the next session.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="kata">
+      <div class="kata-head">
+        <span class="kata-title">Debugging</span>
+        <div class="badges"><span class="badge time">Deep dive</span></div>
+      </div>
+      <p class="task"><b>In the monolith</b>One request is one process: one stack trace, one log file, and a debugger you can attach. <b>Across services</b>One request visits five services on five machines. Each has its own logs, and their clocks do not agree. The question "why was this order slow?" has no single place to look, unless you built one.</p>
+      <table class="plan-table">
+        <tr><th>Tool</th><th>What it gives you</th></tr>
+        <tr><td class="name">Correlation ID</td><td>One ID created at the edge, passed on every call, and written in every log line. Search for it and you see the whole story</td></tr>
+        <tr><td class="name">Structured logs</td><td>Logs as JSON with fields (<code>request_id</code>, <code>order_id</code>, <code>service</code>), so you can filter, not just read</td></tr>
+        <tr><td class="name">Distributed tracing</td><td>A timeline of one request across services, with how long each step took (OpenTelemetry is the common standard)</td></tr>
+        <tr><td class="name">Metrics per service</td><td>The rate of requests, the share that fail, and how long they take. This shows <em>which</em> service to look at</td></tr>
+      </table>
+      <div class="code-block">
+        <div class="code-head after"><span>pass the ID on, and log it</span><span>costs three lines per service</span></div>
+        <pre class="code">def handle(request):
+    request_id = request.headers.get("X-Request-ID") or new_id()          <span class="a"># reuse the caller's ID if there is one</span>
+    log.info("placing order", request_id=request_id, order_id=order.id)   <span class="a"># every log line carries it</span>
+    inventory.reserve(sku, qty, headers={"X-Request-ID": request_id})     <span class="a"># and every outgoing call</span></pre>
+      </div>
+
+      <figure class="diagram-figure" style="box-shadow:none; margin:14px 0;">
+        <svg viewBox="0 0 780 235" role="img" aria-label="A trace of one slow checkout request across services, as bars on a time axis from 0 to 500 milliseconds. The gateway takes 480 milliseconds. Inside it, Orders takes 460. Inside Orders, Inventory takes 40 milliseconds, and Payments takes 380. Inside Payments, the card provider takes 350 milliseconds. Payments and the card provider are highlighted as the slow part.">
+          <g font-family="IBM Plex Mono, monospace" font-size="10.5" fill="currentColor">
+            <text x="10" y="42">Gateway</text><text x="10" y="76">Orders</text><text x="10" y="110">Inventory</text><text x="10" y="144">Payments</text><text x="10" y="178">Card provider</text>
+            <rect x="160" y="28" width="576" height="20" rx="3" fill="var(--accent-soft)" stroke="var(--accent)"/><text x="728" y="42" text-anchor="end" font-size="9.5">480 ms</text>
+            <rect x="172" y="62" width="552" height="20" rx="3" fill="var(--accent-soft)" stroke="var(--accent)"/><text x="716" y="76" text-anchor="end" font-size="9.5">460 ms</text>
+            <rect x="196" y="96" width="48" height="20" rx="3" fill="var(--accent-soft)" stroke="var(--accent)"/><text x="252" y="110" font-size="9.5">40 ms</text>
+            <rect x="256" y="130" width="456" height="20" rx="3" fill="var(--bad-soft)" stroke="var(--bad)" stroke-width="1.5"/><text x="704" y="144" text-anchor="end" font-size="9.5" fill="var(--bad)" font-weight="600">380 ms</text>
+            <rect x="280" y="164" width="420" height="20" rx="3" fill="var(--bad-soft)" stroke="var(--bad)" stroke-width="1.5"/><text x="692" y="178" text-anchor="end" font-size="9.5" fill="var(--bad)" font-weight="600">350 ms</text>
+            <line x1="160" y1="196" x2="760" y2="196" stroke="var(--ink-faint)"/>
+            <g text-anchor="middle" font-size="9" fill="var(--ink-faint)"><text x="160" y="212">0</text><text x="280" y="212">100</text><text x="400" y="212">200</text><text x="520" y="212">300</text><text x="640" y="212">400</text><text x="760" y="212">500 ms</text></g>
+          </g>
+        </svg>
+        <figcaption>A trace of one slow checkout. The user waits in Orders, so the first guess is "Orders is slow". The trace shows that Orders is only waiting. The time is spent in Payments, waiting for the card provider. Without the trace you would spend a day in the wrong service.</figcaption>
+      </figure>
+
+      <div class="done-when">
+        <b>Two more habits</b>
+        <ul>
+          <li>Be able to <strong>run one service alone</strong> with fake versions of its neighbours. If you need all fourteen services to test one, you built a distributed monolith.</li>
+          <li>Use <strong>contract tests</strong> at each boundary, so a change that breaks the other side fails the build, not production.</li>
+        </ul>
+      </div>
+    </div>
+
+    <figure class="diagram-figure" style="box-shadow:none; margin:14px 0;">
+      <svg viewBox="0 0 780 130" role="img" aria-label="A spectrum of four designs from left to right: monolith, modular monolith, a few services, and many microservices. An arrow shows more independence and more cost moving to the right. The modular monolith is marked as a good place to start, and a few services as a good place to stop for a long time.">
+        <defs><marker id="m7b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 Z" fill="currentColor"/></marker></defs>
+        <g font-family="IBM Plex Mono, monospace" font-size="11" text-anchor="middle" fill="currentColor">
+          <rect x="10" y="20" width="160" height="50" rx="6" fill="var(--surface)" stroke="currentColor" stroke-width="1.5"/><text x="90" y="50">Monolith</text>
+          <rect x="210" y="20" width="160" height="50" rx="6" fill="var(--accent-soft)" stroke="var(--accent)" stroke-width="2.5"/><text x="290" y="50">Modular monolith</text>
+          <rect x="410" y="20" width="160" height="50" rx="6" fill="var(--accent-soft)" stroke="var(--accent)" stroke-width="2.5"/><text x="490" y="50">A few services</text>
+          <rect x="610" y="20" width="160" height="50" rx="6" fill="var(--surface)" stroke="currentColor" stroke-width="1.5"/><text x="690" y="50">Many microservices</text>
+          <text x="290" y="92" font-size="10" font-weight="600" fill="var(--accent)">a good place to start</text>
+          <text x="490" y="92" font-size="10" font-weight="600" fill="var(--accent)">a good place to stay</text>
+          <text x="390" y="122" font-size="9.5" fill="var(--ink-faint)">more independence and more cost, moving right</text>
+        </g>
+        <g stroke="currentColor" stroke-width="1.4"><line x1="172" y1="45" x2="207" y2="45" marker-end="url(#m7b)"/><line x1="372" y1="45" x2="407" y2="45" marker-end="url(#m7b)"/><line x1="572" y1="45" x2="607" y2="45" marker-end="url(#m7b)"/></g>
+      </svg>
+    </figure>
+
+    <div class="exercise">
+      <span class="ex-label">Check-in 1 &middot; 3 min</span>
+      <h4>Better or worse after a split?</h4>
+      <p>A shop splits its monolith into services along sensible lines. For each situation, is it better, worse, or both?</p>
+      <ol type="a">
+        <li>Deploying a fix to the checkout without touching anything else.</li>
+        <li>Showing the customer's name next to each order.</li>
+        <li>Finding out why one order failed.</li>
+        <li>Adding more machines for just the search part, for a sale.</li>
+        <li>Renaming a field that three other teams read.</li>
+      </ol>
+      <details>
+        <summary>Show the answer</summary>
+        <div class="ans">
+          <ol type="a">
+            <li><b>Better.</b> Independent deploy. This only works if the checkout service really can stand alone.</li>
+            <li><b>Worse.</b> The join is gone. You now make an API call, or keep a copy of the name that you have to keep fresh.</li>
+            <li><b>Worse.</b> The failure may be in any of five services. You need a correlation ID on every call and tracing, or you are guessing.</li>
+            <li><b>Better.</b> Scale only what is hot. This is one of the clearest reasons to split.</li>
+            <li><b>Worse.</b> It is now a contract between teams. You add the new field, keep the old one for a while, and move people over.</li>
+          </ol>
+          <p>Notice that three of five are worse. A split trades simple code for independence, and you should only make that trade when you need the independence.</p>
+        </div>
+      </details>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-head"><span class="tag">Part 2 &middot; 0:35&ndash;1:00</span><h2>Start with a modular monolith</h2></div>
+    <p class="section-sub">A boundary costs very little inside one program, and you can still move it later. A boundary between services costs a lot, and a wrong one is painful to move. So draw the lines inside the monolith first, and see if they hold. Here is the shortcut that makes any later split impossible:</p>
+
+    <div class="code-block">
+      <div class="code-head before"><span>orders/service.py &mdash; the shortcut</span><span>reaches into another module's table</span></div>
+      <pre class="code">def place_order(db, sku, qty):
+    row = db.query_one("SELECT stock FROM inventory_items WHERE sku = %s", sku)   <span class="a"># Orders reads Inventory's table</span>
+    if row.stock &lt; qty:
+        raise OutOfStock(sku)
+    db.execute("UPDATE inventory_items SET stock = stock - %s WHERE sku = %s", qty, sku)   <span class="a"># and changes it</span></pre>
+    </div>
+
+    <p class="section-sub">This works today. But Inventory can never change its table, and Orders can never live in another program, because it depends on a table that is not its own. The fix is a wall and a front door:</p>
+
+    <div class="code-block">
+      <div class="code-head after"><span>inventory/api.py + orders/service.py &mdash; a front door</span><span>the only thing Orders may import</span></div>
+      <pre class="code"><span class="c"># inventory/api.py  (the public front door; everything else in inventory is private)</span>
+class InventoryApi(Protocol):
+    def reserve(self, sku: str, qty: int) -&gt; Reservation: ...
+    def release(self, reservation_id: str) -&gt; None: ...
+
+<span class="c"># orders/service.py</span>
+class PlaceOrder:
+    def __init__(self, inventory: InventoryApi):
+        self.inventory = inventory
+
+    def __call__(self, cart):
+        reservation = self.inventory.reserve(cart.sku, cart.qty)   <span class="a"># a plain call today</span></pre>
+    </div>
+
+    <div class="callout"><b>Tomorrow this can be an HTTP client with the same interface, and Orders does not change.</b> But the failures change, because it is now a network call. Add a timeout, and an idempotency key on <code>reserve</code> so a retry does not reserve twice (Day 4).</div>
+
+    <h3 style="font-family:'Archivo',sans-serif; font-size:1.05rem; margin:28px 0 6px;">Make the wall real</h3>
+    <p class="section-sub" style="margin-top:0;">A wall that only exists in a document gets broken within a month. Check it automatically:</p>
+    <ul>
+      <li><b>Public API only.</b> Other modules may import <code>inventory.api</code> and nothing else from inventory.</li>
+      <li><b>Own your tables.</b> Each module owns its tables, ideally in its own database schema, and only that module's database user can touch them.</li>
+      <li><b>One direction.</b> If Orders uses Inventory, Inventory must not use Orders. Use an event instead (Day 3: depend on abstractions).</li>
+      <li><b>A test that fails the build.</b> In Python, <code>import-linter</code> can do this. In Java, ArchUnit does the same job.</li>
+    </ul>
+
+    <div class="code-block">
+      <div class="code-head neutral"><span>.importlinter &mdash; fails the build when the wall is broken</span><span>runs in CI</span></div>
+      <pre class="code">[importlinter:contract:orders-uses-inventory-api-only]
+name = Orders may only use the inventory public API
+type = forbidden
+source_modules = orders
+forbidden_modules =
+    inventory.models
+    inventory.service</pre>
+    </div>
+
+    <div class="exercise">
+      <span class="ex-label">Check-in 2 &middot; 3 min</span>
+      <h4>Spot the broken wall</h4>
+      <p>These are four things that happen in a modular monolith. Which ones break a module wall?</p>
+      <ol type="a">
+        <li>The Orders module imports <code>inventory.api</code> and calls <code>reserve()</code>.</li>
+        <li>The Orders module runs <code>SELECT ... FROM inventory_items</code>.</li>
+        <li>Inventory publishes a <code>StockReserved</code> event and Orders listens for it.</li>
+        <li>The Payments module imports <code>orders.models.Order</code> and reads its fields.</li>
+      </ol>
+      <details>
+        <summary>Show the answer</summary>
+        <div class="ans">
+          <ol type="a">
+            <li><b>Fine.</b> That is the front door.</li>
+            <li><b>Broken.</b> Orders reaches into a table it does not own. This is the shortcut from above.</li>
+            <li><b>Fine.</b> An event is a public message, not a private detail.</li>
+            <li><b>Broken.</b> Payments depends on Orders' private model. If Orders changes its fields, Payments breaks. Payments should receive what it needs (an order ID and an amount) through an API or an event.</li>
+          </ol>
+          <p>The test: could the other module be moved to another program without changing this code, apart from the transport? If not, the wall is broken.</p>
+        </div>
+      </details>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-head"><span class="tag">Part 3 &middot; 1:00&ndash;1:30</span><h2>Where to draw the lines</h2></div>
+    <p class="section-sub">Drawing the lines is the hardest part and the one people rush. A few rules of thumb:</p>
+    <table class="plan-table">
+      <tr><th>Rule</th><th>What it means</th></tr>
+      <tr><td class="name">Own your data</td><td>A service is the only one that reads and writes its tables. If two services need the same table, they are probably one service</td></tr>
+      <tr><td class="name">Change together, stay together</td><td>If a feature always needs edits in two places, they belong in one place</td></tr>
+      <tr><td class="name">Split by business capability</td><td>Orders, Payments, Search. Not "the database service" or "the UI service"</td></tr>
+      <tr><td class="name">Match the team</td><td>Conway's law: a system tends to copy the communication of the team that builds it. Use that on purpose, one team per service</td></tr>
+      <tr><td class="name">Split for a reason you can name</td><td>A different scale, a different release speed, a different security need, or a team that is blocked</td></tr>
+    </table>
+
+    <h3 style="font-family:'Archivo',sans-serif; font-size:1.05rem; margin:28px 0 6px;">Good reasons and bad reasons</h3>
+    <table class="plan-table">
+      <tr><th>Good reasons to split</th><th>Bad reasons to split</th></tr>
+      <tr><td>Teams keep blocking each other's releases</td><td>"It is modern" or "everyone does it"</td></tr>
+      <tr><td>One part needs much more scale than the rest (search on sale day)</td><td>"Our code is a mess." Messy code split into services is messy services over a network</td></tr>
+      <tr><td>One part must be isolated for security or compliance (card data)</td><td>"We might need to scale someday"</td></tr>
+      <tr><td>Parts that release at very different speeds</td><td>One small team of five maintaining fourteen services</td></tr>
+      <tr><td>A clear contract that rarely changes</td><td>Splitting before the boundary has been stable inside the monolith</td></tr>
+    </table>
+
+    <h3 style="font-family:'Archivo',sans-serif; font-size:1.05rem; margin:28px 0 6px;">The distributed monolith: the worst of both</h3>
+    <p class="section-sub" style="margin-top:0;">If you split and keep the coupling, you get a distributed monolith: all the cost of a network and none of the independence. The signs:</p>
+    <ul>
+      <li>Services must be <b>deployed together</b>, in a fixed order.</li>
+      <li>Several services share <b>one database</b>.</li>
+      <li>One change needs edits in <b>four repositories</b>.</li>
+      <li>One request makes a <b>long chain of calls</b>: A calls B, which calls C, which calls D.</li>
+      <li>You cannot run or test one service without the others.</li>
+    </ul>
+
+    <h3 style="font-family:'Archivo',sans-serif; font-size:1.05rem; margin:28px 0 6px;">Worked example: our shop</h3>
+    <p class="section-sub" style="margin-top:0;">The shop from Day 4 has these parts. Which would you split first?</p>
+    <table class="plan-table">
+      <tr><th>Part</th><th>Split now?</th><th>Why</th></tr>
+      <tr><td class="name">Notifications</td><td>Yes</td><td>It is asynchronous. A failure here must never stop checkout. It reads events from a queue</td></tr>
+      <tr><td class="name">Payments</td><td>Yes</td><td>A third party, card-data rules, and its own scaling and audit needs</td></tr>
+      <tr><td class="name">Search</td><td>Yes</td><td>Different data shape and scale. It can be rebuilt from events, so a copy of the data is acceptable</td></tr>
+      <tr><td class="name">Catalog</td><td>Maybe</td><td>Read-heavy and cacheable. Easy to split, but ask whether you have a real problem first</td></tr>
+      <tr><td class="name">Orders + Inventory</td><td>Not yet</td><td>They need one transaction and change together. Splitting them forces a saga (Part 4) before you have earned it</td></tr>
+      <tr><td class="name">Loyalty points</td><td>Later</td><td>It only needs events from Orders, so it is easy to split, but low value</td></tr>
+    </table>
+
+    <div class="kata">
+      <div class="kata-head">
+        <span class="kata-title">Exercise A &mdash; draw the boundaries</span>
+        <div class="badges"><span class="badge time">12 min</span><span class="badge level-1">Pairs</span></div>
+      </div>
+      <p class="task"><b>Task</b>A food-delivery monolith has these parts: Restaurants, Menus, Orders, Promotions, Payments, Couriers and live location, Notifications, Reviews. It has one database. A team of 20 works on it, and releases are slow because everyone edits the same code. Draw the boundaries.</p>
       <ul class="q-list">
-        <li>Is <code>get_rate</code> idempotent? What would make you decide <em>not</em> to retry it?</li>
-        <li>What's the right fallback when the circuit is open &mdash; fail the whole checkout, or degrade gracefully? What does "degrade gracefully" actually mean for a shipping estimate?</li>
-        <li>How would you test that the circuit breaker genuinely opens, without waiting for a real outage to happen?</li>
+        <li>Group the parts into at most <b>four deployable units</b>. Give each a one-line reason.</li>
+        <li>Mark which <b>data</b> each unit owns.</li>
+        <li>Name <b>one thing you will not split yet</b>, and why.</li>
+        <li>Draw <b>one synchronous call</b> and <b>one event</b> between your units.</li>
       </ul>
-      <div class="done-when"><b>Done when</b><ul>
-        <li><code>checkout</code> never hangs on <code>shipping_rate_api</code> alone, no matter how it fails</li>
-        <li>The retry only fires for the failure modes you decided were safe to retry</li>
-        <li>You can state, in one sentence, what a customer sees when the circuit is open</li>
-      </ul></div>
+      <div class="done-when">
+        <b>Done when</b>
+        <ul>
+          <li>No two units share a table</li>
+          <li>Each unit could be owned by one team</li>
+          <li>You can say what failure you are protecting against or what scale you are gaining</li>
+        </ul>
+      </div>
     </div>
   </section>
 
   <section>
-    <div class="section-head"><span class="tag">1:40&ndash;2:00 &middot; Review</span><h2>Incident retro exercise</h2></div>
+    <div class="section-head"><span class="tag">Part 4 &middot; 1:30&ndash;2:05</span><h2>Working together across the network</h2></div>
+    <p class="section-sub">Once there are several services, four questions come up. How do they call each other, how do they change without breaking each other, where does shared data live, and how do you keep it correct when there is no shared transaction?</p>
+
+    <h3 style="font-family:'Archivo',sans-serif; font-size:1.05rem; margin:28px 0 6px;">1. Ask and wait, or tell and move on</h3>
+    <table class="plan-table">
+      <tr><th></th><th>Synchronous call (REST, gRPC)</th><th>Event or message (Kafka, a queue)</th></tr>
+      <tr><td class="name">Style</td><td>Ask and wait for the answer</td><td>Tell and move on</td></tr>
+      <tr><td class="name">Use when</td><td>The caller needs the answer now (is this card valid?)</td><td>Others only need to know it happened (an order was placed)</td></tr>
+      <tr><td class="name">Failure</td><td>If the other side is down, you are down or you wait</td><td>The message waits in the queue until the other side is back</td></tr>
+      <tr><td class="name">Watch out for</td><td>Long chains and slow calls (timeouts, retries, circuit breakers from Day 4)</td><td>Duplicates and order (idempotent consumers from Day 4)</td></tr>
+    </table>
+    <div class="callout bad"><b>Chains multiply failure.</b> Four services in a chain, each up 99.9% of the time, are together up only 99.6% of the time (0.999 &times; 0.999 &times; 0.999 &times; 0.999). That is about <b>35 hours</b> of downtime a year instead of about <b>9</b>. Every extra synchronous hop makes it worse.</div>
+
+    <h3 style="font-family:'Archivo',sans-serif; font-size:1.05rem; margin:28px 0 6px;">2. Contracts: changing without breaking</h3>
+    <p class="section-sub" style="margin-top:0;">An API between two teams is a contract. Adding a field is safe. Renaming or removing one breaks the other side. So: add new, keep the old for a while, move people over, then remove. For QEs, a <b>consumer-driven contract test</b> (Pact is a common tool) lets each consumer state what it needs, and the provider's build fails if a change would break it.</p>
+
+    <h3 style="font-family:'Archivo',sans-serif; font-size:1.05rem; margin:28px 0 6px;">3. No joins across services</h3>
+    <p class="section-sub" style="margin-top:0;">The Orders service wants the customer's name, but customers belong to another service. There is no join. Your options:</p>
+    <ul>
+      <li><b>Ask by API.</b> Simple, but now Orders depends on that service being up.</li>
+      <li><b>Keep a copy.</b> Listen to <code>CustomerRenamed</code> events and keep a local copy. Fast and independent, but it can be a little old (eventual consistency).</li>
+      <li><b>Take a snapshot.</b> Often the best answer. An order should show the name <em>at the time of the order</em>, so store it with the order and never look it up again.</li>
+    </ul>
+
+    <h3 style="font-family:'Archivo',sans-serif; font-size:1.05rem; margin:28px 0 6px;">4. A checkout across three services: the saga</h3>
+    <p class="section-sub" style="margin-top:0;">In the monolith, checkout was one transaction: reserve stock, charge the card, create the order, all or nothing. With three services there is no shared transaction. A <b>saga</b> is a series of local steps, each with an <b>undo</b> step that runs if a later step fails.</p>
+
+    <figure class="diagram-figure" style="box-shadow:none; margin:14px 0;">
+      <svg viewBox="0 0 780 250" role="img" aria-label="A checkout saga. The happy path, left to right: Orders creates the order as pending, Inventory reserves stock, Payments charges the card, then Orders marks the order confirmed. If the payment fails, an undo path runs right to left: Inventory releases the stock, and Orders cancels the order.">
+        <defs>
+          <marker id="m7c" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 Z" fill="currentColor"/></marker>
+          <marker id="m7d" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 Z" fill="var(--bad)"/></marker>
+        </defs>
+        <g font-family="IBM Plex Mono, monospace" text-anchor="middle" fill="currentColor">
+          <text x="10" y="22" font-size="10.5" font-weight="600" fill="var(--accent)" text-anchor="start">THE HAPPY PATH</text>
+          <rect x="10" y="34" width="170" height="62" rx="8" fill="var(--accent-soft)" stroke="var(--accent)" stroke-width="1.5"/><text x="95" y="58" font-size="10.5">1  Orders</text><text x="95" y="76" font-size="9.5" fill="var(--ink-faint)">create order: pending</text>
+          <rect x="205" y="34" width="170" height="62" rx="8" fill="var(--accent-soft)" stroke="var(--accent)" stroke-width="1.5"/><text x="290" y="58" font-size="10.5">2  Inventory</text><text x="290" y="76" font-size="9.5" fill="var(--ink-faint)">reserve stock</text>
+          <rect x="400" y="34" width="170" height="62" rx="8" fill="var(--accent-soft)" stroke="var(--accent)" stroke-width="1.5"/><text x="485" y="58" font-size="10.5">3  Payments</text><text x="485" y="76" font-size="9.5" fill="var(--ink-faint)">charge the card</text>
+          <rect x="595" y="34" width="170" height="62" rx="8" fill="var(--accent-soft)" stroke="var(--accent)" stroke-width="1.5"/><text x="680" y="58" font-size="10.5">4  Orders</text><text x="680" y="76" font-size="9.5" fill="var(--ink-faint)">mark: confirmed</text>
+          <text x="10" y="150" font-size="10.5" font-weight="600" fill="var(--bad)" text-anchor="start">IF PAYMENT FAILS, UNDO</text>
+          <rect x="400" y="162" width="170" height="62" rx="8" fill="var(--bad-soft)" stroke="var(--bad)" stroke-width="1.5"/><text x="485" y="186" font-size="10.5">3  Payments</text><text x="485" y="204" font-size="9.5" fill="var(--bad)">charge fails</text>
+          <rect x="205" y="162" width="170" height="62" rx="8" fill="var(--bad-soft)" stroke="var(--bad)" stroke-width="1.5"/><text x="290" y="186" font-size="10.5">undo 2  Inventory</text><text x="290" y="204" font-size="9.5" fill="var(--bad)">release stock</text>
+          <rect x="10" y="162" width="170" height="62" rx="8" fill="var(--bad-soft)" stroke="var(--bad)" stroke-width="1.5"/><text x="95" y="186" font-size="10.5">undo 1  Orders</text><text x="95" y="204" font-size="9.5" fill="var(--bad)">cancel the order</text>
+        </g>
+        <g stroke="currentColor" stroke-width="1.5"><line x1="182" y1="65" x2="203" y2="65" marker-end="url(#m7c)"/><line x1="377" y1="65" x2="398" y2="65" marker-end="url(#m7c)"/><line x1="572" y1="65" x2="593" y2="65" marker-end="url(#m7c)"/></g>
+        <g stroke="var(--bad)" stroke-width="1.6"><line x1="398" y1="193" x2="377" y2="193" marker-end="url(#m7d)"/><line x1="203" y1="193" x2="182" y2="193" marker-end="url(#m7d)"/></g>
+        <line x1="485" y1="98" x2="485" y2="160" stroke="var(--bad)" stroke-width="1.6" stroke-dasharray="5 4" marker-end="url(#m7d)"/>
+      </svg>
+      <figcaption>No step is a database rollback. The "undo" for stock is a real new action (release the stock), and the undo for the order is a state (cancelled). Each service commits on its own, so for a short time the system is only partly done, and that is eventual consistency.</figcaption>
+    </figure>
+
+    <table class="plan-table">
+      <tr><th>Two ways to run a saga</th><th>How it works</th><th>Trade-off</th></tr>
+      <tr><td class="name">Choreography</td><td>Each service listens for events and reacts. Orders publishes <code>OrderPlaced</code>, Inventory reacts, then Payments reacts</td><td>No central brain, but hard to see the whole flow</td></tr>
+      <tr><td class="name">Orchestration</td><td>One coordinator calls each step and the undo steps, and records where the saga is</td><td>Easy to follow and debug, but the coordinator is one more thing to build and run</td></tr>
+    </table>
+
+    <h3 style="font-family:'Archivo',sans-serif; font-size:1.05rem; margin:28px 0 6px;">Never lose the event: the outbox</h3>
+    <p class="section-sub" style="margin-top:0;">A trap: Orders saves the order, then publishes <code>OrderPlaced</code>. If it crashes between the two, the order exists and nobody hears about it. The fix is to write the event into the <b>same database transaction</b> as the order, in an outbox table. A separate process then publishes it.</p>
+
+    <div class="code-block">
+      <div class="code-head after"><span>orders/outbox.py &mdash; save and publish safely</span><span>the order and its event commit together</span></div>
+      <pre class="code">def place_order(db, cart):
+    with db.transaction():                                              <span class="a"># one local transaction</span>
+        order_id = db.insert("orders", status="pending", total=cart.total)
+        db.insert("outbox", event="OrderPlaced",
+                  payload={"order_id": order_id, "items": cart.items})   <span class="a"># same commit as the order</span>
+    return order_id
+
+<span class="c"># a separate relay process</span>
+def relay_outbox(db, broker):
+    for row in db.query("SELECT * FROM outbox WHERE sent_at IS NULL ORDER BY id LIMIT 100"):
+        broker.publish("order-events", key=row.payload["order_id"], value=row.payload, event_id=row.id)
+        db.execute("UPDATE outbox SET sent_at = now() WHERE id = %s", row.id)   <span class="a"># a crash before this line means one repeat</span></pre>
+    </div>
+    <div class="callout"><b>This is Day 4 again.</b> The relay may publish a row twice if it crashes before the update, so consumers must be idempotent: skip an <code>event_id</code> you have already handled. The outbox gives you "never lost". The idempotent consumer gives you "safe when repeated". You need both.</div>
+
+    <div class="exercise">
+      <span class="ex-label">Check-in 3 &middot; 4 min</span>
+      <h4>Monolith, modular monolith, or services?</h4>
+      <p>For each situation, what would you do?</p>
+      <ol type="a">
+        <li>A team of six is building one new product and must launch in three months.</li>
+        <li>Card payments must be isolated from the rest of the system for compliance.</li>
+        <li>Search needs 20 times more machines on sale days, but the rest of the system does not.</li>
+        <li>Forty engineers in six teams keep blocking each other's releases on one codebase.</li>
+        <li>"Our code is a mess, so let's rewrite it as microservices."</li>
+      </ol>
+      <details>
+        <summary>Show the answer</summary>
+        <div class="ans">
+          <ol type="a">
+            <li><b>Modular monolith.</b> Speed matters, the team is small, and you do not yet know where the boundaries are. Keep the walls clean so you can split later.</li>
+            <li><b>Split Payments.</b> This is a clear security and compliance reason, and a narrow contract.</li>
+            <li><b>Split Search.</b> A different scale is a good reason, and search can be rebuilt from events.</li>
+            <li><b>Split along team lines.</b> Independent deploys solve a real problem here. Start with the modules that cause the most blocking.</li>
+            <li><b>No.</b> Clean it up and draw the walls inside the monolith first. Messy code in services is the same mess, now slow and spread across a network.</li>
+          </ol>
+          <p>Notice that the reasons are about <b>teams, scale and risk</b>, never about fashion.</p>
+        </div>
+      </details>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-head"><span class="tag">Part 5 &middot; 2:05&ndash;2:20</span><h2>Moving out safely, in either direction</h2></div>
+    <p class="section-sub">If you decide to split, do it slowly. The <b>strangler fig</b> pattern (named by Martin Fowler, after a vine that grows around a tree) replaces the old system piece by piece, with the old one still running the whole time.</p>
+
+    <figure class="diagram-figure" style="box-shadow:none; margin:14px 0;">
+      <svg viewBox="0 0 780 220" role="img" aria-label="Clients send requests to a routing layer in front of the system. The router sends most of the traffic to the old monolith and a small share, 10 percent, to a new service that replaces one capability. Over time the share to the new service grows until the old code for that capability can be deleted.">
+        <defs><marker id="m7e" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 Z" fill="currentColor"/></marker></defs>
+        <g font-family="IBM Plex Mono, monospace" font-size="11" text-anchor="middle" fill="currentColor">
+          <rect x="10" y="75" width="110" height="60" rx="8" fill="var(--surface)" stroke="currentColor" stroke-width="1.5"/><text x="65" y="110">Clients</text>
+          <rect x="190" y="65" width="150" height="80" rx="8" fill="var(--amber-soft)" stroke="var(--amber)" stroke-width="2"/><text x="265" y="100">Router</text><text x="265" y="118" font-size="9.5" fill="var(--ink-faint)">proxy or facade</text>
+          <rect x="480" y="20" width="270" height="80" rx="8" fill="var(--surface)" stroke="currentColor" stroke-width="1.5"/><text x="615" y="55">Old monolith</text><text x="615" y="75" font-size="9.5" fill="var(--ink-faint)">still does everything else</text>
+          <rect x="480" y="130" width="270" height="70" rx="8" fill="var(--accent-2-soft)" stroke="var(--accent-2)" stroke-width="2"/><text x="615" y="160">New service</text><text x="615" y="180" font-size="9.5" fill="var(--ink-faint)">one capability, for example Notifications</text>
+          <text x="410" y="52" font-size="11" font-weight="600">90%</text>
+          <text x="410" y="170" font-size="11" font-weight="600" fill="var(--accent-2)">10%</text>
+        </g>
+        <g stroke="currentColor" stroke-width="1.5"><line x1="122" y1="105" x2="188" y2="105" marker-end="url(#m7e)"/><line x1="342" y1="85" x2="478" y2="60" marker-end="url(#m7e)"/></g>
+        <line x1="342" y1="125" x2="478" y2="165" stroke="var(--accent-2)" stroke-width="2.2" marker-end="url(#m7e)"/>
+      </svg>
+      <figcaption>The router decides, per request, where it goes. Start with 0%, then 10% (or a few test users), then more, and compare results. When the new service is trusted, send 100% and delete the old code.</figcaption>
+    </figure>
+
+    <ol>
+      <li><b>Put a router in front</b> that can send each request to the old code or the new service.</li>
+      <li><b>Pick an edge first.</b> Notifications, search or reporting are easy. They depend on the rest, but little depends on them. Leave the core (Orders and Inventory) for last, or forever.</li>
+      <li><b>Build the new service behind an anti-corruption layer</b> so it does not copy the old messy model.</li>
+      <li><b>Move the data in steps.</b> The new service first reads through the old one's API, then keeps its own copy updated by events, then owns it. Avoid writing the same data in two places by hand (dual writes). One of the two will drift.</li>
+      <li><b>Compare, then shift traffic slowly,</b> with a way to go back at any time.</li>
+      <li><b>Delete the old code.</b> If you do not, you have two systems.</li>
+    </ol>
+    <div class="callout"><b>Going back is allowed.</b> A video-quality team at Amazon Prime Video wrote in 2023 that moving one tool from many cloud pieces into a single process cut its infrastructure cost by more than 90%. The lesson is not "monoliths win". It is to measure, and to be willing to move in either direction.</div>
+  </section>
+
+  <section>
+    <div class="section-head"><span class="tag">2:20&ndash;2:30 &middot; Review</span><h2>Group critique</h2></div>
     <div class="debrief-grid">
-      <div class="debrief-card"><b>Ask the room</b><p>Where in your own systems does a synchronous call have no timeout today? What sits downstream of it?</p></div>
-      <div class="debrief-card"><b>Ask tech leads</b><p>When your riskiest two services hit a partition, does the business already know whether it wants consistency or availability &mdash; or does that get decided under pressure, mid-incident?</p></div>
-      <div class="debrief-card"><b>Ask QEs</b><p>How would you actually test a circuit breaker, or a CAP tradeoff decision &mdash; what would you inject to prove either one works?</p></div>
-      <div class="debrief-card"><b>Ask AI engineers</b><p>An agent is told to "add retries here." What question should it ask before doing that, and would it know to ask it unprompted?</p></div>
+      <div class="debrief-card"><b>Everyone</b><p>Draw your own system as boxes and arrows. Is it a monolith, a modular monolith, or a distributed monolith? What is the clearest sign?</p></div>
+      <div class="debrief-card"><b>Tech Leads</b><p>Has your team split something for a reason from the "bad reasons" list? How would you bring that up without starting an argument?</p></div>
+      <div class="debrief-card"><b>QEs</b><p>Pick one boundary in your system. What contract test would tell you, before release, that a change breaks the other side?</p></div>
+      <div class="debrief-card"><b>AI Engineers</b><p>If you asked an agent to "add a service for X", what four questions should it ask before writing any code?</p></div>
     </div>
-    <p class="section-sub" style="margin-bottom:10px;">Before the room breaks, each person commits to one:</p>
+    <p class="section-sub">Before you go, pick one and do it this week:</p>
     <div class="checklist">
-      <div class="check-row"><span class="box"></span>Find one synchronous call in your codebase with no timeout, and give it one this week</div>
-      <div class="check-row"><span class="box"></span>Name, explicitly, whether your riskiest dependency chooses consistency or availability during a partition</div>
-      <div class="check-row"><span class="box"></span>Add a circuit breaker to the one dependency most likely to have a bad day</div>
-      <div class="check-row"><span class="box"></span>Bring your resilience checklist to Day 8, where the course turns to coding with AI agents</div>
+      <div class="check-row"><span class="box"></span><span>Draw the service map of your system and mark every shared database</span></div>
+      <div class="check-row"><span class="box"></span><span>Find one place where one module reads another module's tables, and write down the front door it should use</span></div>
+      <div class="check-row"><span class="box"></span><span>Count the synchronous calls in your longest request chain</span></div>
+      <div class="check-row"><span class="box"></span><span>Check that every event your system publishes can be handled twice without harm</span></div>
     </div>
   </section>
 
   <section>
-    <div class="section-head"><span class="tag">Prep</span><h2>Facilitator notes</h2></div>
+    <div class="section-head"><span class="tag">Facilitator</span><h2>Notes and answer keys</h2></div>
     <div class="prep">
       <b>Before the session</b>
       <ul>
-        <li>Load <code>payment_service.py</code> (demo) and <code>shipping.py</code> (kata) into your environment beforehand</li>
-        <li>If your team has had a real cascading-failure incident, bring the real timeline instead of (or alongside) the fraud-check narrative &mdash; a real postmortem lands harder</li>
-        <li>The CAP diagram's two branches are both intentionally reasonable &mdash; resist the pull to present "choose availability" as the wrong answer; which one is right depends entirely on the business</li>
-        <li>Have a simple <code>CircuitBreaker</code> reference implementation ready for pairs who get stuck on the mechanics rather than the judgment calls</li>
+        <li>Ask two or three people to bring a real diagram of a system they work on. Use them in the opening and in the review.</li>
+        <li>Have the Day 4 slides on timeouts, retries, circuit breakers and idempotent consumers ready. This session leans on them, and a one-minute refresher helps.</li>
+        <li>Do not turn this into a fight about taste. Keep asking: what problem does the split solve, and what does it cost?</li>
+        <li><b>The session runs 2:30.</b> If you are short on time, cut in this order: run the three check-ins as a quick show of hands (saves about 6 min); give the strangler section as a handout (about 15 min); shorten the sync-versus-event table to one sentence (about 5 min); and give Exercise A to half the room as a take-home (about 10 min).</li>
+        <li>Skip service meshes, Kubernetes, and API gateways unless the room asks. They are tools, and today is about decisions.</li>
+        <li>Be careful with famous case studies. Many are told as "X went back to a monolith, so microservices are bad". Both directions are valid. The point is to measure.</li>
       </ul>
     </div>
 
     <div class="answer">
-      <b>Answer key &mdash; shipping.py</b>
-      <pre class="code" style="border-radius:8px;">shipping_breaker = CircuitBreaker(failure_threshold=5, reset_after_seconds=30)
-FLAT_RATE_FALLBACK = 7.99
+      <b>Answer key &mdash; Exercise A (food delivery)</b>
+      <p style="margin:0 0 10px; font-size:0.9rem; color:var(--ink-soft); line-height:1.6;">There is no single right answer. A good one looks like this:</p>
+      <ul style="margin:0 0 10px; padding-left:1.15em; font-size:0.9rem; color:var(--ink-soft); line-height:1.6;">
+        <li><b>Marketplace core</b> (Restaurants, Menus, Orders, Promotions). They change together and an order needs menu prices and promotions in one transaction. It owns restaurant, menu, order and promotion data.</li>
+        <li><b>Payments.</b> A third party, card-data and audit rules. It owns payment records.</li>
+        <li><b>Courier dispatch</b> (Couriers and live location). Very different scale, because location updates are frequent, and a different team. It owns courier and location data.</li>
+        <li><b>Notifications.</b> Asynchronous, and a failure must not stop an order. It reads events and owns delivery logs. Reviews can stay in the core for now.</li>
+      </ul>
+      <p style="margin:0 0 10px; font-size:0.9rem; color:var(--ink-soft); line-height:1.6;"><b style="color:var(--ink);">Not split yet:</b> Orders from Menus. They share a transaction and change together. Splitting them would force a saga before the team has earned it.</p>
+      <p style="margin:0; font-size:0.9rem; color:var(--ink-soft); line-height:1.6;"><b style="color:var(--ink);">One call and one event:</b> a synchronous call from Orders to Payments (it needs the answer to continue), and an <code>OrderPlaced</code> event that Courier dispatch and Notifications both read.</p>
+    </div>
 
-def get_shipping_estimate(order):
-    def attempt():
-        return shipping_rate_api.get_rate(
-            order.destination, order.weight, timeout=1.5
-        )
-
-    for attempt_number in range(2):  # one retry &mdash; a rate lookup is a safe GET
-        try:
-            return shipping_breaker.call(attempt)
-        except CircuitOpenError:
-            return FLAT_RATE_FALLBACK
-        except TimeoutError:
-            if attempt_number == 1:
-                return FLAT_RATE_FALLBACK
-            time.sleep(0.2)  # brief backoff before the one retry
-
-def checkout(order):
-    order.shipping_cost = get_shipping_estimate(order)
-    return finalize_order(order)</pre>
-      <p style="margin:10px 0 0; font-size:0.85rem; color:var(--ink-soft);">The flat rate is a real business decision, not a placeholder &mdash; someone has to decide it's an acceptable customer experience before this ships. That conversation is itself part of "done."</p>
+    <div class="demo-notes">
+      <b>Talking points</b>
+      <ol>
+        <li>The difference between the designs is not the count of boxes. It is who owns the data, and whether a change in one place forces a change in another.</li>
+        <li>Day 4 is the price list. Every network call can be slow, fail, repeat, or return old data. A split is only worth it when the benefit is larger than that bill.</li>
+        <li>A modular monolith is not a compromise. For many teams it is the destination. For others it is the safe first step toward services.</li>
+        <li>If you cannot draw clean walls inside one program, you cannot draw them between services either. The network only makes the mistake more expensive.</li>
+      </ol>
     </div>
   </section>
 
   <footer>
-    <span>Day 07 / 10 &middot; Scalable Systems &middot; Distributed Systems &amp; Resilience</span>
-    <span>Next &mdash; Day 08: Coding With AI Agents</span>
+    <span><a href="https://claude.ai/artifact/AVpR8sCRHwCB22sEec7Mvi">Prev &mdash; Day 04</a> &middot; Day 07 / 08 &middot; Architecture &middot; Microservices vs Monolith</span>
+    <span>Next &mdash; <a href="https://claude.ai/artifact/XeCt86zF97F5HJvMdhFt1w">Day 08: Data Engineering</a></span>
   </footer>
 
 </div>
